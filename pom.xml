@@ -17,6 +17,8 @@
     <version>1.0.0</version>
     <modules>
         <module>vacancies-service</module>
+        <module>authentication-service</module>
+        <module>gateway-service</module>
     </modules>
 
     <dependencies>
