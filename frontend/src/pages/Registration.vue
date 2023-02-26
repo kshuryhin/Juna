@@ -1,22 +1,28 @@
 <template>
     <img src="../assets/logo.png" alt="Juna" class="logo">
   <div class="login-box">
-    <h2>Login</h2>
+    <h2 style="color:#168FF0">Sign Up</h2>
     <form>
       <div class="user-box">
         <input type="text" name="" required="">
-        <label>Username</label>
+        <label>Ім'я</label>
       </div>
       <div class="user-box">
         <input type="password" name="" required="">
-        <label>Password</label>
+        <label>Прізвище</label>
+      </div><div class="user-box">
+        <input type="password" name="" required="">
+        <label>Email</label>
+      </div><div class="user-box">
+        <input type="password" name="" required="">
+        <label>Пароль</label>
       </div>
       <a href="#">
         <span></span>
         <span></span>
         <span></span>
         <span></span>
-        Submit
+        Продовжити
       </a>
     </form>
   </div>
@@ -29,6 +35,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+
 .logo {
   height: 51%;
   width: 44%;
@@ -48,14 +56,14 @@ export default {
 
 .login-box {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 55%;
+  left: 70%;
   width: 400px;
   padding: 40px;
   transform: translate(-50%, -50%);
-  background: rgba(0,0,0,.5);
+  background: transparent;
   box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  box-shadow: 0 15px 25px #168FF0;
   border-radius: 10px;
 }
 
@@ -74,10 +82,10 @@ export default {
   width: 100%;
   padding: 10px 0;
   font-size: 16px;
-  color: #fff;
+  color: #168FF0;
   margin-bottom: 30px;
   border: none;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid  lightgray;
   outline: none;
   background: transparent;
 }
@@ -87,16 +95,18 @@ export default {
   left: 0;
   padding: 10px 0;
   font-size: 16px;
-  color: #fff;
+  color: #168FF0;
   pointer-events: none;
   transition: .5s;
+
+
 }
 
 .login-box .user-box input:focus ~ label,
 .login-box .user-box input:valid ~ label {
   top: -20px;
   left: 0;
-  color: #03e9f4;
+  color: #168FF0;
   font-size: 12px;
 }
 
@@ -116,7 +126,7 @@ export default {
 
 .login-box a:hover {
   background: #03e9f4;
-  color: #fff;
+  color: #168FF0;
   border-radius: 5px;
   box-shadow: 0 0 5px #03e9f4,
   0 0 25px #03e9f4,
