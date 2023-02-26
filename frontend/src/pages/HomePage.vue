@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <h2>HomePage</h2>
   </div>
 </template>
 
@@ -11,5 +11,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+h2 {
+  background-color: #168FF0;
+  color: white;
+}
 </style>
