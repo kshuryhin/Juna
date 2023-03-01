@@ -4,12 +4,75 @@ server:
 spring:
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins:
+              - "http://localhost:4200"
+            allowedHeaders: "*"
+            allowed-methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
       routes:
-        - id: vacancies
+        - id: getVacancies
           uri:
             http://localhost:8089
           predicates:
             - Path=/vacancies
+            - Method=GET
           filters:
-            - SetPath=/api/v1/vacancies/
+            - SetPath=/api/v1/vacancies
             - JwtAuthenticationFilter
+        - id: getVacancyById
+          uri:
+            http://localhost:8089
+          predicates:
+            - Path=/vacancies/{id}
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/vacancies/{id}
+            - JwtAuthenticationFilter
+        - id: createVacancy
+          uri:
+            http://localhost:8089
+          predicates:
+            - Path=/vacancies
+            - Method=POST
+          filters:
+            - SetPath=/api/v1/vacancies
+            - JwtAuthenticationFilter
+        - id: updateVacancy
+          uri:
+            http://localhost:8089
+          predicates:
+            - Path=/vacancies/{id}
+            - Method=PUT
+          filters:
+            - SetPath=/api/v1/vacancies/{id}
+            - JwtAuthenticationFilter
+        - id: deleteVacancy
+          uri:
+            http://localhost:8089
+          predicates:
+            - Path=/vacancies/{id}
+            - Method=DELETE
+          filters:
+            - SetPath=/api/v1/vacancies/{id}
+            - JwtAuthenticationFilter
+        - id: register
+          uri:
+            http://localhost:8080
+          predicates:
+            - Path=/register
+          filters:
+            - SetPath=/auth/register
+        - id: authenticate
+          uri:
+            http://localhost:8080
+          predicates:
+            - Path=/authenticate
+          filters:
+            - SetPath=/auth/authenticate
