@@ -9,13 +9,14 @@ import ua.pp.juna.vacanciesservice.service.VacancyService;
 
 import java.util.Collection;
 
+@CrossOrigin(origins = "http://localhost:8085")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/vacancies")
 public class VacancyController {
     private final VacancyService vacancyService;
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Vacancy> saveVacancy(@RequestBody Vacancy vacancy) {
         return ResponseEntity.status(HttpStatus.CREATED).body(vacancyService.createVacancy(vacancy));
     }
@@ -25,7 +26,7 @@ public class VacancyController {
         return ResponseEntity.ok(vacancyService.getVacancyById(id));
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<Collection<Vacancy>> getAll() {
         return ResponseEntity.ok(vacancyService.getAll());
     }
