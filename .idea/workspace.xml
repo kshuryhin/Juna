@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91265070-abbe-4cd5-b186-e7eda46ac686" name="Changes" comment="POL-35 Base CRUD for vacancies-service">
+    <list default="true" id="91265070-abbe-4cd5-b186-e7eda46ac686" name="Changes" comment="signup 0.5">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/HomePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/HomePage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Registration.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Registration.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +24,17 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="isToolWindowVisible" value="false" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -47,13 +63,17 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "jdk.selected.JAVA_MODULE": "corretto-17",
-    "last_opened_file_path": "/Users/shkaff02/Juna",
+    "last_opened_file_path": "F:/Java/Article",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "configurable.group.build",
+    "spring.configuration.checksum": "298ce827f0c419dbbe782580768737ae",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -105,6 +125,8 @@
       <updated>1676641131218</updated>
       <workItem from="1676641132327" duration="7249000" />
       <workItem from="1676649157026" duration="92000" />
+      <workItem from="1677320410514" duration="7950000" />
+      <workItem from="1677420849875" duration="5562000" />
     </task>
     <task id="LOCAL-00001" summary="POL-35 Base CRUD for vacancies-service">
       <created>1676648264583</created>
