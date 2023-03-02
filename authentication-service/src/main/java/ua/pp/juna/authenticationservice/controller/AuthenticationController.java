@@ -7,6 +7,7 @@ import ua.pp.juna.authenticationservice.controller.models.AuthenticationRequest;
 import ua.pp.juna.authenticationservice.controller.models.AuthenticationResponse;
 import ua.pp.juna.authenticationservice.controller.models.RegisterRequest;
 import ua.pp.juna.authenticationservice.service.AuthenticationService;
+import ua.pp.juna.authenticationservice.controller.models.ExchangeRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,5 +26,10 @@ public class AuthenticationController {
             @RequestBody AuthenticationRequest request
     ) {
         return ResponseEntity.ok(service.authenticate(request));
+    }
+
+    @PutMapping("/exchange")
+    public ResponseEntity<AuthenticationResponse> updateToken(@RequestBody ExchangeRequest exchangeRequest) {
+        return ResponseEntity.ok().body(service.updateToken(exchangeRequest));
     }
 }

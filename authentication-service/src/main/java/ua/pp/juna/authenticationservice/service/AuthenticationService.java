@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ua.pp.juna.authenticationservice.config.JwtService;
 import ua.pp.juna.authenticationservice.controller.models.AuthenticationRequest;
 import ua.pp.juna.authenticationservice.controller.models.AuthenticationResponse;
+import ua.pp.juna.authenticationservice.controller.models.ExchangeRequest;
 import ua.pp.juna.authenticationservice.controller.models.RegisterRequest;
 
 import ua.pp.juna.authenticationservice.model.User;
@@ -32,6 +33,7 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .role(user.getRole())
                 .build();
     }
 
@@ -42,10 +44,20 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        var user = userDetailsService.loadUserByUsername(request.getEmail());
+        var user = (User)userDetailsService.loadUserByUsername(request.getEmail());
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .role(user.getRole())
+                .build();
+    }
+
+    public AuthenticationResponse updateToken(ExchangeRequest exchangeRequest) {
+        var user = (User)userDetailsService.loadUserByUsername(exchangeRequest.getEmail());
+        var jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .role(user.getRole())
                 .build();
     }
 }

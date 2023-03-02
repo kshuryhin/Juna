@@ -103,3 +103,11 @@ spring:
             - Path=/authenticate
           filters:
             - SetPath=/auth/authenticate
+        - id: updateToken
+          uri:
+            http://localhost:8080
+          predicates:
+            - Path=/exchange
+            - Method=PUT
+          filters:
+            - SetPath=/auth/exchange
