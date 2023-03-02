@@ -66,17 +66,17 @@ export default {
     createUser() {
       this.$emit('create', this.user)
 
-      // axios.post('http://localhost:8085/register', {
-      //   firstName: this.user.firstName,
-      //   lastName: this.user.lastName,
-      //   email: this.user.email,
-      //   password: this.user.password,
-      //   role:this.role
-      // },)
-      //     .then((response) => {
-      //       localStorage.token = response.data.token
-      //       localStorage.setItem(this.user.email, this.user.role)
-      //     })
+      axios.post('http://localhost:8085/register', {
+        firstName: this.user.firstName,
+        lastName: this.user.lastName,
+        email: this.user.email,
+        password: this.user.password,
+        role:this.user.role
+      },)
+          .then((response) => {
+            localStorage.token = response.data.token
+            localStorage.setItem(this.user.email, this.user.role)
+          })
 
       if (this.user.role === 'CANDIDATES') {
         this.$router.push('/vacancies')
