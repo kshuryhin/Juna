@@ -53,13 +53,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<!--		&lt;!&ndash; https://mvnrepository.com/artifact/io.netty/netty-resolver-dns-native-macos &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>io.netty</groupId>-->
-<!--			<artifactId>netty-resolver-dns-native-macos</artifactId>-->
-<!--			<version>4.1.89.Final</version>-->
-<!--			<classifier>osx-aarch_64</classifier>-->
-<!--		</dependency>-->
+
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-resolver-dns-native-macos</artifactId>
+			<version>4.1.89.Final</version>
+			<classifier>osx-aarch_64</classifier>
+		</dependency>
 
 	</dependencies>
 	<dependencyManagement>
