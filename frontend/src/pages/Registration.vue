@@ -4,11 +4,11 @@
     <h2 style="color:#168FF0">Sign Up</h2>
     <form>
       <div class="user-box">
-        <input type="text" name="" required="" v-model="user.name">
+        <input type="text" name="" required="" v-model="user.firstName">
         <label>Ім'я</label>
       </div>
       <div class="user-box">
-        <input type="text" name="" required="" v-model="user.surname">
+        <input type="text" name="" required="" v-model="user.lastName">
         <label>Прізвище</label>
       </div><div class="user-box">
         <input type="email" name="" required="" v-model="user.email">
@@ -20,17 +20,23 @@
 
       <div class="radio">
         <div class="radio__1">
-          <input id="radio-1" type="radio"  name="radio" value="1">
+          <input id="radio-1" type="radio"  name="radio" value="CANDIDATES" checked v-model="user.role">
           <label for="radio-1">Я шукаю роботу</label>
         </div>
 
         <div class="radio__2">
-          <input id="radio-2" type="radio" name="radio" value="2" checked>
+          <input id="radio-2" type="radio" name="radio" value="EMPLOYERS" v-model="user.role">
           <label for="radio-2">Я роботодавець</label>
         </div>
+
+        <div class="radio__3">
+          <input id="radio-3" type="radio" name="radio" value="MENTORS" v-model="user.role">
+          <label for="radio-3">Я ментор</label>
+        </div>
+
       </div>
 
-      <a href="" @click="createUser()">
+      <a @click="createUser()">
         <span></span>
         <span></span>
         <span></span>
@@ -47,10 +53,11 @@ export default {
   data() {
     return {
       user: {
-        name: '',
-        surname: '',
+        firstName: '',
+        lastName: '',
         email: '',
         password: '',
+        role: 'CANDIDATES',
       }
     }
   },
@@ -58,69 +65,37 @@ export default {
   methods: {
     createUser() {
       this.$emit('create', this.user)
-      this.user = {
-        name: '',
-        surname: '',
-        email: '',
-        password: '',
+
+      // axios.post('http://localhost:8085/register', {
+      //   firstName: this.user.firstName,
+      //   lastName: this.user.lastName,
+      //   email: this.user.email,
+      //   password: this.user.password,
+      //   role:this.role
+      // },)
+      //     .then((response) => {
+      //       localStorage.token = response.data.token
+      //       localStorage.setItem(this.user.email, this.user.role)
+      //     })
+
+      if (this.user.role === 'CANDIDATES') {
+        this.$router.push('/vacancies')
+      } else if (this.user.role === 'EMPLOYERS') {
+        this.$router.push('/candidates')
+      } else if (this.user.role === 'MENTORS') {
+        this.$router.push('/students')
       }
-      axios.post('http://localhost:8089/user', {
-        name: this.user.name,
-        surname: this.user.surname,
-        email: this.user.email,
-        password: this.user.password
-      })
 
     },
-
-
   }
 }
 </script>
 
 <style lang="scss" scoped>
 
-
-///*  RADIO  */
-//.radio {
-//  grid-column: 1 / 2;
-//  display: grid;
-//  grid-template-columns: repeat(2, 1fr);
-//  justify-items: center;
-//  input { display: none; }
-//
-//  &__1, &__2 {
-//    & input:checked {
-//      & ~ label {
-//        //box-shadow: $inner-shadow;
-//        &::after {
-//          background: var(--primary);}
-//      }
-//    }
-//    label {
-//      //box-shadow: $shadow;
-//      position: relative;
-//      display: flex;
-//      justify-content: center;
-//      align-items: center;
-//      cursor: pointer;
-//      width: 2.8rem;
-//      height: 2.8rem;
-//      border-radius: 50%;
-//      &:hover {&::after{background: var(--primary);}}
-//
-//      &::after {
-//        content: "";
-//        position: absolute;
-//        width: 1.4rem;
-//        height: 1.4rem;
-//        background: var(--greyDark);
-//        border-radius: 50%;
-//        transition: 0.3s ease;
-//      }
-//    }
-//  }
-//}
+a:hover {
+  cursor: pointer;
+}
 
 
 
@@ -244,14 +219,6 @@ input:invalid {
   display: block;
 }
 
-//.login-box a span:nth-child(1) {
-//  top: 0;
-//  left: -100%;
-//  width: 100%;
-//  height: 2px;
-//  background: linear-gradient(90deg, transparent, #03e9f4);
-//  animation: btn-anim1 1s linear infinite;
-//}
 
 @keyframes btn-anim1 {
   0% {
@@ -262,15 +229,6 @@ input:invalid {
   }
 }
 
-//.login-box a span:nth-child(2) {
-//  top: -100%;
-//  right: 0;
-//  width: 2px;
-//  height: 100%;
-//  background: linear-gradient(180deg, transparent, #03e9f4);
-//  animation: btn-anim2 1s linear infinite;
-//  animation-delay: .25s
-//}
 
 @keyframes btn-anim2 {
   0% {
@@ -281,16 +239,6 @@ input:invalid {
   }
 }
 
-//.login-box a span:nth-child(3) {
-//  bottom: 0;
-//  right: -100%;
-//  width: 100%;
-//  height: 2px;
-//  background: linear-gradient(270deg, transparent, #03e9f4);
-//  animation: btn-anim3 1s linear infinite;
-//  animation-delay: .5s
-//}
-
 @keyframes btn-anim3 {
   0% {
     right: -100%;
@@ -299,16 +247,6 @@ input:invalid {
     right: 100%;
   }
 }
-//
-//.login-box a span:nth-child(4) {
-//  bottom: -100%;
-//  left: 0;
-//  width: 2px;
-//  height: 100%;
-//  background: linear-gradient(360deg, transparent, #03e9f4);
-//  animation: btn-anim4 1s linear infinite;
-//  animation-delay: .75s
-//}
 
 @keyframes btn-anim4 {
   0% {
