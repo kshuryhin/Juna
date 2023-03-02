@@ -26,6 +26,8 @@ public class UserDetails {
 
     private String lastName;
 
+    private boolean isLoggedIn;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 

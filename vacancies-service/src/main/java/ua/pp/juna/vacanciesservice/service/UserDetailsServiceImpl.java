@@ -37,6 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .withEmail(userDetails.getEmail())
                 .withFirstName(userDetails.getFirstName())
                 .withLastName(userDetails.getLastName())
+                .withLoggedIn(userDetails.isLoggedIn())
                 .withPassword(userDetails.getPassword());
         return saveUserDetails(updatedUserDetails);
     }

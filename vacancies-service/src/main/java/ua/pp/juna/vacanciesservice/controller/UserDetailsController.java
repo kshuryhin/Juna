@@ -2,10 +2,7 @@ package ua.pp.juna.vacanciesservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ua.pp.juna.vacanciesservice.domain.UserDetails;
 import ua.pp.juna.vacanciesservice.service.UserDetailsService;
 
@@ -18,5 +15,10 @@ public class UserDetailsController {
     @GetMapping("/email/{email}")
     public ResponseEntity<UserDetails> getUserDetailsByEmail(@PathVariable String email) {
         return ResponseEntity.ok().body(userDetailsService.getUserDetailsByEmail(email));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDetails> updateUserDetails(@RequestBody UserDetails userDetails, @PathVariable Long id) {
+        return ResponseEntity.ok().body(userDetailsService.updateUserDetails(userDetails, id));
     }
 }

@@ -1,6 +1,7 @@
 package ua.pp.juna.authenticationservice.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,6 +29,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
+                .isLoggedIn(true)
                 .build();
         userDetailsService.save(user);
         var jwtToken = jwtService.generateToken(user);
@@ -46,6 +48,7 @@ public class AuthenticationService {
         );
         var user = (User)userDetailsService.loadUserByUsername(request.getEmail());
         var jwtToken = jwtService.generateToken(user);
+        user = userDetailsService.updateUser(user.withLoggedIn(true), user.getId(),jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .role(user.getRole())
@@ -54,10 +57,17 @@ public class AuthenticationService {
 
     public AuthenticationResponse updateToken(ExchangeRequest exchangeRequest) {
         var user = (User)userDetailsService.loadUserByUsername(exchangeRequest.getEmail());
+        if (!user.isLoggedIn()) throw new AuthorizationServiceException("User is logged out!");
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .role(user.getRole())
                 .build();
+    }
+
+    public void logout(String email) {
+        var user = (User)userDetailsService.loadUserByUsername(email);
+        var jwtToken = jwtService.generateToken(user);
+        userDetailsService.updateUser(user.withLoggedIn(false), user.getId(), jwtToken);
     }
 }

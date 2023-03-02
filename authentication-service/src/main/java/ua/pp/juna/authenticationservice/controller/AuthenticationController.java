@@ -32,4 +32,10 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> updateToken(@RequestBody ExchangeRequest exchangeRequest) {
         return ResponseEntity.ok().body(service.updateToken(exchangeRequest));
     }
+
+    @PutMapping("/logout/{email}")
+    public ResponseEntity<Void> logout(@PathVariable String email) {
+        service.logout(email);
+        return ResponseEntity.ok().build();
+    }
 }
