@@ -7,16 +7,43 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowed-origins:
-              - "http://localhost:4200"
+            allowedOrigins:
+              - "*"
             allowedHeaders: "*"
-            allowed-methods:
+            allowedMethods:
               - GET
               - POST
               - PUT
               - DELETE
               - PATCH
+              - OPTIONS
+              - HEAD
+        add-to-simple-url-handler-mapping: true
       routes:
+        - id: getUserDetailsByEmail
+          uri:
+            http://localhost:8089
+          predicates:
+            - Path=/userDetails/{email}
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/userDetails/email/{email}
+        - id: createCandidate
+          uri:
+            http://localhost:8089
+          predicates:
+            - Path=/candidates
+            - Method=POST
+          filters:
+            - SetPath=/api/v1/candidates
+        - id: createEmployer
+          uri:
+            http://localhost:8089
+          predicates:
+            - Path=/employers
+            - Method=POST
+          filters:
+            - SetPath=/api/v1/employers
         - id: getVacancies
           uri:
             http://localhost:8089

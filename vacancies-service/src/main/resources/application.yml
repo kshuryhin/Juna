@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:54320/user
+    url: jdbc:postgresql://localhost:54320/Juna
     driver-class-name: org.postgresql.Driver
     username: user
     password: admin
