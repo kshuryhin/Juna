@@ -14,7 +14,6 @@ import ua.pp.juna.authenticationservice.service.AuthenticationService;
 public class AuthenticationController {
 
     private final AuthenticationService service;
-    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
