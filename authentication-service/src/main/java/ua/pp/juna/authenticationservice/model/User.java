@@ -1,6 +1,5 @@
 package ua.pp.juna.authenticationservice.model;
 
-import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,24 +10,18 @@ import java.util.List;
 
 @Data
 @Builder
+@With
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "users")
 public class User implements UserDetails {
-    @Id
-    @GeneratedValue
-    private Integer id;
-    private String firstname;
-    private String lastname;
+
+    private Long id;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
 
-    @Enumerated(EnumType.STRING)
     private Role role;
-
-    @OneToMany(mappedBy = "user")
-    private List<Token> tokens;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

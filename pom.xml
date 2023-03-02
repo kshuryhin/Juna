@@ -19,7 +19,6 @@
         <module>vacancies-service</module>
         <module>authentication-service</module>
         <module>gateway-service</module>
-        <module>lib-commons</module>
     </modules>
 
     <dependencies>

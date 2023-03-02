@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter implements GatewayFilterFactory {
 
                 try {
                     jwtUtil.validateToken(token);
-                    jwtUtil.validateRoles(token, Set.of("USER"));
+                    //jwtUtil.validateRoles(token, Set.of("USER"));
                 } catch (JwtTokenMalformedException | JwtTokenMissingException e) {
                     // e.printStackTrace();
 

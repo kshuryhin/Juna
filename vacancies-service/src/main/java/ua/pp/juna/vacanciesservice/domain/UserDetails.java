@@ -1,4 +1,4 @@
-package models;
+package ua.pp.juna.vacanciesservice.domain;
 
 
 import jakarta.persistence.*;
@@ -8,7 +8,6 @@ import lombok.*;
 @Table(name = "user_details")
 @Data
 @AllArgsConstructor
-@RequiredArgsConstructor
 @NoArgsConstructor
 @Builder
 @With
@@ -25,5 +24,8 @@ public class UserDetails {
     private String firstName;
 
     private String lastName;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 }

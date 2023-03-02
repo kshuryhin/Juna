@@ -9,7 +9,7 @@ import ua.pp.juna.vacanciesservice.service.VacancyService;
 
 import java.util.Collection;
 
-@CrossOrigin(origins = "http://localhost:8085")
+//@CrossOrigin(origins = {"http://localhost:8085", "http://localhost:4200"}, allowedHeaders = {"Authorization","Origin"})
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/vacancies")

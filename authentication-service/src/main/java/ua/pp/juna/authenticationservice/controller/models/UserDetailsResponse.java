@@ -6,16 +6,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.pp.juna.authenticationservice.model.Role;
 
+import java.io.Serializable;
+
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
-    private String firstName;
-    private String lastName;
+@Builder
+public class UserDetailsResponse implements Serializable {
+    private Long id;
+
     private String email;
+
     private String password;
 
-    private Role role;
+    private String firstName;
 
+    private String lastName;
+
+    private Role role;
 }

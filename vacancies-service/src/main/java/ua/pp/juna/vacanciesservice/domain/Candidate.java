@@ -1,12 +1,13 @@
-package models;
+package ua.pp.juna.vacanciesservice.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "candidates")
 @Data
-@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -24,5 +25,15 @@ public class Candidate {
     private String position;
 
     private Integer salaryExpectations;
+
+    private String city;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private UserDetails userDetails;
+
+    @ManyToMany
+    private List<Category> categories;
+
+    private String englishLevel;
 
 }
