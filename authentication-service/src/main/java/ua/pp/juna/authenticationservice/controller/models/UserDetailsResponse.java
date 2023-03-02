@@ -23,5 +23,7 @@ public class UserDetailsResponse implements Serializable {
 
     private String lastName;
 
+    private boolean isLoggedIn;
+
     private Role role;
 }

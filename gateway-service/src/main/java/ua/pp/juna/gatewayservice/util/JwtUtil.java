@@ -36,6 +36,11 @@ public class JwtUtil {
         return null;
     }
 
+    public String getSubject(final String token) {
+        final String subject = Jwts.parser().setSigningKey(getSignInKey()).parseClaimsJws(token).getBody().getSubject();
+        return subject;
+    }
+
     public void validateRoles(final String token, final Set<String> roles) throws AuthenticationException {
         final var body = Jwts.parser().setSigningKey(getSignInKey()).parseClaimsJws(token).getBody();
         final Collection<String> authorities = ((List<List<LinkedHashMap<String, String>>>) (body.get("roles"))).get(0).get(0).values();

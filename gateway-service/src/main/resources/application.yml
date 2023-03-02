@@ -28,6 +28,15 @@ spring:
             - Method=GET
           filters:
             - SetPath=/api/v1/userDetails/email/{email}
+        - id: updateUserDetails
+          uri:
+            http://localhost:8089
+          predicates:
+            - Path=/userDetails/{id}
+            - Method=PUT
+          filters:
+            - SetPath=/api/v1/userDetails/{id}
+            - JwtAuthenticationFilter
         - id: createCandidate
           uri:
             http://localhost:8089
@@ -111,3 +120,12 @@ spring:
             - Method=PUT
           filters:
             - SetPath=/auth/exchange
+        - id: logout
+          uri:
+            http://localhost:8080
+          predicates:
+            - Path=/logout
+            - Method=PUT
+          filters:
+            - SetPath=/auth/logout
+            - ExtractEmailFilter
