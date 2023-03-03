@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import roles from "@/roles";
+
 export default {
   methods: {
 
@@ -17,12 +19,18 @@ export default {
     const token = localStorage.getItem('token')
     const role = localStorage.getItem('role')
     if (token != null) {
-      if (role === 'CANDIDATES') {
-        this.$router.push('/vacancies')
-      } else if (role === 'EMPLOYERS') {
-        this.$router.push('/candidates')
-      } else if (role === 'MENTORS') {
-        this.$router.push('/students')
+      switch (role) {
+        case roles.CANDIDATE:
+          this.$router.push('/vacancies')
+          break
+        case roles.EMPLOYER:
+          this.$router.push('/candidates')
+          break
+        case roles.MENTOR:
+          this.$router.push('/students')
+          break
+        default:
+          alert("Unknown role")
       }
     }
   }

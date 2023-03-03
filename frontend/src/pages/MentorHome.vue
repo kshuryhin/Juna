@@ -7,10 +7,12 @@
 </template>
 
 <script>
+import roles from "@/roles";
+
 export default {
   created: function (){
     const role = localStorage.getItem('role')
-    if (role !== 'MENTORS`') {
+    if (role !== roles.MENTOR) {
       this.$router.push('/')
     }
   }

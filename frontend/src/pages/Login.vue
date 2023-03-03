@@ -25,6 +25,8 @@
 
 <script>
 import axios from 'axios'
+import roles from "@/roles";
+import statuses from "@/statuses";
 export default {
   data() {
     return {
@@ -47,17 +49,24 @@ export default {
             localStorage.token = response.data.token
             localStorage.role = response.data.role
             const role = localStorage.getItem('role')
-            if (role === 'CANDIDATES') {
-              this.$router.push('/vacancies')
-            } else if (role === 'EMPLOYERS') {
-              this.$router.push('/candidates')
-            } else if (role === 'MENTORS') {
-              this.$router.push('/students')
+
+            switch (role) {
+              case roles.CANDIDATE:
+                this.$router.push('/vacancies')
+                break
+              case roles.EMPLOYER:
+                this.$router.push('/candidates')
+                break
+              case roles.MENTOR:
+                this.$router.push('/students')
+                break
+              default:
+                alert("Unknown role")
             }
 
           })
           .catch(reason => {
-            if (reason.response.status === 403) {
+            if (reason.response.status === statuses.FORBIDDEN) {
               alert("You have wrong data")
             }
 
