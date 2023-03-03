@@ -8,16 +8,13 @@ import org.springframework.stereotype.Component;
 import ua.pp.juna.gatewayservice.exception.JwtTokenMalformedException;
 import ua.pp.juna.gatewayservice.exception.JwtTokenMissingException;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 
 import javax.naming.AuthenticationException;
 import java.security.Key;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -28,7 +25,7 @@ public class JwtUtil {
 
     public Claims getClaims(final String token) {
         try {
-            Claims body = Jwts.parser().setSigningKey(getSignInKey()).parseClaimsJws(token).getBody();
+            final var body = Jwts.parser().setSigningKey(getSignInKey()).parseClaimsJws(token).getBody();
             return body;
         } catch (Exception e) {
             System.out.println(e.getMessage() + " => " + e);
@@ -37,13 +34,13 @@ public class JwtUtil {
     }
 
     public String getSubject(final String token) {
-        final String subject = Jwts.parser().setSigningKey(getSignInKey()).parseClaimsJws(token).getBody().getSubject();
+        final var subject = Jwts.parser().setSigningKey(getSignInKey()).parseClaimsJws(token).getBody().getSubject();
         return subject;
     }
 
     public void validateRoles(final String token, final Set<String> roles) throws AuthenticationException {
         final var body = Jwts.parser().setSigningKey(getSignInKey()).parseClaimsJws(token).getBody();
-        final Collection<String> authorities = ((List<List<LinkedHashMap<String, String>>>) (body.get("roles"))).get(0).get(0).values();
+        final var authorities = ((List<List<LinkedHashMap<String, String>>>) (body.get("roles"))).get(0).get(0).values();
         authorities.stream()
                 .filter(role -> roles.contains(role))
                 .findFirst()

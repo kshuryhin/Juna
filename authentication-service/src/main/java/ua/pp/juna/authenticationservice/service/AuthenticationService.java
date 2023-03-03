@@ -22,7 +22,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(final RegisterRequest request) {
         var user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
@@ -39,7 +39,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(final AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -48,14 +48,14 @@ public class AuthenticationService {
         );
         var user = (User)userDetailsService.loadUserByUsername(request.getEmail());
         var jwtToken = jwtService.generateToken(user);
-        user = userDetailsService.updateUser(user.withLoggedIn(true), user.getId(),jwtToken);
+        user = userDetailsService.updateUser(user.withLoggedIn(true),jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .role(user.getRole())
                 .build();
     }
 
-    public AuthenticationResponse updateToken(ExchangeRequest exchangeRequest) {
+    public AuthenticationResponse updateToken(final ExchangeRequest exchangeRequest) {
         var user = (User)userDetailsService.loadUserByUsername(exchangeRequest.getEmail());
         if (!user.isLoggedIn()) throw new AuthorizationServiceException("User is logged out!");
         var jwtToken = jwtService.generateToken(user);
@@ -65,9 +65,9 @@ public class AuthenticationService {
                 .build();
     }
 
-    public void logout(String email) {
+    public void logout(final String email) {
         var user = (User)userDetailsService.loadUserByUsername(email);
         var jwtToken = jwtService.generateToken(user);
-        userDetailsService.updateUser(user.withLoggedIn(false), user.getId(), jwtToken);
+        userDetailsService.updateUser(user.withLoggedIn(false), jwtToken);
     }
 }
