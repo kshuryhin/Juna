@@ -1,12 +1,23 @@
 <template>
   <div>
     <h2>VACANCIES</h2>
+
+    <LogoutButton></LogoutButton>
   </div>
 </template>
 
 <script>
-export default {
+import LogoutButton from "@/components/LogoutButton.vue";
 
+export default {
+  components: {LogoutButton},
+
+  created: function (){
+    const role = localStorage.getItem('role')
+    if (role !== 'CANDIDATES') {
+      this.$router.push('/')
+    }
+  }
 }
 </script>
 

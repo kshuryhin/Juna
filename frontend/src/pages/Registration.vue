@@ -75,16 +75,23 @@ export default {
       },)
           .then((response) => {
             localStorage.token = response.data.token
-            localStorage.setItem(this.user.email, this.user.role)
+            localStorage.role = response.data.role
+
+            if (this.user.role === 'CANDIDATES') {
+              this.$router.push('/vacancies')
+            } else if (this.user.role === 'EMPLOYERS') {
+              this.$router.push('/candidates')
+            } else if (this.user.role === 'MENTORS') {
+              this.$router.push('/students')
+            }
+          })
+          .catch(reason => {
+            if (reason.response.status === 403) {
+              alert("You cannot signup")
+            }
           })
 
-      if (this.user.role === 'CANDIDATES') {
-        this.$router.push('/vacancies')
-      } else if (this.user.role === 'EMPLOYERS') {
-        this.$router.push('/candidates')
-      } else if (this.user.role === 'MENTORS') {
-        this.$router.push('/students')
-      }
+
 
     },
   }
