@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.GatewayFilterFactory;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import ua.pp.juna.gatewayservice.util.JwtUtil;
 
@@ -17,10 +16,10 @@ import javax.naming.AuthenticationException;
 public class ExtractEmailFilter implements GatewayFilterFactory {
     private final JwtUtil jwtUtil;
     @Override
-    public GatewayFilter apply(Object config) {
+    public GatewayFilter apply(final Object config) {
         return (((exchange, chain) -> {
-            final ServerHttpRequest request = exchange.getRequest();
-            final String token = request.getHeaders().get("Authorization").get(0);
+            final var request = exchange.getRequest();
+            final var token = request.getHeaders().get("Authorization").get(0);
 
             if(token == null && !request.getURI().getPath().contains("/authenticate")) {
                 try {
@@ -30,10 +29,10 @@ public class ExtractEmailFilter implements GatewayFilterFactory {
                 }
             }
 
-            final String email = jwtUtil.getSubject(token);
+            final var email = jwtUtil.getSubject(token);
             if (email != null) {
-                final String newPath = exchange.getRequest().getPath().value()+"/"+email;
-                ServerHttpRequest updatedRequest = request.mutate().path(newPath).build();
+                final var newPath = exchange.getRequest().getPath().value()+"/"+email;
+                final var updatedRequest = request.mutate().path(newPath).build();
                 exchange.getAttributes().put(request.getURI().getPath(), updatedRequest.getURI());
                 return chain.filter(exchange.mutate().request(updatedRequest).build());
             }
