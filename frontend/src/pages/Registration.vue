@@ -49,6 +49,9 @@
 
 <script>
 import axios from 'axios'
+import roles from "@/roles";
+import statuses from "@/statuses";
+
 export default {
   data() {
     return {
@@ -57,7 +60,7 @@ export default {
         lastName: '',
         email: '',
         password: '',
-        role: 'CANDIDATES',
+        role: roles.CANDIDATE,
       }
     }
   },
@@ -75,16 +78,29 @@ export default {
       },)
           .then((response) => {
             localStorage.token = response.data.token
-            localStorage.setItem(this.user.email, this.user.role)
+            localStorage.role = response.data.role
+
+            switch (this.user.role) {
+              case roles.CANDIDATE:
+                this.$router.push('/vacancies')
+                break
+              case roles.EMPLOYER:
+                this.$router.push('/candidates')
+                break
+              case roles.MENTOR:
+                this.$router.push('/students')
+                break
+              default:
+                alert("Unknown role")
+            }
+          })
+          .catch(reason => {
+            if (reason.response.status === statuses.FORBIDDEN) {
+              alert("You cannot signup")
+            }
           })
 
-      if (this.user.role === 'CANDIDATES') {
-        this.$router.push('/vacancies')
-      } else if (this.user.role === 'EMPLOYERS') {
-        this.$router.push('/candidates')
-      } else if (this.user.role === 'MENTORS') {
-        this.$router.push('/students')
-      }
+
 
     },
   }

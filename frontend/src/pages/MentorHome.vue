@@ -1,12 +1,21 @@
 <template>
   <div>
     <h2>STUDENTS</h2>
+    <LogoutButton></LogoutButton>
+
   </div>
 </template>
 
 <script>
-export default {
+import roles from "@/roles";
 
+export default {
+  created: function (){
+    const role = localStorage.getItem('role')
+    if (role !== roles.MENTOR) {
+      this.$router.push('/')
+    }
+  }
 }
 </script>
 
