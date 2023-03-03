@@ -7,5 +7,5 @@ import ua.pp.juna.authenticationservice.model.User;
 public interface UserService extends UserDetailsService {
     User save(User user);
 
-    User updateUser(User user, Long id, String token);
+    User updateUser(User user,String token);
 }

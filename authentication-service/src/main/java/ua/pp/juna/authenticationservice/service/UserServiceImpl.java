@@ -20,22 +20,22 @@ public class UserServiceImpl implements UserService {
     private final String PATH = "/userDetails/{email}";
 
     @Override
-    public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        final User userDetails = restTemplate.getForObject(HOST+PATH, User.class, username);
+    public User loadUserByUsername(final String username) throws UsernameNotFoundException {
+        final var userDetails = restTemplate.getForObject(HOST+PATH, User.class, username);
         if (userDetails == null) throw new UsernameNotFoundException("Invalid credentials!");
 
         return userDetails;
     }
 
-    public User save(User user) {
+    public User save(final User user) {
         restTemplate.postForObject(HOST + "/" + user.getRole().name().toLowerCase(), new SaveUserRequest(user), String.class);
         return user;
     }
 
-    public User updateUser(User user, Long id, String token) {
-        final HttpHeaders headers = new HttpHeaders();
+    public User updateUser(final User user, final String token) {
+        final var headers = new HttpHeaders();
         headers.add("Authorization", token);
-        final HttpEntity<User> userHttpEntity = new HttpEntity<>(user, headers);
-        return restTemplate.exchange(HOST+PATH, HttpMethod.PUT, userHttpEntity, User.class, id).getBody();
+        final var userHttpEntity = new HttpEntity<>(user, headers);
+        return restTemplate.exchange(HOST+PATH, HttpMethod.PUT, userHttpEntity, User.class, user.getId()).getBody();
     }
 }

@@ -20,13 +20,13 @@ public class JwtService {
     private static final String SECRET_KEY = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
 
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(final UserDetails userDetails) {
         return generateToken(Map.of("roles", List.of(userDetails.getAuthorities())), userDetails);
     }
 
     public String generateToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails
+            final Map<String, Object> extraClaims,
+            final UserDetails userDetails
     ) {
         return Jwts
                 .builder()
