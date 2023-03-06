@@ -1,9 +1,26 @@
 server:
   port: 8085
 
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 5
+  client:
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
+    healthcheck:
+      enabled: true
+    allow-redirects: true
+
 spring:
+  application:
+    name: gateway-service
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
       globalcors:
         cors-configurations:
           '[/**]':
@@ -22,7 +39,7 @@ spring:
       routes:
         - id: getUserDetailsByEmail
           uri:
-            http://localhost:8089
+            lb://vacancies-service
           predicates:
             - Path=/userDetails/{email}
             - Method=GET
@@ -30,7 +47,7 @@ spring:
             - SetPath=/api/v1/userDetails/email/{email}
         - id: updateUserDetails
           uri:
-            http://localhost:8089
+            lb://vacancies-service
           predicates:
             - Path=/userDetails/{id}
             - Method=PUT
@@ -39,7 +56,7 @@ spring:
             - JwtAuthenticationFilter
         - id: createCandidate
           uri:
-            http://localhost:8089
+            lb://vacancies-service
           predicates:
             - Path=/candidates
             - Method=POST
@@ -47,7 +64,7 @@ spring:
             - SetPath=/api/v1/candidates
         - id: createEmployer
           uri:
-            http://localhost:8089
+            lb://vacancies-service
           predicates:
             - Path=/employers
             - Method=POST
@@ -55,7 +72,7 @@ spring:
             - SetPath=/api/v1/employers
         - id: getVacancies
           uri:
-            http://localhost:8089
+            lb://vacancies-service
           predicates:
             - Path=/vacancies
             - Method=GET
@@ -64,7 +81,7 @@ spring:
             - JwtAuthenticationFilter
         - id: getVacancyById
           uri:
-            http://localhost:8089
+            lb://vacancies-service
           predicates:
             - Path=/vacancies/{id}
             - Method=GET
@@ -73,7 +90,7 @@ spring:
             - JwtAuthenticationFilter
         - id: createVacancy
           uri:
-            http://localhost:8089
+            lb://vacancies-service
           predicates:
             - Path=/vacancies
             - Method=POST
@@ -82,7 +99,7 @@ spring:
             - JwtAuthenticationFilter
         - id: updateVacancy
           uri:
-            http://localhost:8089
+            lb://vacancies-service
           predicates:
             - Path=/vacancies/{id}
             - Method=PUT
@@ -91,7 +108,7 @@ spring:
             - JwtAuthenticationFilter
         - id: deleteVacancy
           uri:
-            http://localhost:8089
+            lb://vacancies-service
           predicates:
             - Path=/vacancies/{id}
             - Method=DELETE
@@ -100,21 +117,21 @@ spring:
             - JwtAuthenticationFilter
         - id: register
           uri:
-            http://localhost:8080
+            lb://authentication-service
           predicates:
             - Path=/register
           filters:
             - SetPath=/auth/register
         - id: authenticate
           uri:
-            http://localhost:8080
+            lb://authentication-service
           predicates:
             - Path=/authenticate
           filters:
             - SetPath=/auth/authenticate
         - id: updateToken
           uri:
-            http://localhost:8080
+            lb://authentication-service
           predicates:
             - Path=/exchange
             - Method=PUT
@@ -122,7 +139,7 @@ spring:
             - SetPath=/auth/exchange
         - id: logout
           uri:
-            http://localhost:8080
+            lb://authentication-service
           predicates:
             - Path=/logout
             - Method=PUT
