@@ -16,7 +16,7 @@ import ua.pp.juna.authenticationservice.model.User;
 public class UserServiceImpl implements UserService {
     private final RestTemplate restTemplate;
 
-    private final String HOST = "http://localhost:8085";
+    private final String HOST = "http://gateway-service";
     private final String PATH = "/userDetails/{email}";
 
     @Override
