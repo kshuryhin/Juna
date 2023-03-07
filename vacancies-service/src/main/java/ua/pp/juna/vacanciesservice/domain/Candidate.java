@@ -31,9 +31,6 @@ public class Candidate {
     @OneToOne(cascade = CascadeType.ALL)
     private UserDetails userDetails;
 
-    @ManyToMany
-    private List<Category> categories;
-
     private String englishLevel;
 
 }

@@ -48,7 +48,9 @@ public class JwtAuthenticationFilter implements GatewayFilterFactory {
                     //jwtUtil.validateRoles(token, Set.of("USER"));
                 } catch (JwtTokenMalformedException | JwtTokenMissingException e) {
                     final var response = exchange.getResponse();
-                    response.setStatusCode(HttpStatus.BAD_REQUEST);
+                    if(e.getMessage().equals("Expired JWT token")) {
+                        response.setStatusCode(HttpStatus.I_AM_A_TEAPOT);
+                    }else response.setStatusCode(HttpStatus.BAD_REQUEST);
                     log.error(e.getMessage());
                     return response.setComplete();
                 }catch (AuthenticationException e) {

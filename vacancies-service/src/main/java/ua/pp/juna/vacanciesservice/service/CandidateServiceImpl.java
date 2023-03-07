@@ -29,7 +29,6 @@ public class CandidateServiceImpl implements CandidateService{
     @Override
     public Candidate updateCandidate(Candidate candidate, Long id) {
         final Candidate updatedCandidate = getCandidateById(id)
-                .withCategories(candidate.getCategories())
                 .withCity(candidate.getCity())
                 .withPosition(candidate.getPosition())
                 .withSummary(candidate.getSummary())
