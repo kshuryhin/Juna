@@ -11,7 +11,6 @@ import ua.pp.juna.vacanciesservice.utils.Parameter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 //@CrossOrigin(origins = {"http://localhost:8085", "http://localhost:4200"}, allowedHeaders = {"Authorization","Origin"})
 @RestController
