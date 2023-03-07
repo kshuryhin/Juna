@@ -79,6 +79,7 @@ export default {
           .then((response) => {
             localStorage.token = response.data.token
             localStorage.role = response.data.role
+            localStorage.email = this.user.email
 
             switch (this.user.role) {
               case roles.CANDIDATE:

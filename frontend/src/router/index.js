@@ -2,10 +2,13 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Registration from "@/pages/Registration.vue";
 import HomePage from "@/pages/HomePage.vue";
-import CandidateHome from "@/pages/CandidateHome.vue";
-import EmployerHome from "@/pages/EmployerHome.vue";
-import MentorHome from "@/pages/MentorHome.vue";
+import CandidateHome from "@/pages/Vacancies.vue";
+import EmployerHome from "@/pages/Candidates.vue";
+import MentorHome from "@/pages/Students.vue";
 import Login from "@/pages/Login.vue";
+import Vacancies from "@/pages/Vacancies.vue";
+import Students from "@/pages/Students.vue";
+import Candidates from "@/pages/Candidates.vue";
 
 const routes = [
     {
@@ -27,15 +30,15 @@ const routes = [
     {
         path: '/vacancies',
         name: 'vacancies',
-        component: CandidateHome
+        component: Vacancies
     },
     {
         path: '/candidates',
-        component: EmployerHome
+        component: Candidates
     },
     {
         path: '/students',
-        component: MentorHome
+        component: Students
     },
     {
         path: '/login',

@@ -48,6 +48,7 @@ export default {
           .then((response) => {
             localStorage.token = response.data.token
             localStorage.role = response.data.role
+            localStorage.email = this.user.email
             const role = localStorage.getItem('role')
 
             switch (role) {

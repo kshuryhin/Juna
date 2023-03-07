@@ -1,9 +1,6 @@
 package ua.pp.juna.vacanciesservice.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
@@ -21,6 +18,7 @@ public class Vacancy {
 
     private String name;
 
+    @Column(name = "description", length = 10_000)
     private String description;
 
     private Instant datePosted;
