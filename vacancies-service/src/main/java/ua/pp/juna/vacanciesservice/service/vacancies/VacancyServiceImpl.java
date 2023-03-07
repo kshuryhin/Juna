@@ -43,15 +43,16 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public Collection<Vacancy> getAll(final Map<Parameter, String> params) {
-        if (params.isEmpty()) {
-            log.info("Fetching all vacancies");
-            return vacancyRepository.findAll();
-        }
-        log.info("Fetching vacancies by parameters {}", params.keySet());
-
         final var filteredParams =  params.entrySet().stream()
                 .filter(entry -> entry.getValue() != null)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        if (filteredParams.isEmpty()) {
+            log.info("Fetching all vacancies");
+            return vacancyRepository.findAll();
+        }
+
+        log.info("Fetching vacancies by parameters {}", params.keySet());
         return vacancyRepository.findAll().stream()
                 .filter(vacancy -> compareParams(vacancy, filteredParams))
                 .toList();
