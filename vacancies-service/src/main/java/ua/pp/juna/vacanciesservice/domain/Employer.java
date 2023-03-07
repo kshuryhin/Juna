@@ -3,7 +3,7 @@ package ua.pp.juna.vacanciesservice.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
+import ua.pp.juna.vacanciesservice.domain.vacancies.Vacancy;
 
 import java.util.List;
 

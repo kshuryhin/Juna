@@ -37,6 +37,24 @@ spring:
               - HEAD
         add-to-simple-url-handler-mapping: true
       routes:
+        - id: createSkill
+          uri:
+            lb://vacancies-service
+          predicates:
+            - Path=/skills
+            - Method=POST
+          filters:
+            - SetPath=/api/v1/skills
+            - JwtAuthenticationFilter
+        - id: getSkills
+          uri:
+            lb://vacancies-service
+          predicates:
+            - Path=/skills
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/skills
+            - JwtAuthenticationFilter
         - id: getUserDetailsByEmail
           uri:
             lb://vacancies-service
