@@ -36,40 +36,71 @@ export default {
   },
 
   methods: {
-     async fetchVacancies() {
-      const token = localStorage.getItem('token')
-      await axios.get("http://localhost:8085/vacancies", {
-        headers: {
-          "Authorization" : token
+    //  async fetchVacancies() {
+    //   const token = localStorage.getItem('token')
+    //   await axios.get("http://localhost:8085/vacancies", {
+    //     headers: {
+    //       "Authorization" : token
+    //     }
+    //   })
+    //       .then(response => {
+    //         this.vacancies = response.data
+    //       })
+    //       .catch(reason => {
+    //         if (reason.response.status === statuses.TOKEN_EXPIRED) {
+    //           this.refreshToken()
+    //
+    //         }
+    //         Vue.$forceUpdate()
+    //       })
+    //
+    // },
+    //
+    // refreshToken() {
+    //   const token = localStorage.getItem('token')
+    //   axios.put("http://localhost:8085/exchange", {
+    //     email: localStorage.getItem('email')
+    //   })
+    //       .then(response => {
+    //         localStorage.setItem('token', response.data.token)
+    //       })
+    // }
+
+    async fetchVacancies() {
+      try {
+        const response = await axios.get("http://localhost:8085/vacancies", {
+          headers: {
+            "Authorization": localStorage.getItem('token')
+          }
+        });
+        this.vacancies = response.data;
+      } catch (error) {
+        if (error.response.status === statuses.TOKEN_EXPIRED) {
+          try {
+            const response = await axios.put("http://localhost:8085/exchange", {
+              email: localStorage.getItem('email')
+            });
+            localStorage.setItem('token', response.data.token);
+            const response2 = await axios.get("http://localhost:8085/vacancies", {
+              headers: {
+                "Authorization": localStorage.getItem('token'),
+              }
+            });
+            this.vacancies = response2.data;
+          } catch (error2) {
+            console.error(error2);
+          }
+        } else {
+          console.error(error);
         }
-      })
-          .then(response => {
-            this.vacancies = response.data
-          })
-          .catch(reason => {
-            if (reason.response.status === statuses.TOKEN_EXPIRED) {
-              this.refreshToken()
-
-            }
-            location.reload()
-          })
-
+      }
     },
-
-    refreshToken() {
-      const token = localStorage.getItem('token')
-      axios.put("http://localhost:8085/exchange", {
-        email: localStorage.getItem('email')
-      })
-          .then(response => {
-            localStorage.setItem('token', response.data.token)
-          })
-    }
   },
 
- mounted() {
+  mounted() {
     this.fetchVacancies();
- }
+  },
+}
 
   // created: function (){
   //   const role = localStorage.getItem('role')
@@ -77,7 +108,7 @@ export default {
   //     this.$router.push('/')
   //   }
   // }
-}
+
 </script>
 
 <style lang="scss" scoped>
