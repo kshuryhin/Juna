@@ -14,7 +14,7 @@
       </svg>
       <div><p class="vac-name"> {{ vacancy.name }} </p> </div>
       <div class="vac-description">{{ vacancy.description }}</div>
-      <div class="vac-company">knubisoft</div>
+      <div class="vac-company"></div>
     </div>
   </div>
 
@@ -36,24 +36,34 @@ export default {
   },
 
   methods: {
-    async fetchVacancies() {
+     async fetchVacancies() {
       const token = localStorage.getItem('token')
-      const response = await axios.get("http://localhost:8085/vacancies", {
+      await axios.get("http://localhost:8085/vacancies", {
         headers: {
           "Authorization" : token
         }
       })
-          // .catch(reason => {
-          //   if (reason.response.status === statuses.TOKEN_EXPIRED) {
-          //     const new_token = axios.put("http://localhost:8085/exchange", {
-          //       email: localStorage.getItem('email')
-          //     })
-          //     localStorage.setItem('token', new_token)
-          //   }
-          // })
+          .then(response => {
+            this.vacancies = response.data
+          })
+          .catch(reason => {
+            if (reason.response.status === statuses.TOKEN_EXPIRED) {
+              this.refreshToken()
 
-      this.vacancies = response.data
-      console.log(response)
+            }
+            location.reload()
+          })
+
+    },
+
+    refreshToken() {
+      const token = localStorage.getItem('token')
+      axios.put("http://localhost:8085/exchange", {
+        email: localStorage.getItem('email')
+      })
+          .then(response => {
+            localStorage.setItem('token', response.data.token)
+          })
     }
   },
 
