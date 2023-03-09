@@ -43,6 +43,7 @@
         <span></span>
         Продовжити
       </a>
+      <p  style="font-size: 15px">Або увійти</p>
     </form>
   </div>
 </template>

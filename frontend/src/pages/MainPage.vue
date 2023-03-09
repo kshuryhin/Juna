@@ -90,6 +90,8 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.cdnfonts.com/css/poetsen-one');
+
 /* General styles */
 body {
   margin: 0;
@@ -108,14 +110,15 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  background-color: #fff;
+  background-color: #168FF0;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .logo h1 {
   margin: 0;
-  color: #168FF0FF;
-  font-size: 28px;
+  color: white;
+  font-family: 'Poetsen One', sans-serif;
+  font-size: 70px;
   font-weight: bold;
 }
 

@@ -18,7 +18,8 @@
         <span></span>
         <span></span>
         Продовжити
-      </a>
+      </a><br>
+      <p style="font-size: 15px" @click="this.$router.push('/signup')">Або зареєструватись</p>
     </form>
   </div>
 </template>
@@ -79,6 +80,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 
 a:hover {
   cursor: pointer;
