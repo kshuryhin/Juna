@@ -6,6 +6,7 @@ import EmployerHome from "@/pages/EmployerHome.vue";
 import MentorHome from "@/pages/MentorHome.vue";
 import Login from "@/pages/Login.vue";
 import MainPage from "@/pages/MainPage.vue";
+import Vacancies from "@/pages/Vacancies.vue";
 const routes = [
     {
         path: '/about',
@@ -20,13 +21,17 @@ const routes = [
         component: Registration
     },
     {
+        path: '/vacs',
+        component: Vacancies
+    },
+    {
         path: '/',
         component: MainPage
     },
     {
         path: '/vacancies',
         name: 'vacancies',
-        component: CandidateHome
+        component: Vacancies
     },
     {
         path: '/candidates',

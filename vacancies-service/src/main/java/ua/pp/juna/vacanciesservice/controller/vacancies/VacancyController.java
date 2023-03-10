@@ -33,13 +33,13 @@ public class VacancyController {
 
     @GetMapping
     public ResponseEntity<Collection<Vacancy>> getAll(
-            @RequestParam(required = false, name = "Category") String category,
-            @RequestParam(required = false, name = "Country") String country,
-            @RequestParam(required = false, name = "SalaryFrom") String salaryFrom,
-            @RequestParam(required = false, name = "SalaryTo") String salaryTo,
-            @RequestParam(required = false, name = "Grade") String grade,
-            @RequestParam(required = false, name = "EmploymentType") String employmentType,
-            @RequestParam(required = false, name = "EnglishLevel") String englishLevel
+            @RequestParam(required = false, name = "category") String category,
+            @RequestParam(required = false, name = "country") String country,
+            @RequestParam(required = false, name = "salaryFrom") String salaryFrom,
+            @RequestParam(required = false, name = "salaryTo") String salaryTo,
+            @RequestParam(required = false, name = "grade") String grade,
+            @RequestParam(required = false, name = "employmentTyoe") String employmentType,
+            @RequestParam(required = false, name = "englishLevel") String englishLevel
             ) {
 
 

@@ -6,13 +6,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public enum Parameter {
-    CATEGORY("Category"),
-    COUNTRY("Country"),
-    SALARY_FROM("SalaryFrom"),
-    SALARY_TO("SalaryTo"),
-    GRADE("Grade"),
-    EMPLOYMENT("EmploymentType"),
-    ENGLISH_LEVEL("EnglishLevel");
+    CATEGORY("category"),
+    COUNTRY("country"),
+    SALARY_FROM("salaryFrom"),
+    SALARY_TO("salaryTo"),
+    GRADE("grade"),
+    EMPLOYMENT("employmentType"),
+    ENGLISH_LEVEL("englishLevel");
 
     private final String value;
 }
