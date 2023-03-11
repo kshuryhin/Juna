@@ -25,6 +25,27 @@
     <section id="filters">
       <h2>Filters</h2>
       <form @submit.prevent="applyFilters">
+        <label for="category">Category:</label>
+        <select id="category" name="Category" v-model="filters.selectedCategory">
+          <option value="">All</option>
+          <option value="JS">JS</option>
+          <option value="HTML">HTML</option>
+          <option value="PHP">PHP</option>
+          <option value="RUBY">RUBY</option>
+          <option value="PYTHON">PYTHON</option>
+          <option value="JAVA">JAVA</option>
+          <option value="NET">.NET</option>
+          <option value="SCALA">SCALA</option>
+          <option value="C">C</option>
+          <option value="MOBILE">MOBILE</option>
+          <option value="TESTING">TESTING</option>
+          <option value="DEVOPS">DEVOPS</option>
+          <option value="ADMIN">ADMIN</option>
+          <option value="DESIGN">DESIGN</option>
+          <option value="PM">PM</option>
+          <option value="GAME">GAME</option>
+          <option value="OTHER">OTHER</option>
+        </select>
         <label for="country">Country:</label>
         <select id="country" name="Country" v-model="filters.selectedCountry">
           <option value="">All</option>
@@ -33,12 +54,49 @@
           <option value="USA">USA</option>
           <option value="England">England</option>
         </select>
-        <label for="role">Role:</label>
-        <select id="role" name="role" v-model="filters.selectedRole">
+        <label for="salaryFrom">Salary From:</label>
+        <select id="salaryFrom" name="SalaryFrom" v-model="filters.selectedSalaryFrom">
           <option value="">All</option>
-          <option value="frontend">Frontend Developer</option>
-          <option value="backend">Backend Developer</option>
-          <option value="fullstack">Full Stack Developer</option>
+          <option value="500">500</option>
+          <option value="1000">1000</option>
+          <option value="1500">1500</option>
+          <option value="2000">2000</option>
+          <option value="custom">Custom</option>
+        </select>
+        <input v-if="filters.selectedSalaryFrom === 'custom'" type="number" v-model="filters.selectedCustomSalaryFrom"/>
+        <label for="salaryTo">Salary To:</label>
+        <select id="salaryTo" name="SalaryTo" v-model="filters.selectedSalaryTo">
+          <option value="">All</option>
+          <option value="500">500</option>
+          <option value="1000">1000</option>
+          <option value="1500">1500</option>
+          <option value="2000">2000</option>
+          <option value="custom">Custom</option>
+        </select>
+        <input v-if="filters.selectedSalaryTo === 'custom'" type="number" v-model="filters.selectedCustomSalaryTo"/>
+        <label for="grade">Grade:</label>
+        <select id="grade" name="grade" v-model="filters.selectedGrade">
+          <option value="">All</option>
+          <option value="TRAINEE">TRAINEE</option>
+          <option value="JUNIOR">JUNIOR</option>
+          <option value="MIDDLE">MIDDLE</option>
+          <option value="SENIOR">SENIOR</option>
+        </select>
+        <label for="employmentType">Employment Type:</label>
+        <select id="employmentType" name="employmentType" v-model="filters.selectedEmploymentType">
+          <option value="">All</option>
+          <option value="REMOTE">Remote</option>
+          <option value="OFFICE">Office</option>
+        </select>
+        <label for="englishLevel">English Level:</label>
+        <select id="englishLevel" name="englishLevel" v-model="filters.selectedEnglishLevel">
+          <option value="">All</option>
+          <option value="NO_ENGLISH">No English</option>
+          <option value="BEGINNER">Beginner</option>
+          <option value="PRE_INTERMEDIATE">Pre Intermediate</option>
+          <option value="INTERMEDIATE">Intermediate</option>
+          <option value="UPPER_INTERMEDIATE">Upper Intermediate</option>
+          <option value="ADVANCED">Advanced</option>
         </select>
         <button type="submit">Apply Filters</button>
       </form>
@@ -49,8 +107,14 @@
         <li class="job" v-for="job in jobs" :key="job.id">
           <h3>{{ job.name }}</h3>
           <p class="country">{{ job.country }}</p>
+          <p class="category">{{ job.category }}</p>
+          <p class="englishLevel">{{ job.englishLevel }}</p>
+          <p class="grade">Grade: {{ job.grade }}</p>
+          <p class="employmentType">Employment Type: {{ job.employmentType }}</p>
+          <p class="salaryFrom">Salary From: {{ job.salaryFrom }}</p>
+          <p class="salaryTo">Salary To: {{ job.salaryTo }}</p>
           <p class="description">{{ job.description }}</p>
-          <a :href="job.applyUrl">Apply Now</a>
+          <router-link :to="{ name: 'vacancy', params: { id: job.id }}">Apply Now</router-link>
         </li>
       </ul>
     </section>
@@ -73,8 +137,15 @@ export default {
   data() {
     return {
       filters: {
+        selectedCategory:'',
         selectedCountry: '',
-        selectedRole: '',
+        selectedSalaryFrom:'',
+        selectedCustomSalaryFrom:'',
+        selectedSalaryTo:'',
+        selectedCustomSalaryTo:'',
+        selectedGrade: '',
+        selectedEmploymentType:'',
+        selectedEnglishLevel:''
       },
       jobs: []
     };
@@ -94,8 +165,26 @@ export default {
       if (this.filters.selectedCountry) {
         params.country = this.filters.selectedCountry
       }
-      if (this.filters.selectedRole) {
-        params.role = this.filters.selectedRole
+      if (this.filters.selectedEnglishLevel) {
+        params.englishLevel = this.filters.selectedEnglishLevel
+      }
+      if (this.filters.selectedGrade) {
+        params.grade = this.filters.selectedGrade
+      }
+      if(this.filters.selectedCategory) {
+        params.category = this.filters.selectedCategory
+      }
+      if (this.filters.selectedSalaryFrom === 'custom' && this.filters.selectedCustomSalaryFrom !== '') {
+        this.filters.selectedSalaryFrom = this.filters.selectedCustomSalaryFrom;
+      }
+      if (this.filters.selectedSalaryTo === 'custom' && this.filters.selectedCustomSalaryTo !== '') {
+        this.filters.selectedSalaryTo = this.filters.selectedCustomSalaryTo;
+      }
+      if(this.filters.selectedSalaryFrom) {
+        params.salaryFrom = this.filters.selectedSalaryFrom
+      }
+      if(this.filters.selectedSalaryTo) {
+        params.salaryTo = this.filters.selectedSalaryTo
       }
       axios.get('http://localhost:8085/vacancies', {
         headers: {
@@ -225,6 +314,26 @@ h3 {
 }
 
 .country {
+  font-style: italic;
+}
+
+.category {
+  font-style: italic;
+}
+
+.salaryFrom {
+  font-style: italic;
+}
+
+.salaryTo {
+  font-style: italic;
+}
+
+.grade {
+  font-style: italic;
+}
+
+.englishLevel {
   font-style: italic;
 }
 
