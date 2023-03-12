@@ -110,13 +110,13 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  background-color: #168FF0;
+  background-color: white;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .logo h1 {
   margin: 0;
-  color: white;
+  color: #168FF0;
   font-family: 'Poetsen One', sans-serif;
   font-size: 70px;
   font-weight: bold;

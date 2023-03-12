@@ -19,7 +19,7 @@
         <span></span>
         Продовжити
       </a><br>
-      <p style="font-size: 15px" @click="this.$router.push('/signup')">Або зареєструватись</p>
+      <p class="or" @click="this.$router.push('/signup')">Або зареєструватись</p>
     </form>
   </div>
 </template>
@@ -80,6 +80,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.or {
+  font-size: 15px;
+  
+  &:hover {
+    cursor: pointer;
+  }
+}
 
 
 a:hover {
