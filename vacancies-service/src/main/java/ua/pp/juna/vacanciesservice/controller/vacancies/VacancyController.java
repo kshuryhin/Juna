@@ -38,7 +38,7 @@ public class VacancyController {
             @RequestParam(required = false, name = "salaryFrom") String salaryFrom,
             @RequestParam(required = false, name = "salaryTo") String salaryTo,
             @RequestParam(required = false, name = "grade") String grade,
-            @RequestParam(required = false, name = "employmentTyoe") String employmentType,
+            @RequestParam(required = false, name = "employmentType") String employmentType,
             @RequestParam(required = false, name = "englishLevel") String englishLevel
             ) {
 

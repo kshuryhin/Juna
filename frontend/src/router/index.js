@@ -1,12 +1,11 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import Registration from "@/pages/Registration.vue";
-import CandidateHome from "@/pages/CandidateHome.vue";
 import EmployerHome from "@/pages/EmployerHome.vue";
 import MentorHome from "@/pages/MentorHome.vue";
 import Login from "@/pages/Login.vue";
 import MainPage from "@/pages/MainPage.vue";
 import Vacancies from "@/pages/Vacancies.vue";
+import Vacancy from "@/pages/Vacancy.vue";
 const routes = [
     {
         path: '/about',
@@ -32,6 +31,12 @@ const routes = [
         path: '/vacancies',
         name: 'vacancies',
         component: Vacancies
+    },
+    {
+        path: '/vacancy/:id',
+        name: 'vacancy',
+        component: Vacancy,
+        props: true
     },
     {
         path: '/candidates',
