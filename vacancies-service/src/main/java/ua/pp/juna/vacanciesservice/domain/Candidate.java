@@ -2,8 +2,7 @@ package ua.pp.juna.vacanciesservice.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
+import ua.pp.juna.vacanciesservice.domain.vacancies.EnglishLevel;
 
 @Entity
 @Table(name = "candidates")
@@ -31,6 +30,7 @@ public class Candidate {
     @OneToOne(cascade = CascadeType.ALL)
     private UserDetails userDetails;
 
-    private String englishLevel;
+    @Enumerated(EnumType.STRING)
+    private EnglishLevel englishLevel;
 
 }
