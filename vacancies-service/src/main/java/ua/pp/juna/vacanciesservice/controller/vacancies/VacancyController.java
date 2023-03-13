@@ -36,7 +36,6 @@ public class VacancyController {
             @RequestParam(required = false, name = "category") String category,
             @RequestParam(required = false, name = "country") String country,
             @RequestParam(required = false, name = "salaryFrom") String salaryFrom,
-            @RequestParam(required = false, name = "salaryTo") String salaryTo,
             @RequestParam(required = false, name = "grade") String grade,
             @RequestParam(required = false, name = "employmentType") String employmentType,
             @RequestParam(required = false, name = "englishLevel") String englishLevel
@@ -47,7 +46,6 @@ public class VacancyController {
         map.put(Parameter.CATEGORY, category);
         map.put(Parameter.COUNTRY, country);
         map.put(Parameter.SALARY_FROM, salaryFrom);
-        map.put(Parameter.SALARY_TO, salaryTo);
         map.put(Parameter.GRADE, grade);
         map.put(Parameter.EMPLOYMENT, employmentType);
         map.put(Parameter.ENGLISH_LEVEL, englishLevel);

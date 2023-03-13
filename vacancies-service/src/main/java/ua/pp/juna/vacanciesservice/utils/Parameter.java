@@ -9,7 +9,6 @@ public enum Parameter {
     CATEGORY("category"),
     COUNTRY("country"),
     SALARY_FROM("salaryFrom"),
-    SALARY_TO("salaryTo"),
     GRADE("grade"),
     EMPLOYMENT("employmentType"),
     ENGLISH_LEVEL("englishLevel");

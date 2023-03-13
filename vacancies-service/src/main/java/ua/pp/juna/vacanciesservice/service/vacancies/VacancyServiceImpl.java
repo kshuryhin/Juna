@@ -84,10 +84,26 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     private boolean compareParams(final Vacancy vacancy, final Map<Parameter, String> params) {
+        if (!compareSalaryRange(vacancy, params))
+            return false;
+
         for (Map.Entry<Parameter, String> entry:params.entrySet()){
-            if (!vacancy.getParams().get(entry.getKey()).equals(entry.getValue()))
+            final var parameterName = entry.getKey();
+            final var parameterValue = entry.getValue();
+            if (parameterName == Parameter.SALARY_FROM)
+                continue;
+
+            if (!vacancy.getParams().get(parameterName).equals(parameterValue))
                 return false;
         }
         return true;
+    }
+
+    private boolean compareSalaryRange(final Vacancy vacancy, final Map<Parameter, String> params) {
+        if (!params.containsKey(Parameter.SALARY_FROM))
+            return true;
+        final var salaryFrom = Integer.valueOf(params.get(Parameter.SALARY_FROM));
+
+        return salaryFrom >= vacancy.getSalaryFrom() && salaryFrom <= vacancy.getSalaryTo();
     }
 }

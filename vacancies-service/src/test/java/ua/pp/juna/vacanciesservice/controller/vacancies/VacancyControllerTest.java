@@ -76,7 +76,7 @@ class VacancyControllerTest {
         when(vacancyService.getAll(any())).thenReturn(vacancies);
 
         //act
-        final var actual = vacancyController.getAll(null, null, null, null, null, null, null);
+        final var actual = vacancyController.getAll(null, null, null,  null, null, null);
 
         //assert
         assertThat(actual).isEqualTo(expected);
@@ -94,7 +94,7 @@ class VacancyControllerTest {
         when(vacancyService.getAll(any())).thenReturn(vacancies);
 
         //act
-        final var actual = vacancyController.getAll("Category", "Country", null, null, null, null, null);
+        final var actual = vacancyController.getAll("Category", "Country", null, null, null, null);
 
         //assert
         assertThat(actual).isEqualTo(expected);

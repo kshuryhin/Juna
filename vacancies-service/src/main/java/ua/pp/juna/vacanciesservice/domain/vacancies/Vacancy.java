@@ -68,7 +68,6 @@ public class Vacancy {
                 Parameter.CATEGORY, this.category.name(),
                 Parameter.COUNTRY, this.country,
                 Parameter.SALARY_FROM, String.valueOf(this.salaryFrom),
-                Parameter.SALARY_TO, String.valueOf(this.salaryTo),
                 Parameter.GRADE, this.grade.name(),
                 Parameter.EMPLOYMENT, this.employmentType.name(),
                 Parameter.ENGLISH_LEVEL, this.englishLevel.name()
