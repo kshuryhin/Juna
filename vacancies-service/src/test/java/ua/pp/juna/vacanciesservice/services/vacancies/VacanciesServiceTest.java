@@ -186,7 +186,6 @@ class VacanciesServiceTest {
         map.put(Parameter.CATEGORY, CATEGORY.name());
         map.put(Parameter.COUNTRY, COUNTRY);
         map.put(Parameter.SALARY_FROM, String.valueOf(SALARY_FROM));
-        map.put(Parameter.SALARY_TO, String.valueOf(SALARY_TO));
         map.put(Parameter.GRADE, GRADE.name());
         map.put(Parameter.EMPLOYMENT, EMPLOYMENT_TYPE.name());
         map.put(Parameter.ENGLISH_LEVEL, ENGLISH_LEVEL.name());
