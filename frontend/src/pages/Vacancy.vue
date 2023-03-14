@@ -28,17 +28,17 @@
       <p>{{ job.description }}</p>
     </div>
     <div class="vacancy-skills">
-      <h3>Skills</h3>
+      <h3>Requirements</h3>
       <ul>
         <li v-for="skill in job.skills" :key="skill">{{ skill.name }}</li>
+        <li>Experience: {{job.grade}}</li>
+        <li>English: {{job.englishLevel}}</li>
       </ul>
     </div>
     <div class="vacancy-other-info">
       <h3>Other Info</h3>
       <ul>
-        <li><strong>Grade:</strong> {{ job.grade }}</li>
         <li><strong>Employment Type:</strong> {{ job.employmentType }}</li>
-        <li><strong>English Level:</strong> {{ job.englishLevel }}</li>
         <li><strong>Country:</strong> {{ job.country }}</li>
         <li><strong>Date Posted:</strong> {{ job.datePosted }}</li>
         <li><strong>Category:</strong> {{ job.category }}</li>
@@ -107,6 +107,10 @@ body {
   color: #168FF0; /* changed text color to #168FF0 */
 }
 
+h3 {
+  color: black;
+}
+
 /* Header Styles */
 header {
   background-color: #168FF0;
@@ -166,11 +170,13 @@ main {
 }
 
 .salary {
+  color: #42b983;
   font-size: 24px;
   font-weight: bold;
 }
 
 .vacancy-description p {
+  color: black;
   line-height: 1.5;
   margin: 0;
 }
@@ -197,6 +203,7 @@ main {
 .vacancy-other-info ul {
   list-style: none;
   padding-left: 0;
+  color: black;
 }
 
 .vacancy-other-info li {
