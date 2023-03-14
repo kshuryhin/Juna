@@ -1,5 +1,5 @@
 <template>
-    <img src="../assets/logo.png" alt="Juna" class="logo">
+    <img src="../assets/logo.png" alt="Juna" class="logo" @click="this.$router.push('/')">
   <div class="login-box">
     <h2 style="color:#168FF0">Sign Up</h2>
     <form>
