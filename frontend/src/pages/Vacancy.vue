@@ -7,7 +7,7 @@
     <nav>
       <ul>
         <li><a href="#">My Profile</a></li>
-        <li><a href="#" class="active">Vacancies</a></li>
+        <router-link :to="{ name: 'vacancies'}">Vacancies</router-link>
         <li><a href="#">Analytics</a></li>
         <li><a @click="this.logout()" href="#">Logout</a></li>
       </ul>
@@ -17,7 +17,7 @@
     <div class="vacancy-info">
       <div>
         <h2>{{ job.name }}</h2>
-        <div class="employer">{{ job.employer.userDetails.email}}</div>
+        <div class="employer">{{ job.employer.companyName}}, {{job.employer.userDetails.firstName}} {{job.employer.userDetails.lastName}}</div>
       </div>
       <div class="salary">
         ${{ job.salaryFrom }} - ${{ job.salaryTo }}
@@ -50,6 +50,11 @@
   <main v-else>
     <p>Loading...</p>
   </main>
+  <footer>
+    <div class="footer-bottom">
+      <p>&copy; 2023 Juna Jobs</p>
+    </div>
+  </footer>
   </body>
 </template>
 <script>
@@ -176,11 +181,17 @@ main {
 }
 
 .vacancy-skills li {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 10px;
   margin-bottom: 10px;
-  padding-left: 20px;
-  /*background-image: url('dot.png');*/
-  background-repeat: no-repeat;
-  background-position: left center;
+  border: 1px solid #168FF0;
+  border-radius: 5px;
+}
+
+
+.vacancy-other-info {
+  margin-bottom: 20px;
 }
 
 .vacancy-other-info ul {
@@ -257,19 +268,16 @@ li {
   display: inline-block;
   margin-right: 20px;
 }
-
-/* Footer Styles */
 footer {
-  background-color: #168FF0;
-  color: white;
-  text-align: center;
+  background-color: #f8f8f8;
   padding: 20px;
+  margin-top: 50px;
+  border-top: 1px solid #e5e5e5;
 }
 
-footer p {
-  margin: 0;
+.footer-bottom {
+  text-align: center;
+  font-size: 14px;
+  color: #aaa;
 }
-
-
-
 </style>
