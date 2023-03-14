@@ -96,13 +96,11 @@
       <ul id="job-listings">
         <li class="job" v-for="job in jobs" :key="job.id">
           <h3>{{ job.name }}</h3>
-          <p class="country">{{ job.country }}</p>
-          <p class="category">{{ job.category }}</p>
-          <p class="englishLevel">{{ job.englishLevel }}</p>
-          <p class="grade">Grade: {{ job.grade }}</p>
+          <p class="country">Country: {{ job.country }}</p>
+          <p class="englishLevel">English level: {{ job.englishLevel }}</p>
           <p class="employmentType">Employment Type: {{ job.employmentType }}</p>
-          <p class="salaryFrom">Salary From: {{ job.salaryFrom }}</p>
-          <p class="salaryTo">Salary To: {{ job.salaryTo }}</p>
+          <p class="salaryFrom">Salary From: {{ job.salaryFrom }}$</p>
+          <p class="salaryTo">Salary To: {{ job.salaryTo }}$</p>
           <p class="description">{{ job.description }}</p>
           <router-link :to="{ name: 'vacancy', params: { id: job.id }}">Apply Now</router-link>
         </li>
@@ -299,6 +297,10 @@ h3 {
   font-style: italic;
 }
 
+.salaryTo {
+  font-style: italic;
+}
+
 .grade {
   font-style: italic;
 }
@@ -348,6 +350,10 @@ nav a {
   padding: 10px;
   color: white;
   text-decoration: none;
+}
+
+li a.active {
+  text-decoration: underline;
 }
 
 nav a.active,
