@@ -67,25 +67,6 @@ export default {
 
   },
 
-  created: function() {
-    const token = localStorage.getItem('token')
-    const role = localStorage.getItem('role')
-    if (token != null) {
-      switch (role) {
-        case roles.CANDIDATE:
-          this.$router.push('/vacancies')
-          break
-        case roles.EMPLOYER:
-          this.$router.push('/candidates')
-          break
-        case roles.MENTOR:
-          this.$router.push('/students')
-          break
-        default:
-          alert("Unknown role")
-      }
-    }
-  }
 }
 </script>
 
