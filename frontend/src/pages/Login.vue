@@ -1,5 +1,7 @@
 <template>
-  <img src="../assets/logo.png" alt="Juna" class="logo">
+  <div class="logo-container">
+    <img src="../assets/logo.png" alt="Juna" class="logo" @click="this.$router.push('/')">
+  </div>
   <div class="login-box">
     <h2 style="color:#168FF0">Sign In</h2>
     <form>
@@ -98,13 +100,23 @@ input:invalid {
 }
 
 
-.logo {
+.logo-container {
+  display: inline-block;
   height: 51%;
-  width: 44%;
-  padding-top: 18%;
-  padding-right: 6%;
-  margin-top: -5%;
+  width: 44%; margin-top: -5%;
   margin-left: -40%;
+
+}
+
+.logo {
+  height: 100%;
+  width: 100%;
+  margin-top: 40%;
+  margin-left: -10%;
+
+  &:hover {
+    cursor:pointer;
+  }
 }
 
 .inputs {

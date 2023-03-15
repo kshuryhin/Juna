@@ -64,16 +64,6 @@
           <option value="custom">Custom</option>
         </select>
         <input v-if="filters.selectedSalaryFrom === 'custom'" type="number" v-model="filters.selectedCustomSalaryFrom"/>
-        <label for="salaryTo">Salary To:</label>
-        <select id="salaryTo" name="SalaryTo" v-model="filters.selectedSalaryTo">
-          <option value="">All</option>
-          <option value="500">500</option>
-          <option value="1000">1000</option>
-          <option value="1500">1500</option>
-          <option value="2000">2000</option>
-          <option value="custom">Custom</option>
-        </select>
-        <input v-if="filters.selectedSalaryTo === 'custom'" type="number" v-model="filters.selectedCustomSalaryTo"/>
         <label for="grade">Grade:</label>
         <select id="grade" name="grade" v-model="filters.selectedGrade">
           <option value="">All</option>
@@ -125,85 +115,69 @@
 
 <script>
 import axios from 'axios';
-import roles from "@/roles";
+import roles from '@/roles';
+import authMixin from '@/components/authMixin.js';
+import roleMixin from '@/components/roleMixin.js';
+
+import { logout } from '@/utils/auth';
 
 export default {
-  created: function (){
-    const role = localStorage.getItem('role')
-    if (role !== roles.CANDIDATE) {
-      this.$router.push('/')
-    }
-  },
+  mixins: [authMixin, roleMixin],
+  requiredRole: roles.CANDIDATE,
   data() {
     return {
       filters: {
-        selectedCategory:'',
+        selectedCategory: '',
         selectedCountry: '',
-        selectedSalaryFrom:'',
-        selectedCustomSalaryFrom:'',
-        selectedSalaryTo:'',
-        selectedCustomSalaryTo:'',
+        selectedSalaryFrom: '',
+        selectedCustomSalaryFrom: '',
         selectedGrade: '',
-        selectedEmploymentType:'',
-        selectedEnglishLevel:''
+        selectedEmploymentType: '',
+        selectedEnglishLevel: '',
       },
-      jobs: []
+      jobs: [],
     };
   },
   methods: {
-    logout() {
-      axios.put('http://localhost:8085/logout', {}, {
-        headers: {
-          'Authorization': localStorage.getItem('token')
+    async applyFilters() {
+      try {
+        const { selectedCountry, selectedEnglishLevel, selectedEmploymentType, selectedGrade, selectedCategory, selectedSalaryFrom, selectedCustomSalaryFrom } = this.filters;
+        let params = {};
+
+        if (selectedCountry) params.country = selectedCountry;
+        if (selectedEnglishLevel) params.englishLevel = selectedEnglishLevel;
+        if (selectedEmploymentType) params.employmentType = selectedEmploymentType;
+        if (selectedGrade) params.grade = selectedGrade;
+        if (selectedCategory) params.category = selectedCategory;
+
+        if (selectedSalaryFrom === 'custom' && selectedCustomSalaryFrom !== '') {
+          this.filters.selectedSalaryFrom = selectedCustomSalaryFrom;
         }
-      })
-      localStorage.clear()
-      this.$router.push('/')
+
+        if (selectedSalaryFrom) params.salaryFrom = selectedSalaryFrom;
+
+        const response = await axios.get('http://localhost:8085/vacancies', {
+          headers: {
+            Authorization: localStorage.getItem('token'),
+          },
+          params,
+        });
+
+        this.jobs = response.data;
+      } catch (error) {
+        console.error(error);
+      }
     },
-    applyFilters() {
-      let params = {}
-      if (this.filters.selectedCountry) {
-        params.country = this.filters.selectedCountry
-      }
-      if (this.filters.selectedEnglishLevel) {
-        params.englishLevel = this.filters.selectedEnglishLevel
-      }
-      if (this.filters.selectedGrade) {
-        params.grade = this.filters.selectedGrade
-      }
-      if(this.filters.selectedCategory) {
-        params.category = this.filters.selectedCategory
-      }
-      if (this.filters.selectedSalaryFrom === 'custom' && this.filters.selectedCustomSalaryFrom !== '') {
-        this.filters.selectedSalaryFrom = this.filters.selectedCustomSalaryFrom;
-      }
-      if (this.filters.selectedSalaryTo === 'custom' && this.filters.selectedCustomSalaryTo !== '') {
-        this.filters.selectedSalaryTo = this.filters.selectedCustomSalaryTo;
-      }
-      if(this.filters.selectedSalaryFrom) {
-        params.salaryFrom = this.filters.selectedSalaryFrom
-      }
-      if(this.filters.selectedSalaryTo) {
-        params.salaryTo = this.filters.selectedSalaryTo
-      }
-      axios.get('http://localhost:8085/vacancies', {
-        headers: {
-          Authorization: localStorage.getItem('token')
-        },
-        params: params
-      }).then(response => {
-        this.jobs = response.data
-      }).catch(error => {
-        console.log(error)
-      })
-    }
+    async logout() {
+      logout();
+      this.$router.push('/');
+    },
   },
   mounted() {
     this.applyFilters();
-  }
+  },
 };
 </script>
-
 
 
 <style scoped>
@@ -322,10 +296,6 @@ h3 {
 }
 
 .salaryFrom {
-  font-style: italic;
-}
-
-.salaryTo {
   font-style: italic;
 }
 

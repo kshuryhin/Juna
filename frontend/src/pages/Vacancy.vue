@@ -9,7 +9,7 @@
         <li><a href="#">My Profile</a></li>
         <li><a href="#" class="active">Vacancies</a></li>
         <li><a href="#">Analytics</a></li>
-        <li><a onclick="logout()" href="#">Logout</a></li>
+        <li><a @click="this.logout()" href="#">Logout</a></li>
       </ul>
     </nav>
   </header>
@@ -54,38 +54,45 @@
 </template>
 <script>
 import axios from "axios";
+import authMixin from "@/components/authMixin.js";
+import roleMixin from "@/components/roleMixin.js";
+import roles from "@/roles";
+import { logout } from '@/utils/auth';
 
 export default {
   name: "Vacancy",
+  mixins: [authMixin, roleMixin],
+  requiredRole: roles.CANDIDATE,
   data() {
     return {
-      job: null
+      job: null,
     };
   },
   methods: {
-    fetchVacancyInfo() {
-      const id = this.$route.params.id;
-      axios
-          .get(`http://localhost:8085/vacancies/${id}`, {
-            headers: {
-              Authorization: localStorage.getItem("token")
-            }
-          })
-          .then(response => {
-            this.job = response.data;
-            this.job.datePosted = new Date(this.job.datePosted).toLocaleDateString();
-            console.log(this.job)
-          })
-          .catch(error => {
-            console.log(error);
-          });
-    }
+     async logout() {
+      logout()
+       this.$router.push('/');
+    },
+    async fetchVacancyInfo() {
+      try {
+        const id = this.$route.params.id;
+        const response = await axios.get(`http://localhost:8085/vacancies/${id}`, {
+          headers: { Authorization: localStorage.getItem("token") },
+        });
+        this.job = response.data;
+        this.job.datePosted = new Date(this.job.datePosted).toLocaleDateString();
+        console.log(this.job);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
-  mounted() {
-    this.fetchVacancyInfo();
-  }
+  async mounted() {
+    await this.fetchVacancyInfo();
+  },
 };
 </script>
+
 
 <style scoped>
 /* Body Styles */
