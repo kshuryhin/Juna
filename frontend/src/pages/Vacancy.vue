@@ -63,6 +63,7 @@ import authMixin from "@/components/authMixin.js";
 import roleMixin from "@/components/roleMixin.js";
 import roles from "@/roles";
 import { logout } from '@/utils/auth';
+import silentLoginMixin from "@/components/silentLoginMixin";
 
 export default {
   name: "Vacancy",
@@ -83,7 +84,10 @@ export default {
         const id = this.$route.params.id;
         const response = await axios.get(`http://localhost:8085/vacancies/${id}`, {
           headers: { Authorization: localStorage.getItem("token") },
-        });
+        })
+            .catch(error => {
+              silentLoginMixin.methods.silentLogin(error)
+            });
         this.job = response.data;
         this.job.datePosted = new Date(this.job.datePosted).toLocaleDateString();
         console.log(this.job);

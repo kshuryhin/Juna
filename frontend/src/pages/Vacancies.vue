@@ -118,9 +118,10 @@ import authMixin from '@/components/authMixin.js';
 import roleMixin from '@/components/roleMixin.js';
 
 import { logout } from '@/utils/auth';
+import silentLoginMixin from "@/components/silentLoginMixin";
 
 export default {
-  mixins: [authMixin, roleMixin],
+  mixins: [authMixin, roleMixin, silentLoginMixin],
   requiredRole: roles.CANDIDATE,
   data() {
     return {
@@ -159,7 +160,10 @@ export default {
             Authorization: localStorage.getItem('token'),
           },
           params,
-        });
+        })
+            .catch(error => {
+              silentLoginMixin.methods.silentLogin(error)
+            });
 
         this.jobs = response.data;
       } catch (error) {
