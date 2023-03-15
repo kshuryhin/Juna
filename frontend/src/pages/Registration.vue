@@ -1,10 +1,12 @@
 <template>
-    <img src="../assets/logo.png" alt="Juna" class="logo">
+  <div class="logo-container">
+    <img src="../assets/logo.png" alt="Juna" class="logo" @click="this.$router.push('/')">
+  </div>
   <div class="login-box">
     <h2 style="color:#168FF0">Sign Up</h2>
     <form>
       <div class="user-box">
-        <input type="text" name="" required="" v-model="user.firstName">
+        <input type="text" name="" required="" v-model="user.firstName" >
         <label>Ім'я</label>
       </div>
       <div class="user-box">
@@ -126,14 +128,23 @@ input:invalid {
   75% {transform: translateX(4px);}
 }
 
+.logo-container {
+  display: inline-block;
+  height: 51%;
+  width: 44%; margin-top: -5%;
+  margin-left: -40%;
+
+}
 
 .logo {
-  height: 51%;
-  width: 44%;
-  padding-top: 18%;
-  padding-right: 6%;
-  margin-top: -5%;
-  margin-left: -40%;
+  height: 100%;
+  width: 100%;
+  margin-top: 40%;
+  margin-left: -10%;
+
+  &:hover {
+    cursor:pointer;
+  }
 }
 
 .inputs {
