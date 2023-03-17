@@ -12,8 +12,8 @@
     </div>
     <nav>
       <ul>
-        <li><a href="#">My Profile</a></li>
-        <li><a href="#" class="active">Vacancies</a></li>
+        <router-link :to="{ name: 'candidateProfile'}">My Profile</router-link>
+        <router-link :to="{ name: 'vacancies'}">Vacancies</router-link>
         <li><a href="#">Analytics</a></li>
         <li><a @click="this.logout()" href="#">Logout</a></li>
       </ul>
@@ -352,7 +352,7 @@ nav a {
   text-decoration: none;
 }
 
-li a.active {
+ .router-link-active {
   text-decoration: underline;
 }
 

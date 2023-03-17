@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.pp.juna.vacanciesservice.domain.Candidate;
 import ua.pp.juna.vacanciesservice.domain.Employer;
-import ua.pp.juna.vacanciesservice.service.CandidateService;
 import ua.pp.juna.vacanciesservice.service.EmployerService;
 
 import java.util.List;
