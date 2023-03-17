@@ -6,6 +6,7 @@ import Login from "@/pages/Login.vue";
 import MainPage from "@/pages/MainPage.vue";
 import Vacancies from "@/pages/Vacancies.vue";
 import Vacancy from "@/pages/Vacancy.vue";
+import CandidateProfile from "@/pages/CandidateProfile.vue";
 const routes = [
     {
         path: '/about',
@@ -39,6 +40,12 @@ const routes = [
         props: true
     },
     {
+        path: '/candidate/profile',
+        name: 'candidateProfile',
+        component: CandidateProfile,
+        props: true
+    },
+    {
         path: '/candidates',
         component: EmployerHome
     },
@@ -57,7 +64,6 @@ const routes = [
 
 const router = createRouter({
     history: createWebHashHistory(),
-    routes
-})
+    routes})
 
 export default router
