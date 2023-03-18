@@ -1,0 +1,17 @@
+
+spring:
+  application:
+    name: vacancies-service
+  datasource:
+    url: jdbc:postgresql://localhost:54320/MentorsDB
+    driver-class-name: org.postgresql.Driver
+    username: user
+    password: admin
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+server:
+  port: 0
