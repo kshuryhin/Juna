@@ -20,6 +20,7 @@
         <module>authentication-service</module>
         <module>gateway-service</module>
         <module>eureka-server</module>
+        <module>mentor-service</module>
     </modules>
 
     <dependencies>

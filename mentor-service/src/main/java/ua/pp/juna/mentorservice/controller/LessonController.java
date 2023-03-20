@@ -15,7 +15,7 @@ import java.util.List;
 public class LessonController {
     private final LessonService lessonService;
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Lesson> addLesson(@RequestBody Lesson lesson) {
         return ResponseEntity.ok().body(lessonService.addLesson(lesson));
     }
@@ -25,7 +25,7 @@ public class LessonController {
         return ResponseEntity.ok().body(lessonService.getLessonById(id));
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<Lesson>> getAllLessons() {
         return ResponseEntity.ok().body(lessonService.getAllLessons());
     }

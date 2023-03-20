@@ -16,7 +16,7 @@ public class MentorController {
 
     private final MentorService mentorService;
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Mentor> addMentor(@RequestBody Mentor mentor) {
         return ResponseEntity.ok().body(mentorService.addMentor(mentor));
     }
@@ -26,7 +26,7 @@ public class MentorController {
         return ResponseEntity.ok().body(mentorService.getMentorById(id));
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<Mentor>> getAllMentors() {
         return ResponseEntity.ok().body(mentorService.getAllMentors());
     }

@@ -2,7 +2,6 @@ package ua.pp.juna.mentorservice.controller;
 
 
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.pp.juna.mentorservice.model.Course;
@@ -16,9 +15,9 @@ import java.util.List;
 public class CourseController {
     private final CourseService courseService;
 
-    @PostMapping("/")
-    public ResponseEntity<Course> addCourse(@RequestBody Course course) {
-        return ResponseEntity.ok().body(courseService.addCourse(course));
+    @PostMapping("/{mentorId}")
+    public ResponseEntity<Course> addCourse(@RequestBody Course course, @PathVariable Long mentorId) {
+        return ResponseEntity.ok().body(courseService.addCourse(course, mentorId));
     }
 
     @GetMapping("/{id}")
@@ -26,7 +25,7 @@ public class CourseController {
         return ResponseEntity.ok().body(courseService.getCourseById(id));
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<Course>> getAllCourses() {
         return ResponseEntity.ok().body(courseService.getAllCourses());
     }

@@ -22,6 +22,5 @@ public class Student {
     private String lastName;
     private String email;
 
-    @ManyToMany
-    private List<Course> courses;
+
 }

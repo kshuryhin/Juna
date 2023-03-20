@@ -5,7 +5,7 @@ import ua.pp.juna.mentorservice.model.Course;
 import java.util.List;
 
 public interface CourseService {
-    Course addCourse(Course course);
+    Course addCourse(Course course, Long mentorId);
     Course getCourseById(Long id);
     List<Course> getAllCourses();
     String deleteCourse(Long id);
