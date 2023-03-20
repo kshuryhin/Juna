@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class MentorServiceImpl implements MentorService{
-    private MentorRepository mentorRepository;
+    private final MentorRepository mentorRepository;
 
     @Override
     public Mentor addMentor(Mentor mentor) {
