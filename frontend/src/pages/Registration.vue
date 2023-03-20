@@ -44,7 +44,9 @@
         <span></span>
         <span></span>
         Продовжити
+
       </a>
+      <p class="or" @click="this.$router.push('/login')">Або увійти</p>
     </form>
   </div>
 </template>
@@ -110,6 +112,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.or {
+  font-size: 15px;
+  &:hover {
+    cursor: pointer;
+  }
+}
 
 a:hover {
   cursor: pointer;
