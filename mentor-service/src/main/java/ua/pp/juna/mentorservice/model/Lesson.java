@@ -18,7 +18,11 @@ public class Lesson {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String text;
 
-    @OneToMany
+    @ManyToOne
+    private Course course;
+
+    @OneToMany(cascade = CascadeType.ALL)
     private List<VideoLink> videoLinks;
 }

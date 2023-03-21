@@ -15,9 +15,9 @@ import java.util.List;
 public class LessonController {
     private final LessonService lessonService;
 
-    @PostMapping("")
-    public ResponseEntity<Lesson> addLesson(@RequestBody Lesson lesson) {
-        return ResponseEntity.ok().body(lessonService.addLesson(lesson));
+    @PostMapping("/{courseId}")
+    public ResponseEntity<Lesson> addLesson(@RequestBody Lesson lesson, @PathVariable Long courseId) {
+        return ResponseEntity.ok().body(lessonService.addLesson(lesson, courseId));
     }
 
     @GetMapping("/{id}")
@@ -37,6 +37,11 @@ public class LessonController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Lesson> updateLesson(@RequestBody Lesson lesson, @PathVariable Long id) {
-        return ResponseEntity.ok().body(lessonService.updateLesson(lesson, id));
+        Lesson result = lessonService.updateLesson(lesson, id);
+        if (result == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(result);
+        }
     }
 }

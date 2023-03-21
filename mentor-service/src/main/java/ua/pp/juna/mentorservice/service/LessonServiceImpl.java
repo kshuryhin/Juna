@@ -3,7 +3,9 @@ package ua.pp.juna.mentorservice.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ua.pp.juna.mentorservice.model.Course;
 import ua.pp.juna.mentorservice.model.Lesson;
+import ua.pp.juna.mentorservice.repo.CourseRepository;
 import ua.pp.juna.mentorservice.repo.LessonRepository;
 
 import java.util.List;
@@ -14,10 +16,17 @@ import java.util.List;
 @Slf4j
 public class LessonServiceImpl implements LessonService{
     private final LessonRepository lessonRepository;
+    private final CourseRepository courseRepository;
 
     @Override
-    public Lesson addLesson(Lesson lesson) {
+    public Lesson addLesson(Lesson lesson, Long courseId) {
         log.info("Adding lesson with id {}", lesson.getId());
+        Course course = courseRepository.findById(courseId).orElse(null);
+        if (course == null)
+            return null;
+
+        lesson.setCourse(course);
+
         return lessonRepository.save(lesson);
     }
 
@@ -52,6 +61,7 @@ public class LessonServiceImpl implements LessonService{
         }
 
         updated.setVideoLinks(lesson.getVideoLinks());
+        updated.setText(lesson.getText());
 
         return lessonRepository.save(updated);
     }

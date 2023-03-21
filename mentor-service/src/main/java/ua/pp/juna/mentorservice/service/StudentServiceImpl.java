@@ -1,0 +1,77 @@
+package ua.pp.juna.mentorservice.service;
+
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import ua.pp.juna.mentorservice.model.Course;
+import ua.pp.juna.mentorservice.model.Student;
+import ua.pp.juna.mentorservice.repo.CourseRepository;
+import ua.pp.juna.mentorservice.repo.StudentRepository;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class StudentServiceImpl implements StudentService{
+    private final StudentRepository studentRepository;
+    private final CourseRepository courseRepository;
+    @Override
+    public Student addStudent(Student student) {
+        log.info("Adding student with id {}", student.getId());
+        return studentRepository.save(student);
+    }
+
+    @Override
+    public Student getStudentById(Long id) {
+        log.info("Getting student with id {}", id);
+        return studentRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Student> getAllStudents() {
+        log.info("Getting all students");
+        return studentRepository.findAll();
+    }
+
+    @Override
+    public String deleteStudent(Long id) {
+        log.info("Deleting student with id {}", id);
+        try {
+            studentRepository.deleteById(id);
+            return "Deleted successfully!";
+        } catch (Exception e) {
+            return "Could not delete student with id " + id;
+        }
+    }
+
+    @Override
+    public Student updateStudent(Student student, Long id) {
+        log.info("Updating student with id {}", id);
+        Student updated = studentRepository.findById(id).orElse(null);
+        if (updated == null)
+            return null;
+
+        updated.setFirstName(student.getFirstName());
+        updated.setLastName(student.getLastName());
+        updated.setEmail(student.getEmail());
+
+        return studentRepository.save(updated);
+    }
+
+    @Override
+    public void subscribeOnCourse(Long studentId, Long courseId) {
+        Course course = courseRepository.findById(courseId).orElse(null);
+        Student student = studentRepository.findById(studentId).orElse(null);
+        if (course == null || student == null)
+            return;
+
+        course.getStudents().add(student);
+
+        courseRepository.save(course);
+
+    }
+
+
+}

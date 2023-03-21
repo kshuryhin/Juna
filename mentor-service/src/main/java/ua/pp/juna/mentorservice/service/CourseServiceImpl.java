@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ua.pp.juna.mentorservice.model.Course;
 import ua.pp.juna.mentorservice.model.Mentor;
+import ua.pp.juna.mentorservice.model.Student;
 import ua.pp.juna.mentorservice.repo.CourseRepository;
 import ua.pp.juna.mentorservice.repo.MentorRepository;
 
@@ -24,7 +25,8 @@ public class CourseServiceImpl implements CourseService{
         if (mentor == null)
             return null;
 
-        mentor.getCourses().add(course);
+
+        course.setMentor(mentor);
         return courseRepository.save(course);
     }
 
@@ -62,7 +64,7 @@ public class CourseServiceImpl implements CourseService{
         }
 
         updated.setStudents(course.getStudents());
-        updated.setLessons(course.getLessons());
+        updated.setName(course.getName());
 
         return courseRepository.save(updated);
     }

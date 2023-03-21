@@ -42,7 +42,7 @@ public class MentorServiceImpl implements MentorService{
             return null;
         }
 
-        updated.setCourses(mentor.getCourses());
+
         updated.setDescription(mentor.getDescription());
         updated.setFirstName(mentor.getFirstName());
         updated.setLastName(mentor.getLastName());

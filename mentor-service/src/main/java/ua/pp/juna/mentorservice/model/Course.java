@@ -2,9 +2,7 @@ package ua.pp.juna.mentorservice.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -13,13 +11,18 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "course")
+@Builder
+@With
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany
-    private List<Lesson> lessons;
+    private String name;
+
+
+    @ManyToOne
+    private Mentor mentor;
 
     @ManyToMany
     private List<Student> students;

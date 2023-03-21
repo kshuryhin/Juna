@@ -22,7 +22,4 @@ public class Mentor {
     private String lastName;
     private String description;
 
-
-    @OneToMany
-    private List<Course> courses;
 }

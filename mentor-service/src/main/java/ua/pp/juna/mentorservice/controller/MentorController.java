@@ -38,7 +38,12 @@ public class MentorController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Mentor> updateMentor(@PathVariable Long id, @RequestBody Mentor mentor) {
-        return ResponseEntity.ok().body(mentorService.updateMentor(mentor, id));
+        Mentor result = mentorService.updateMentor(mentor, id);
+        if (mentor == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(result);
+        }
     }
 
 }
