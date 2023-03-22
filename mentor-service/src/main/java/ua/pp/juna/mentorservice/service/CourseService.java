@@ -8,6 +8,6 @@ public interface CourseService {
     Course addCourse(Course course, Long mentorId);
     Course getCourseById(Long id);
     List<Course> getAllCourses();
-    String deleteCourse(Long id);
+    boolean deleteCourse(Long id);
     Course updateCourse(Course course, Long id);
 }

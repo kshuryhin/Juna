@@ -36,13 +36,13 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public String deleteStudent(Long id) {
+    public boolean deleteStudent(Long id) {
         log.info("Deleting student with id {}", id);
         try {
             studentRepository.deleteById(id);
-            return "Deleted successfully!";
+            return true;
         } catch (Exception e) {
-            return "Could not delete student with id " + id;
+            return false;
         }
     }
 
@@ -61,15 +61,15 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public void subscribeOnCourse(Long studentId, Long courseId) {
+    public Course subscribeOnCourse(Long studentId, Long courseId) {
         Course course = courseRepository.findById(courseId).orElse(null);
         Student student = studentRepository.findById(studentId).orElse(null);
         if (course == null || student == null)
-            return;
+            return null;
 
         course.getStudents().add(student);
 
-        courseRepository.save(course);
+        return courseRepository.save(course);
 
     }
 

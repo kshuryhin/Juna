@@ -4,6 +4,7 @@ package ua.pp.juna.mentorservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.pp.juna.mentorservice.model.Course;
 import ua.pp.juna.mentorservice.model.Student;
 import ua.pp.juna.mentorservice.service.StudentService;
 
@@ -23,7 +24,13 @@ public class StudentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(studentService.getStudentById(id));
+        Student result = studentService.getStudentById(id);
+        if (result == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(result);
+        }
+
     }
 
     @GetMapping("")
@@ -33,7 +40,12 @@ public class StudentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
-        return ResponseEntity.ok().body(studentService.deleteStudent(id));
+        boolean isDeleted = studentService.deleteStudent(id);
+        if (!isDeleted) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body("Deleted successfully!");
+        }
     }
 
     @PutMapping("/{id}")
@@ -47,8 +59,13 @@ public class StudentController {
     }
 
     @PutMapping("/{courseId}/{studentId}")
-    public void subscribe(@PathVariable(name = "courseId") Long courseId, @PathVariable(name = "studentId") Long studentId) {
-        studentService.subscribeOnCourse(studentId, courseId);
+    public ResponseEntity<Course> subscribe(@PathVariable(name = "courseId") Long courseId, @PathVariable(name = "studentId") Long studentId) {
+        Course course = studentService.subscribeOnCourse(studentId, courseId);
+        if (course == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(course);
+        }
     }
 
 }

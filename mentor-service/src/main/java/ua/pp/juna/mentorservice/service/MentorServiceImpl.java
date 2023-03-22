@@ -51,13 +51,13 @@ public class MentorServiceImpl implements MentorService{
     }
 
     @Override
-    public String deleteMentor(Long id) {
+    public boolean deleteMentor(Long id) {
         log.info("Deleting mentor with id {}", id);
         try {
             mentorRepository.deleteById(id);
-            return "Deleted successfully";
+            return true;
         } catch (Exception e) {
-            return "Could not delete mentor with id " + id;
+            return false;
         }
     }
 }

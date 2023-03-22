@@ -44,13 +44,13 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-    public String deleteCourse(Long id) {
+    public boolean deleteCourse(Long id) {
         log.info("Deleting course with id {}", id);
         try {
             courseRepository.deleteById(id);
-            return "Deleted successfully";
+            return true;
         } catch (Exception e) {
-            return "Could not delete course with id " + id;
+            return false;
         }
     }
 

@@ -5,13 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.pp.juna.mentorservice.model.Course;
+import ua.pp.juna.mentorservice.model.Mentor;
 import ua.pp.juna.mentorservice.model.Student;
 import ua.pp.juna.mentorservice.repo.CourseRepository;
+import ua.pp.juna.mentorservice.repo.MentorRepository;
 import ua.pp.juna.mentorservice.repo.StudentRepository;
 import ua.pp.juna.mentorservice.service.CourseService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -21,6 +21,7 @@ public class CourseController {
     private final CourseService courseService;
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
+    private final MentorRepository mentorRepository;
 
     @PostMapping("/{mentorId}")
     public ResponseEntity<Course> addCourse(@RequestBody Course course, @PathVariable Long mentorId) {
@@ -29,7 +30,12 @@ public class CourseController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Course> getCourseById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(courseService.getCourseById(id));
+        Course result =  courseService.getCourseById(id);
+        if (result == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(result);
+        }
     }
 
     @GetMapping("")
@@ -38,12 +44,34 @@ public class CourseController {
     }
 
     @DeleteMapping("/{id}")
-    public List<Course> deleteCourse(@PathVariable Long id) {
-        Student student = studentRepository.findById(id).orElse(null);
-        List<Student> list = new ArrayList<>();
-        list.add(student);
-        return courseRepository.findAllByStudents(student);
-//        return ResponseEntity.ok().body(courseService.deleteCourse(id));
+    public ResponseEntity<String> deleteCourse(@PathVariable Long id) {
+        boolean isDeleted = courseService.deleteCourse(id);
+        if (!isDeleted) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body("Deleted successfully!");
+        }
+    }
+
+    @GetMapping("/student/{studentId}")
+    public ResponseEntity<List<Course>> getCoursesByStudent(@PathVariable Long studentId) {
+
+        Student student = studentRepository.findById(studentId).orElse(null);
+        if (student == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(courseRepository.findAllByStudents(student));
+        }
+    }
+
+    @GetMapping("/mentor/{mentorId}")
+    public ResponseEntity<List<Course>> getCoursesByMentor(@PathVariable Long mentorId) {
+        Mentor mentor = mentorRepository.findById(mentorId).orElse(null);
+        if (mentor == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(courseRepository.findAllByMentor(mentor));
+        }
     }
 
     @PutMapping("/{id}")

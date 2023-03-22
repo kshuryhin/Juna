@@ -43,13 +43,13 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
-    public String deleteLesson(Long id) {
+    public boolean deleteLesson(Long id) {
         log.info("Deleting lesson with id {}", id);
         try {
             lessonRepository.deleteById(id);
-            return "Deleted successfully!";
+            return true;
         } catch (Exception e) {
-            return "Could not delete lesson with id " + id;
+            return false;
         }
     }
 
@@ -62,6 +62,7 @@ public class LessonServiceImpl implements LessonService{
 
         updated.setVideoLinks(lesson.getVideoLinks());
         updated.setText(lesson.getText());
+        updated.setName(lesson.getName());
 
         return lessonRepository.save(updated);
     }

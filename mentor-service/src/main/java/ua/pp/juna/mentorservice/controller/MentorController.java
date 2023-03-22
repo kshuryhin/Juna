@@ -23,7 +23,13 @@ public class MentorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Mentor> getMentorById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(mentorService.getMentorById(id));
+        Mentor result = mentorService.getMentorById(id);
+        if (result == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(result);
+        }
+
     }
 
     @GetMapping("")
@@ -33,7 +39,12 @@ public class MentorController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteMentor(@PathVariable Long id) {
-        return ResponseEntity.ok().body(mentorService.deleteMentor(id));
+        boolean isDeleted = mentorService.deleteMentor(id);
+        if (!isDeleted) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body("Deleted successfully!");
+        }
     }
 
     @PutMapping("/{id}")

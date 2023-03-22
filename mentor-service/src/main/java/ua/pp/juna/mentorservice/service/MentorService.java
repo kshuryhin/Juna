@@ -9,5 +9,5 @@ public interface MentorService {
     Mentor getMentorById(Long id);
     List<Mentor> getAllMentors();
     Mentor updateMentor(Mentor mentor, Long id);
-    String deleteMentor(Long id);
+    boolean deleteMentor(Long id);
 }

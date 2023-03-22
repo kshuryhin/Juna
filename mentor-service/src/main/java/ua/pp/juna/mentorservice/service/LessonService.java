@@ -8,6 +8,6 @@ public interface LessonService {
     Lesson addLesson(Lesson lesson, Long courseId);
     Lesson getLessonById(Long id);
     List<Lesson> getAllLessons();
-    String deleteLesson(Long id);
+    boolean deleteLesson(Long id);
     Lesson updateLesson(Lesson lesson, Long id);
 }
