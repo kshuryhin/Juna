@@ -25,9 +25,11 @@ public class LessonServiceImpl implements LessonService{
         if (course == null)
             return null;
 
-        lesson.setCourse(course);
+        course.getLessons().add(lesson);
+        Lesson result =  lessonRepository.save(lesson);
+        courseRepository.save(course);
 
-        return lessonRepository.save(lesson);
+        return result;
     }
 
     @Override

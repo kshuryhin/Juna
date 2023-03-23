@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "course")
+@Table(name = "courses")
 @Builder
 @With
 public class Course {
@@ -20,9 +20,9 @@ public class Course {
 
     private String name;
 
-
-    @ManyToOne
-    private Mentor mentor;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "courseId")
+    private List<Lesson> lessons;
 
     @ManyToMany
     private List<Student> students;

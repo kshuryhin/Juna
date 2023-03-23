@@ -26,8 +26,10 @@ public class CourseServiceImpl implements CourseService{
             return null;
 
 
-        course.setMentor(mentor);
-        return courseRepository.save(course);
+        Course result = courseRepository.save(course);
+        mentor.getCourses().add(course);
+        mentorRepository.save(mentor);
+        return result;
     }
 
     @Override

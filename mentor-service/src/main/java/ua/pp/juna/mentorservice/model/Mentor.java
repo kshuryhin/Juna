@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "mentor")
+@Table(name = "mentors")
 public class Mentor {
 
     @Id
@@ -21,5 +21,9 @@ public class Mentor {
     private String firstName;
     private String lastName;
     private String description;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "mentorId")
+    private List<Course> courses;
 
 }

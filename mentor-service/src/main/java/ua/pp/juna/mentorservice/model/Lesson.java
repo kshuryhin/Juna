@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "lesson")
+@Table(name = "lessons")
 public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +22,6 @@ public class Lesson {
 
     private String text;
 
-    @ManyToOne
-    private Course course;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<VideoLink> videoLinks;

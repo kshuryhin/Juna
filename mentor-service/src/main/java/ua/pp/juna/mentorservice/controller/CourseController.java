@@ -5,10 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.pp.juna.mentorservice.model.Course;
-import ua.pp.juna.mentorservice.model.Mentor;
 import ua.pp.juna.mentorservice.model.Student;
 import ua.pp.juna.mentorservice.repo.CourseRepository;
-import ua.pp.juna.mentorservice.repo.MentorRepository;
 import ua.pp.juna.mentorservice.repo.StudentRepository;
 import ua.pp.juna.mentorservice.service.CourseService;
 
@@ -21,7 +19,6 @@ public class CourseController {
     private final CourseService courseService;
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
-    private final MentorRepository mentorRepository;
 
     @PostMapping("/{mentorId}")
     public ResponseEntity<Course> addCourse(@RequestBody Course course, @PathVariable Long mentorId) {
@@ -61,16 +58,6 @@ public class CourseController {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok().body(courseRepository.findAllByStudents(student));
-        }
-    }
-
-    @GetMapping("/mentor/{mentorId}")
-    public ResponseEntity<List<Course>> getCoursesByMentor(@PathVariable Long mentorId) {
-        Mentor mentor = mentorRepository.findById(mentorId).orElse(null);
-        if (mentor == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok().body(courseRepository.findAllByMentor(mentor));
         }
     }
 
