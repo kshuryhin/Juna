@@ -22,6 +22,18 @@
 
 
   <main>
+    <div class="search-container"> <!-- Add the search container -->
+      <section id="search" class="search-centered">
+        <h2 class="search-label">Search</h2>
+        <div class="search-row">
+          <input id="search" type="text" v-model="searchTerm" placeholder="Search by vacancy name" class="search-input" />
+          <button @click="searchJobs" class="search-button">Search</button>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="content-container">
     <section id="filters">
       <h2>Filters</h2>
       <form @submit.prevent="applyFilters">
@@ -106,6 +118,7 @@
         </li>
       </ul>
     </section>
+    </div>
   </main>
   </body>
   </html>
@@ -117,7 +130,7 @@ import roles from '@/roles';
 import authMixin from '@/components/authMixin.js';
 import roleMixin from '@/components/roleMixin.js';
 
-import { logout } from '@/utils/auth';
+import {logout} from '@/utils/auth';
 
 export default {
   mixins: [authMixin, roleMixin],
@@ -132,11 +145,33 @@ export default {
         selectedGrade: '',
         selectedEmploymentType: '',
         selectedEnglishLevel: '',
+        searchTerm: '',
       },
       jobs: [],
+      allJobs: [],
     };
   },
   methods: {
+    async fetchJobs() {
+      try {
+        const response = await axios.get('http://localhost:8085/vacancies', {
+          headers: {
+            Authorization: localStorage.getItem('token'),
+          },
+        });
+
+        this.allJobs = response.data;
+        this.jobs = this.allJobs;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    searchJobs() {
+      const searchTerm = this.searchTerm.toLowerCase();
+      this.jobs = this.allJobs.filter((job) =>
+          job.name.toLowerCase().includes(searchTerm)
+      );
+    },
     async applyFilters() {
       try {
         const { selectedCountry, selectedEnglishLevel, selectedEmploymentType, selectedGrade, selectedCategory, selectedSalaryFrom, selectedCustomSalaryFrom } = this.filters;
@@ -173,6 +208,7 @@ export default {
   },
   mounted() {
     this.applyFilters();
+    this.fetchJobs();
   },
 };
 </script>
@@ -206,6 +242,9 @@ main {
 
 /* Set filters section style */
 #filters {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   width: 30%;
 }
 
@@ -360,5 +399,53 @@ nav a.active,
 nav a:hover {
   background-color: #168FF0;
 }
+/* Add these new styles to your existing CSS */
+.search-container {
+  position: absolute;
+  width: 500px;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.search-row {
+  width: 100%;
+}
+
+.search-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.search-label {
+  margin-bottom: 10px;
+}
+
+.search-input {
+  width: 100%; /* Increase the width */
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #168FF0;
+  border-radius: 12px; /* Increase border radius */
+  font-size: 16px;
+  outline: none;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 200px; /* Adjust this value to position the content-container below the search container */
+}
+
+main {
+  position: relative;
+  margin: 20px;
+}
+
 
 </style>
