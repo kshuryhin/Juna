@@ -15,6 +15,8 @@ public interface CandidateService {
 
     Candidate updateCandidate(Candidate candidate, Long id);
 
+    Candidate patchCandidate(String email, String newPassword);
+
     void deleteCandidate(Long id);
 
 }

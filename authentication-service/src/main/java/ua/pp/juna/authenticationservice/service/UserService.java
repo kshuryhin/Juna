@@ -8,4 +8,6 @@ public interface UserService extends UserDetailsService {
     User save(User user);
 
     User updateUser(User user,String token);
+
+    void patchUser(String email, String newPassword, String token);
 }

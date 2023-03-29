@@ -15,7 +15,6 @@ import java.util.List;
 public class CandidateServiceImpl implements CandidateService {
     private final CandidateRepository candidateRepository;
     private final UserDetailsRepository userDetailsRepository;
-
     @Override
     public Candidate saveCandidate(final Candidate candidate) {
         log.info("Saving candidate: {}", candidate);
@@ -66,6 +65,14 @@ public class CandidateServiceImpl implements CandidateService {
 
 
         return candidateRepository.save(updatedCandidate.withUserDetails(updatedUserDetails));
+    }
+
+    @Override
+    public Candidate patchCandidate(String email, String newPassword) {
+        final var candidate = candidateRepository.findByUserDetailsEmail(email);
+        log.info("Patching candidate {} with new password", candidate);
+        candidate.getUserDetails().setPassword(newPassword);
+        return candidateRepository.save(candidate);
     }
 
     @Override
