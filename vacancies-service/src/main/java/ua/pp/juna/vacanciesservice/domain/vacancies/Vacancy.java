@@ -2,7 +2,7 @@ package ua.pp.juna.vacanciesservice.domain.vacancies;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ua.pp.juna.vacanciesservice.domain.Candidate;
+import ua.pp.juna.vacanciesservice.domain.candidates.Candidate;
 import ua.pp.juna.vacanciesservice.domain.Employer;
 import ua.pp.juna.vacanciesservice.utils.Parameter;
 
