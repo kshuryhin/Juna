@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ua.pp.juna.mentorservice.model.Course;
 import ua.pp.juna.mentorservice.model.Mentor;
+import ua.pp.juna.mentorservice.model.Student;
 import ua.pp.juna.mentorservice.repo.CourseRepository;
 import ua.pp.juna.mentorservice.repo.MentorRepository;
 
@@ -18,18 +19,21 @@ public class CourseServiceImpl implements CourseService{
     private final MentorRepository mentorRepository;
 
     @Override
-    public Course addCourse(Course course, Long mentorId) {
+    public Course addCourse(final Course course, final Long mentorId) {
         log.info("Adding course with id {}", course.getId());
-        Mentor mentor = mentorRepository.findById(mentorId).orElse(null);
+        final Mentor mentor = mentorRepository.findById(mentorId).orElse(null);
         if (mentor == null)
             return null;
 
+
+        Course result = courseRepository.save(course);
         mentor.getCourses().add(course);
-        return courseRepository.save(course);
+        mentorRepository.save(mentor);
+        return result;
     }
 
     @Override
-    public Course getCourseById(Long id) {
+    public Course getCourseById(final Long id) {
         log.info("Getting course with id {}", id);
 
         return courseRepository.findById(id).orElse(null);
@@ -42,27 +46,27 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-    public String deleteCourse(Long id) {
+    public boolean deleteCourse(final Long id) {
         log.info("Deleting course with id {}", id);
         try {
             courseRepository.deleteById(id);
-            return "Deleted successfully";
+            return true;
         } catch (Exception e) {
-            return "Could not delete course with id " + id;
+            return false;
         }
     }
 
     @Override
-    public Course updateCourse(Course course, Long id) {
+    public Course updateCourse(final Course course, final Long id) {
         log.info("Updating course with id {}", id);
-        Course updated  = courseRepository.findById(id).orElse(null);
+        final Course updated  = courseRepository.findById(id).orElse(null);
 
         if (updated == null) {
             return null;
         }
 
         updated.setStudents(course.getStudents());
-        updated.setLessons(course.getLessons());
+        updated.setName(course.getName());
 
         return courseRepository.save(updated);
     }

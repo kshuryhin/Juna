@@ -16,4 +16,6 @@ public class VideoLink {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String link;
+
+
 }

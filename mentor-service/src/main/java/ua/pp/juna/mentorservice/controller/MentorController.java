@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/mentors")
+@RequestMapping("/api/v1/mentors")
 public class MentorController {
 
     private final MentorService mentorService;
@@ -23,7 +23,13 @@ public class MentorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Mentor> getMentorById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(mentorService.getMentorById(id));
+        final Mentor result = mentorService.getMentorById(id);
+        if (result == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(result);
+        }
+
     }
 
     @GetMapping("")
@@ -33,12 +39,22 @@ public class MentorController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteMentor(@PathVariable Long id) {
-        return ResponseEntity.ok().body(mentorService.deleteMentor(id));
+        final boolean isDeleted = mentorService.deleteMentor(id);
+        if (!isDeleted) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body("Deleted successfully!");
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Mentor> updateMentor(@PathVariable Long id, @RequestBody Mentor mentor) {
-        return ResponseEntity.ok().body(mentorService.updateMentor(mentor, id));
+        final Mentor result = mentorService.updateMentor(mentor, id);
+        if (mentor == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(result);
+        }
     }
 
 }

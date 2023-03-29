@@ -3,7 +3,9 @@ package ua.pp.juna.mentorservice.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ua.pp.juna.mentorservice.model.Course;
 import ua.pp.juna.mentorservice.model.Lesson;
+import ua.pp.juna.mentorservice.repo.CourseRepository;
 import ua.pp.juna.mentorservice.repo.LessonRepository;
 
 import java.util.List;
@@ -14,15 +16,24 @@ import java.util.List;
 @Slf4j
 public class LessonServiceImpl implements LessonService{
     private final LessonRepository lessonRepository;
+    private final CourseRepository courseRepository;
 
     @Override
-    public Lesson addLesson(Lesson lesson) {
+    public Lesson addLesson(final Lesson lesson, final Long courseId) {
         log.info("Adding lesson with id {}", lesson.getId());
-        return lessonRepository.save(lesson);
+        final Course course = courseRepository.findById(courseId).orElse(null);
+        if (course == null)
+            return null;
+
+        course.getLessons().add(lesson);
+        Lesson result =  lessonRepository.save(lesson);
+        courseRepository.save(course);
+
+        return result;
     }
 
     @Override
-    public Lesson getLessonById(Long id) {
+    public Lesson getLessonById(final Long id) {
         log.info("Getting lesson with id {}", id);
         return lessonRepository.findById(id).orElse(null);
     }
@@ -34,24 +45,26 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
-    public String deleteLesson(Long id) {
+    public boolean deleteLesson(final Long id) {
         log.info("Deleting lesson with id {}", id);
         try {
             lessonRepository.deleteById(id);
-            return "Deleted successfully!";
+            return true;
         } catch (Exception e) {
-            return "Could not delete lesson with id " + id;
+            return false;
         }
     }
 
     @Override
-    public Lesson updateLesson(Lesson lesson, Long id) {
-        Lesson updated = lessonRepository.findById(id).orElse(null);
+    public Lesson updateLesson(final Lesson lesson, final Long id) {
+        final Lesson updated = lessonRepository.findById(id).orElse(null);
         if (updated == null) {
             return null;
         }
 
         updated.setVideoLinks(lesson.getVideoLinks());
+        updated.setText(lesson.getText());
+        updated.setName(lesson.getName());
 
         return lessonRepository.save(updated);
     }

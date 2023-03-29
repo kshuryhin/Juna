@@ -34,15 +34,15 @@ public class MentorServiceImpl implements MentorService{
     }
 
     @Override
-    public Mentor updateMentor(Mentor mentor, Long id) {
+    public Mentor updateMentor(final Mentor mentor, final Long id) {
         log.info("Updating mentor with id {}", id);
-        Mentor updated = mentorRepository.findById(id).orElse(null);
+        final Mentor updated = mentorRepository.findById(id).orElse(null);
 
         if (updated == null) {
             return null;
         }
 
-        updated.setCourses(mentor.getCourses());
+
         updated.setDescription(mentor.getDescription());
         updated.setFirstName(mentor.getFirstName());
         updated.setLastName(mentor.getLastName());
@@ -51,13 +51,13 @@ public class MentorServiceImpl implements MentorService{
     }
 
     @Override
-    public String deleteMentor(Long id) {
+    public boolean deleteMentor(final Long id) {
         log.info("Deleting mentor with id {}", id);
         try {
             mentorRepository.deleteById(id);
-            return "Deleted successfully";
+            return true;
         } catch (Exception e) {
-            return "Could not delete mentor with id " + id;
+            return false;
         }
     }
 }

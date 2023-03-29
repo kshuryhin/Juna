@@ -12,13 +12,17 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "lesson")
+@Table(name = "lessons")
 public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
 
-    @OneToMany
+    private String text;
+
+
+    @OneToMany(cascade = CascadeType.ALL)
     private List<VideoLink> videoLinks;
 }
