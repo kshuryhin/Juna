@@ -7,6 +7,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
+import ua.pp.juna.vacanciesservice.controller.candidates.models.ChangePasswordRequest;
 import ua.pp.juna.vacanciesservice.domain.UserDetails;
 import ua.pp.juna.vacanciesservice.domain.candidates.Candidate;
 import ua.pp.juna.vacanciesservice.service.candidates.CandidateService;
@@ -132,6 +133,24 @@ class CandidateControllerTest {
 
           //act
           final var actual = candidateController.handleFileUpload(file);
+
+          //assert
+          assertThat(actual).isEqualTo(expected);
+     }
+
+     @Test
+     void patchCandidate_happyPath(){
+          //arrange
+          final var newPassword = "12345";
+          final var email = "ksurygin5@gmail.com";
+          final var changePasswordRequest = ChangePasswordRequest.builder().newPassword(newPassword).email(email).build();
+          final var candidate = Candidate.builder().userDetails(UserDetails.builder().password(newPassword).email(email).build()).build();
+          final var expected = ResponseEntity.ok(candidate);
+
+          when(candidateService.patchCandidate(email, newPassword)).thenReturn(candidate);
+
+          //act
+          final var actual = candidateController.patchCandidate(changePasswordRequest);
 
           //assert
           assertThat(actual).isEqualTo(expected);

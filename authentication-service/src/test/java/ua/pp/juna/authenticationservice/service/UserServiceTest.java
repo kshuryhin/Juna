@@ -11,6 +11,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.client.RestTemplate;
+import ua.pp.juna.authenticationservice.controller.models.CandidatePatchRequest;
+import ua.pp.juna.authenticationservice.controller.models.ChangePasswordRequest;
 import ua.pp.juna.authenticationservice.model.Role;
 import ua.pp.juna.authenticationservice.model.User;
 
@@ -20,6 +22,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class UserServiceTest {
@@ -117,5 +120,20 @@ class UserServiceTest {
 
         //assert
         assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void patchUser_happyPath(){
+         //arrange
+        final var headers = new HttpHeaders();
+        final var request = CandidatePatchRequest.builder().newPassword(PASSWORD).email(EMAIL).build();
+        headers.add("Authorization", TOKEN);
+        final var entity = new HttpEntity<>(request, headers);
+
+        //act
+        userService.patchUser(EMAIL, PASSWORD, TOKEN);
+
+        //assert
+        verify(restTemplate).exchange(eq("http://gateway-service/candidates"), eq(HttpMethod.PATCH), eq(entity), eq(String.class));
     }
 }

@@ -5,10 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
-import ua.pp.juna.authenticationservice.controller.models.AuthenticationRequest;
-import ua.pp.juna.authenticationservice.controller.models.AuthenticationResponse;
-import ua.pp.juna.authenticationservice.controller.models.ExchangeRequest;
-import ua.pp.juna.authenticationservice.controller.models.RegisterRequest;
+import ua.pp.juna.authenticationservice.controller.models.*;
 import ua.pp.juna.authenticationservice.model.Role;
 import ua.pp.juna.authenticationservice.service.AuthenticationService;
 
@@ -111,6 +108,22 @@ public class AuthenticationControllerTest {
 
         //assert
         verify(authenticationService).logout(EMAIL);
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void changePassword_happyPath(){
+        //arrange
+        final var changePasswordResponse = ChangePasswordResponse.builder().success(true).build();
+        final var expected = ResponseEntity.ok(changePasswordResponse);
+        final var newPassword = "12345";
+        final var changePasswordRequest = ChangePasswordRequest.builder().oldPassword(PASSWORD).newPassword(newPassword).build();
+        when(authenticationService.changePassword(changePasswordRequest, EMAIL)).thenReturn(changePasswordResponse);
+
+        //act
+        final var actual = authenticationController.changePassword(EMAIL, changePasswordRequest);
+
+        //assert
         assertThat(actual).isEqualTo(expected);
     }
 }

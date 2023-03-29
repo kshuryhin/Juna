@@ -10,10 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ua.pp.juna.authenticationservice.config.JwtService;
-import ua.pp.juna.authenticationservice.controller.models.AuthenticationRequest;
-import ua.pp.juna.authenticationservice.controller.models.AuthenticationResponse;
-import ua.pp.juna.authenticationservice.controller.models.ExchangeRequest;
-import ua.pp.juna.authenticationservice.controller.models.RegisterRequest;
+import ua.pp.juna.authenticationservice.controller.models.*;
 import ua.pp.juna.authenticationservice.model.Role;
 import ua.pp.juna.authenticationservice.model.User;
 
@@ -209,6 +206,56 @@ public class AuthenticationServiceTest {
 
         //assert
         verify(userService).updateUser(user.withLoggedIn(false), TOKEN);
+    }
+
+    @Test
+    void changePassword_happyPath(){
+        //arrange
+        final var expected = ChangePasswordResponse.builder().success(true).build();
+        final var newPassword = "12345";
+        final var changePasswordRequest = ChangePasswordRequest.builder().oldPassword(PASSWORD).newPassword(newPassword).build();
+        final var user = User.builder()
+                .firstName(FIRST_NAME)
+                .lastName(LAST_NAME)
+                .email(EMAIL)
+                .password(ENCODED_PASSWORD)
+                .role(Role.CANDIDATES)
+                .isLoggedIn(true)
+                .build();
+        when(userService.loadUserByUsername(EMAIL)).thenReturn(user);
+        when(jwtService.generateToken(user)).thenReturn(TOKEN);
+        when(passwordEncoder.matches(PASSWORD, ENCODED_PASSWORD)).thenReturn(true);
+
+        //act
+        final var actual = authenticationService.changePassword(changePasswordRequest, EMAIL);
+
+        //assert
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void changePassword_returnsSuccessFalse(){
+        //arrange
+        final var expected = ChangePasswordResponse.builder().success(false).build();
+        final var newPassword = "12345";
+        final var changePasswordRequest = ChangePasswordRequest.builder().oldPassword(PASSWORD).newPassword(newPassword).build();
+        final var user = User.builder()
+                .firstName(FIRST_NAME)
+                .lastName(LAST_NAME)
+                .email(EMAIL)
+                .password(ENCODED_PASSWORD)
+                .role(Role.CANDIDATES)
+                .isLoggedIn(true)
+                .build();
+        when(userService.loadUserByUsername(EMAIL)).thenReturn(user);
+        when(jwtService.generateToken(user)).thenReturn(TOKEN);
+        when(passwordEncoder.matches(PASSWORD, ENCODED_PASSWORD)).thenReturn(false);
+
+        //act
+        final var actual = authenticationService.changePassword(changePasswordRequest, EMAIL);
+
+        //assert
+        assertThat(actual).isEqualTo(expected);
     }
 
 }
