@@ -18,13 +18,13 @@ public class StudentServiceImpl implements StudentService{
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
     @Override
-    public Student addStudent(Student student) {
+    public Student addStudent(final Student student) {
         log.info("Adding student with id {}", student.getId());
         return studentRepository.save(student);
     }
 
     @Override
-    public Student getStudentById(Long id) {
+    public Student getStudentById(final Long id) {
         log.info("Getting student with id {}", id);
         return studentRepository.findById(id).orElse(null);
     }
@@ -36,7 +36,7 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public boolean deleteStudent(Long id) {
+    public boolean deleteStudent(final Long id) {
         log.info("Deleting student with id {}", id);
         try {
             studentRepository.deleteById(id);
@@ -47,9 +47,9 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public Student updateStudent(Student student, Long id) {
+    public Student updateStudent(final Student student, final Long id) {
         log.info("Updating student with id {}", id);
-        Student updated = studentRepository.findById(id).orElse(null);
+        final Student updated = studentRepository.findById(id).orElse(null);
         if (updated == null)
             return null;
 
@@ -61,9 +61,9 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public Course subscribeOnCourse(Long studentId, Long courseId) {
-        Course course = courseRepository.findById(courseId).orElse(null);
-        Student student = studentRepository.findById(studentId).orElse(null);
+    public Course subscribeOnCourse(final Long studentId, final Long courseId) {
+        final Course course = courseRepository.findById(courseId).orElse(null);
+        final Student student = studentRepository.findById(studentId).orElse(null);
         if (course == null || student == null)
             return null;
 

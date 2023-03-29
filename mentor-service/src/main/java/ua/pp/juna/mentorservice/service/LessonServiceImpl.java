@@ -19,9 +19,9 @@ public class LessonServiceImpl implements LessonService{
     private final CourseRepository courseRepository;
 
     @Override
-    public Lesson addLesson(Lesson lesson, Long courseId) {
+    public Lesson addLesson(final Lesson lesson, final Long courseId) {
         log.info("Adding lesson with id {}", lesson.getId());
-        Course course = courseRepository.findById(courseId).orElse(null);
+        final Course course = courseRepository.findById(courseId).orElse(null);
         if (course == null)
             return null;
 
@@ -33,7 +33,7 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
-    public Lesson getLessonById(Long id) {
+    public Lesson getLessonById(final Long id) {
         log.info("Getting lesson with id {}", id);
         return lessonRepository.findById(id).orElse(null);
     }
@@ -45,7 +45,7 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
-    public boolean deleteLesson(Long id) {
+    public boolean deleteLesson(final Long id) {
         log.info("Deleting lesson with id {}", id);
         try {
             lessonRepository.deleteById(id);
@@ -56,8 +56,8 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
-    public Lesson updateLesson(Lesson lesson, Long id) {
-        Lesson updated = lessonRepository.findById(id).orElse(null);
+    public Lesson updateLesson(final Lesson lesson, final Long id) {
+        final Lesson updated = lessonRepository.findById(id).orElse(null);
         if (updated == null) {
             return null;
         }

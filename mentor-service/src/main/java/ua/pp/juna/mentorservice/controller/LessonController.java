@@ -9,14 +9,14 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/lessons")
+@RequestMapping("/api/v1/lessons")
 public class LessonController {
     private final LessonService lessonService;
 
 
     @PostMapping("/{courseId}")
     public ResponseEntity<Lesson> addLesson(@RequestBody Lesson lesson, @PathVariable Long courseId) {
-        Lesson result = lessonService.addLesson(lesson, courseId);
+        final Lesson result = lessonService.addLesson(lesson, courseId);
         if (result == null) {
             return ResponseEntity.notFound().build();
         } else {
@@ -26,7 +26,7 @@ public class LessonController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Lesson> getLessonById(@PathVariable Long id) {
-        Lesson result = lessonService.getLessonById(id);
+        final Lesson result = lessonService.getLessonById(id);
         if (result == null) {
             return ResponseEntity.notFound().build();
         } else {
@@ -42,7 +42,7 @@ public class LessonController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteLesson(@PathVariable Long id) {
-        boolean isDeleted = lessonService.deleteLesson(id);
+        final boolean isDeleted = lessonService.deleteLesson(id);
         if (!isDeleted) {
             return ResponseEntity.notFound().build();
         } else {
@@ -53,7 +53,7 @@ public class LessonController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Lesson> updateLesson(@RequestBody Lesson lesson, @PathVariable Long id) {
-        Lesson result = lessonService.updateLesson(lesson, id);
+        final Lesson result = lessonService.updateLesson(lesson, id);
         if (result == null) {
             return ResponseEntity.notFound().build();
         } else {

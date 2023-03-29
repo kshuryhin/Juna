@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/students")
+@RequestMapping("/api/v1/students")
 public class StudentController {
     private final StudentService studentService;
 
@@ -24,7 +24,7 @@ public class StudentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
-        Student result = studentService.getStudentById(id);
+        final Student result = studentService.getStudentById(id);
         if (result == null) {
             return ResponseEntity.notFound().build();
         } else {
@@ -40,7 +40,7 @@ public class StudentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
-        boolean isDeleted = studentService.deleteStudent(id);
+        final boolean isDeleted = studentService.deleteStudent(id);
         if (!isDeleted) {
             return ResponseEntity.notFound().build();
         } else {
@@ -50,7 +50,7 @@ public class StudentController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Student> updateStudent(@RequestBody Student student, @PathVariable Long id) {
-        Student result = studentService.updateStudent(student, id);
+        final Student result = studentService.updateStudent(student, id);
         if (result == null) {
             return ResponseEntity.notFound().build();
         } else {
@@ -60,7 +60,7 @@ public class StudentController {
 
     @PutMapping("/{courseId}/{studentId}")
     public ResponseEntity<Course> subscribe(@PathVariable(name = "courseId") Long courseId, @PathVariable(name = "studentId") Long studentId) {
-        Course course = studentService.subscribeOnCourse(studentId, courseId);
+        final Course course = studentService.subscribeOnCourse(studentId, courseId);
         if (course == null) {
             return ResponseEntity.notFound().build();
         } else {

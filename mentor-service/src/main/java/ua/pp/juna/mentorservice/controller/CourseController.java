@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/courses")
+@RequestMapping("/api/v1/courses")
 public class CourseController {
     private final CourseService courseService;
     private final StudentRepository studentRepository;
@@ -27,7 +27,7 @@ public class CourseController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Course> getCourseById(@PathVariable Long id) {
-        Course result =  courseService.getCourseById(id);
+        final Course result =  courseService.getCourseById(id);
         if (result == null) {
             return ResponseEntity.notFound().build();
         } else {
@@ -42,7 +42,7 @@ public class CourseController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCourse(@PathVariable Long id) {
-        boolean isDeleted = courseService.deleteCourse(id);
+        final boolean isDeleted = courseService.deleteCourse(id);
         if (!isDeleted) {
             return ResponseEntity.notFound().build();
         } else {
@@ -53,7 +53,7 @@ public class CourseController {
     @GetMapping("/student/{studentId}")
     public ResponseEntity<List<Course>> getCoursesByStudent(@PathVariable Long studentId) {
 
-        Student student = studentRepository.findById(studentId).orElse(null);
+        final Student student = studentRepository.findById(studentId).orElse(null);
         if (student == null) {
             return ResponseEntity.notFound().build();
         } else {
@@ -63,7 +63,7 @@ public class CourseController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Course> updateCourse(@RequestBody Course course, @PathVariable Long id){
-        Course result = courseService.updateCourse(course, id);
+        final Course result = courseService.updateCourse(course, id);
         if (result == null) {
             return ResponseEntity.notFound().build();
         } else {

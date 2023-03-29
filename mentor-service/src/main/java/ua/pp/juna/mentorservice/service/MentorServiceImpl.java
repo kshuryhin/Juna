@@ -34,9 +34,9 @@ public class MentorServiceImpl implements MentorService{
     }
 
     @Override
-    public Mentor updateMentor(Mentor mentor, Long id) {
+    public Mentor updateMentor(final Mentor mentor, final Long id) {
         log.info("Updating mentor with id {}", id);
-        Mentor updated = mentorRepository.findById(id).orElse(null);
+        final Mentor updated = mentorRepository.findById(id).orElse(null);
 
         if (updated == null) {
             return null;
@@ -51,7 +51,7 @@ public class MentorServiceImpl implements MentorService{
     }
 
     @Override
-    public boolean deleteMentor(Long id) {
+    public boolean deleteMentor(final Long id) {
         log.info("Deleting mentor with id {}", id);
         try {
             mentorRepository.deleteById(id);
