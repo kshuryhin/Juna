@@ -22,6 +22,7 @@
   <div class="container">
     <div class="tabs">
       <button class="tablinks active" onclick="openTab(event, 'personal-info')" id="defaultOpen">Personal Info</button>
+      <button class="tablinks" @click="navigateToChangePassword">Change Password</button>
       <button class="tablinks" onclick="openTab(event, 'saved-vacancies')">Saved Vacancies</button>
       <button class="tablinks" onclick="openTab(event, 'applied-vacancies')">Applied Vacancies</button>
     </div>
@@ -243,6 +244,9 @@ export default {
     };
   },
   methods: {
+    navigateToChangePassword() {
+      this.$router.push('/change');
+    },
     async logout() {
       logout()
       this.$router.push('/');
@@ -498,7 +502,6 @@ li {
 .tabcontent {
   display: none;
   padding: 20px;
-  border: 1px solid #168FF0;
   border-top: none;
 }
 

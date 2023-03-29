@@ -3,14 +3,12 @@ package ua.pp.juna.authenticationservice.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.pp.juna.authenticationservice.config.JwtService;
-import ua.pp.juna.authenticationservice.controller.models.AuthenticationRequest;
-import ua.pp.juna.authenticationservice.controller.models.AuthenticationResponse;
-import ua.pp.juna.authenticationservice.controller.models.ExchangeRequest;
-import ua.pp.juna.authenticationservice.controller.models.RegisterRequest;
+import ua.pp.juna.authenticationservice.controller.models.*;
 
 import ua.pp.juna.authenticationservice.model.User;
 
@@ -69,5 +67,14 @@ public class AuthenticationService {
         var user = (User)userDetailsService.loadUserByUsername(email);
         var jwtToken = jwtService.generateToken(user);
         userDetailsService.updateUser(user.withLoggedIn(false), jwtToken);
+    }
+
+    public ChangePasswordResponse changePassword(final ChangePasswordRequest changePasswordRequest, final String email) {
+        final var user = (User)userDetailsService.loadUserByUsername(email);
+        final var jwtToken = jwtService.generateToken(user);
+        if (!passwordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword()))
+            return ChangePasswordResponse.builder().success(false).build();
+        userDetailsService.patchUser(email, passwordEncoder.encode(changePasswordRequest.getNewPassword()), jwtToken);
+        return ChangePasswordResponse.builder().success(true).build();
     }
 }

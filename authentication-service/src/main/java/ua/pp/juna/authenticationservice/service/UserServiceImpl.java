@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ua.pp.juna.authenticationservice.controller.models.CandidatePatchRequest;
 import ua.pp.juna.authenticationservice.controller.models.SaveUserRequest;
 import ua.pp.juna.authenticationservice.model.User;
 
@@ -37,5 +38,14 @@ public class UserServiceImpl implements UserService {
         headers.add("Authorization", token);
         final var userHttpEntity = new HttpEntity<>(user, headers);
         return restTemplate.exchange(HOST+PATH, HttpMethod.PUT, userHttpEntity, User.class, user.getId()).getBody();
+    }
+
+    @Override
+    public void patchUser(String email, String newPassword, String token) {
+        final var headers = new HttpHeaders();
+        final var request = CandidatePatchRequest.builder().newPassword(newPassword).email(email).build();
+        final var httpEntity = new HttpEntity<>(request, headers);
+        headers.add("Authorization", token);
+        restTemplate.exchange(HOST+"/candidates", HttpMethod.PATCH, httpEntity, String.class);
     }
 }

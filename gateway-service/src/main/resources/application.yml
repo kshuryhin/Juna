@@ -117,6 +117,15 @@ spring:
           filters:
             - SetPath=/api/v1/candidates/{id}
             - JwtAuthenticationFilter
+        - id: patchCandidate
+          uri:
+            lb://vacancies-service
+          predicates:
+            - Path=/candidates
+            - Method=PATCH
+          filters:
+            - SetPath=/api/v1/candidates
+            - JwtAuthenticationFilter
         - id: updateCandidate
           uri:
             lb://vacancies-service
@@ -201,6 +210,16 @@ spring:
             - Method=PUT
           filters:
             - SetPath=/auth/exchange
+        - id: changePassword
+          uri:
+            lb://authentication-service
+          predicates:
+            - Path=/change/password
+            - Method=POST
+          filters:
+            - SetPath=/auth/change/password
+            - JwtAuthenticationFilter
+            - ExtractEmailFilter
         - id: logout
           uri:
             lb://authentication-service

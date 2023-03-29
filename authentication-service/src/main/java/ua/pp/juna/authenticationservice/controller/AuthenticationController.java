@@ -3,11 +3,8 @@ package ua.pp.juna.authenticationservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.pp.juna.authenticationservice.controller.models.AuthenticationRequest;
-import ua.pp.juna.authenticationservice.controller.models.AuthenticationResponse;
-import ua.pp.juna.authenticationservice.controller.models.RegisterRequest;
+import ua.pp.juna.authenticationservice.controller.models.*;
 import ua.pp.juna.authenticationservice.service.AuthenticationService;
-import ua.pp.juna.authenticationservice.controller.models.ExchangeRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,5 +34,11 @@ public class AuthenticationController {
     public ResponseEntity<Void> logout(@PathVariable String email) {
         service.logout(email);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/change/password/{email}")
+    public ResponseEntity<ChangePasswordResponse> changePassword(@PathVariable String email,
+                                                                 @RequestBody ChangePasswordRequest changePasswordRequest) {
+        return ResponseEntity.ok(service.changePassword(changePasswordRequest, email));
     }
 }
