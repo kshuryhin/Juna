@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import ua.pp.juna.vacanciesservice.domain.Employer;
+import ua.pp.juna.vacanciesservice.domain.candidates.Candidate;
 import ua.pp.juna.vacanciesservice.domain.vacancies.*;
+import ua.pp.juna.vacanciesservice.repo.CandidateRepository;
 import ua.pp.juna.vacanciesservice.repo.EmployerRepository;
 import ua.pp.juna.vacanciesservice.repo.vacancies.SkillsRepository;
 import ua.pp.juna.vacanciesservice.repo.vacancies.VacancyRepository;
@@ -50,6 +52,9 @@ class VacanciesServiceTest {
     private VacancyRepository vacancyRepository;
 
     @Mock
+    private CandidateRepository candidateRepository;
+
+    @Mock
     private EmployerRepository employerRepository;
 
     @Mock
@@ -58,7 +63,7 @@ class VacanciesServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        this.vacancyService = new VacancyServiceImpl(vacancyRepository, employerRepository, skillsRepository);
+        this.vacancyService = new VacancyServiceImpl(vacancyRepository, candidateRepository, employerRepository, skillsRepository);
     }
 
     @Test
@@ -194,6 +199,62 @@ class VacanciesServiceTest {
 
         //act
         final var actual = vacancyService.getAll(map);
+
+        //assert
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void getAllByCandidate_happyPath(){
+        //arrange
+        final var candidate_id = 1L;
+        final var candidate = Candidate.builder()
+                .id(candidate_id)
+                .build();
+        final var vacancy1 = Vacancy
+                .builder()
+                .name("test-vacancy-1")
+                .candidates(List.of(candidate))
+                .build();
+        final var vacancy2 = Vacancy
+                .builder()
+                .name("test-vacancy-2")
+                .candidates(List.of(candidate))
+                .build();
+        final var expected = List.of(vacancy1, vacancy2);
+        when(candidateRepository.findById(candidate_id)).thenReturn(Optional.of(candidate));
+        when(vacancyRepository.findAllByCandidates(candidate)).thenReturn(expected);
+
+        //act
+        final var actual = vacancyService.getAllByCandidate(candidate_id);
+
+        //assert
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void getAllBySaver_happyPath(){
+        //arrange
+        final var saver_id = 1L;
+        final var saver = Candidate.builder()
+                .id(saver_id)
+                .build();
+        final var vacancy1 = Vacancy
+                .builder()
+                .name("test-vacancy-1")
+                .savers(List.of(saver))
+                .build();
+        final var vacancy2 = Vacancy
+                .builder()
+                .name("test-vacancy-2")
+                .savers(List.of(saver))
+                .build();
+        final var expected = List.of(vacancy1, vacancy2);
+        when(candidateRepository.findById(saver_id)).thenReturn(Optional.of(saver));
+        when(vacancyRepository.findAllBySavers(saver)).thenReturn(expected);
+
+        //act
+        final var actual = vacancyService.getAllBySaver(saver_id);
 
         //assert
         assertThat(actual).isEqualTo(expected);

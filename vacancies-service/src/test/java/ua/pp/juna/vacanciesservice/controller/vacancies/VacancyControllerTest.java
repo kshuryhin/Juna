@@ -7,6 +7,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import ua.pp.juna.vacanciesservice.domain.Employer;
+import ua.pp.juna.vacanciesservice.domain.candidates.Candidate;
 import ua.pp.juna.vacanciesservice.domain.vacancies.Skill;
 import ua.pp.juna.vacanciesservice.domain.vacancies.Vacancy;
 import ua.pp.juna.vacanciesservice.service.vacancies.VacancyService;
@@ -125,6 +126,52 @@ class VacancyControllerTest {
 
         //act
         final var actual = vacancyController.deleteVacancy(id);
+
+        //assert
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void getAllByCandidate_happyPath(){
+        //arrange
+        final var id = 1L;
+        final var vacancy1 = Vacancy.builder()
+                .name("test-vacancy-1")
+                .candidates(List.of(Candidate.builder().id(id).build()))
+                .build();
+        final var vacancy2 = Vacancy.builder()
+                .name("test-vacancy-2")
+                .candidates(List.of(Candidate.builder().id(id).build()))
+                .build();
+        final var expected = ResponseEntity.ok(List.of(vacancy1, vacancy2));
+
+        when(vacancyService.getAllByCandidate(id)).thenReturn(List.of(vacancy1, vacancy2));
+
+        //act
+        final var actual = vacancyController.getAllByCandidate(id);
+
+        //assert
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void getAllBySaver_happyPath(){
+        //arrange
+        final var id = 1L;
+        final var vacancy1 = Vacancy.builder()
+                .name("test-vacancy-1")
+                .savers(List.of(Candidate.builder().id(id).build()))
+                .build();
+        final var vacancy2 = Vacancy.builder()
+                .name("test-vacancy-2")
+                .savers(List.of(Candidate.builder().id(id).build()))
+                .build();
+        final var expected = ResponseEntity.ok(List.of(vacancy1, vacancy2));
+
+        when(vacancyService.getAllBySaver(id)).thenReturn(List.of(vacancy1, vacancy2));
+
+        //act
+        final var actual = vacancyController.getAllBySaver(id);
 
         //assert
         assertThat(actual).isEqualTo(expected);

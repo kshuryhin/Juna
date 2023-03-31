@@ -1,5 +1,6 @@
 package ua.pp.juna.vacanciesservice.domain.vacancies;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import ua.pp.juna.vacanciesservice.domain.candidates.Candidate;
@@ -59,10 +60,14 @@ public class Vacancy {
     @ManyToMany
     private List<Candidate> candidates;
 
+    @ManyToMany
+    private List<Candidate> savers;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Category category;
 
+    @JsonIgnore
     public Map<Parameter, String> getParams() {
         return Map.of(
                 Parameter.CATEGORY, this.category.name(),

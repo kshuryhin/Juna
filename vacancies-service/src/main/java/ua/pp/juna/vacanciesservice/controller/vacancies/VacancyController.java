@@ -53,6 +53,16 @@ public class VacancyController {
         return ResponseEntity.ok(vacancyService.getAll(map));
     }
 
+    @GetMapping("/candidates/{id}")
+    public ResponseEntity<Collection<Vacancy>> getAllByCandidate(@PathVariable Long id){
+        return ResponseEntity.ok(vacancyService.getAllByCandidate(id));
+    }
+
+    @GetMapping("/savers/{id}")
+    public ResponseEntity<Collection<Vacancy>> getAllBySaver(@PathVariable Long id){
+        return ResponseEntity.ok(vacancyService.getAllBySaver(id));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Vacancy> updateVacancy(@RequestBody Vacancy vacancy, @PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(vacancyService.updateVacancy(vacancy, id));

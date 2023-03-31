@@ -21,10 +21,10 @@
   </header>
   <div class="container">
     <div class="tabs">
-      <button class="tablinks active" onclick="openTab(event, 'personal-info')" id="defaultOpen">Personal Info</button>
+      <button class="tablinks active" @click="navigateToPersonalInfo" id="defaultOpen">Personal Info</button>
       <button class="tablinks" @click="navigateToChangePassword">Change Password</button>
-      <button class="tablinks" onclick="openTab(event, 'saved-vacancies')">Saved Vacancies</button>
-      <button class="tablinks" onclick="openTab(event, 'applied-vacancies')">Applied Vacancies</button>
+      <button class="tablinks" @click="navigateToSavedVacancies">Saved Vacancies</button>
+      <button class="tablinks" @click="navigateToAppliedVacancies">Applied Vacancies</button>
     </div>
 
     <div id="personal-info" class="tabcontent">
@@ -246,6 +246,15 @@ export default {
   methods: {
     navigateToChangePassword() {
       this.$router.push('/change');
+    },
+    navigateToPersonalInfo() {
+      this.$router.push('/candidate/profile');
+    },
+    navigateToSavedVacancies() {
+      this.$router.push('/candidate/saved');
+    },
+    navigateToAppliedVacancies() {
+      this.$router.push('/candidate/applied');
     },
     async logout() {
       logout()
