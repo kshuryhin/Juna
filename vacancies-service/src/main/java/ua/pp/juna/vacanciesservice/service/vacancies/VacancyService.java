@@ -14,6 +14,10 @@ public interface VacancyService {
 
     Collection<Vacancy> getAll(Map<Parameter, String> params);
 
+    Collection<Vacancy> getAllByCandidate(Long candidateId);
+
+    Collection<Vacancy> getAllBySaver(Long saverId);
+
     Vacancy updateVacancy(Vacancy vacancy, Long id);
 
     void deleteVacancy(Long id);

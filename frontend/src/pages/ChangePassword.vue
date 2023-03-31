@@ -18,8 +18,8 @@
       <div class="tabs">
         <button class="tablinks" @click="navigateToPersonalInfo">Personal Info</button>
         <button class="tablinks active" @click="navigateToChangePassword" id="defaultOpen">Change Password</button>
-        <button class="tablinks" onclick="openTab(event, 'saved-vacancies')">Saved Vacancies</button>
-        <button class="tablinks" onclick="openTab(event, 'applied-vacancies')">Applied Vacancies</button>
+        <button class="tablinks" @click="navigateToSavedVacancies">Saved Vacancies</button>
+        <button class="tablinks" @click="navigateToAppliedVacancies">Applied Vacancies</button>
       </div>
         <div class="change-password">
           <h2>Change Password</h2>
@@ -83,6 +83,12 @@ export default {
     },
     navigateToPersonalInfo() {
       this.$router.push('/candidate/profile');
+    },
+    navigateToSavedVacancies() {
+      this.$router.push('/candidate/saved');
+    },
+    navigateToAppliedVacancies() {
+      this.$router.push('/candidate/applied');
     },
     async handleChangePassword() {
       if (this.newPasswordsMismatch) {

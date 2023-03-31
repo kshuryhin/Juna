@@ -40,13 +40,12 @@
       <ul>
         <li><strong>Employment Type:</strong> {{ job.employmentType }}</li>
         <li><strong>Country:</strong> {{ job.country }}</li>
-        <li><strong>Date Posted:</strong> {{ job.datePosted }}</li>
+        <li><strong>Date Posted:</strong> {{ displayedDate }}</li>
         <li><strong>Category:</strong> {{ job.category }}</li>
       </ul>
     </div>
-    <a href="#" class="apply-button">Apply</a>
-    <a href="#" class="save-button">Save</a>
-  </main>
+    <button @click="applyVacancy" :disabled="isCandidateInJob" :class="{ 'apply-button': true, 'disabled-button': isCandidateInJob }">Apply</button>
+    <button @click="saveVacancy" :class="{ 'save-button': !isSaverInJob, 'unsave-button': isSaverInJob, 'toggled-button': isSaverInJob }">{{ isSaverInJob ? 'Unsave' : 'Save' }}</button>  </main>
   <main v-else>
     <p>Loading...</p>
   </main>
@@ -70,13 +69,71 @@ export default {
   requiredRole: roles.CANDIDATE,
   data() {
     return {
+      displayedDate:{},
+      candidate:{},
       job: null,
     };
   },
+  computed: {
+    isSaverInJob() {
+      return this.job.savers.some(c => c.id === this.candidate.id);
+    },
+    isCandidateInJob() {
+      return this.job.candidates.some(c => c.id === this.candidate.id);
+    },
+  },
+  created() {
+    this.getCandidateByEmail()
+  },
   methods: {
+     formatDate() {
+       return new Date(this.job.datePosted).toLocaleDateString();
+     },
+     getCandidateByEmail() {
+      try {
+         axios.get('http://localhost:8085/candidates/email', {
+          headers: {
+            Authorization : localStorage.getItem('token')
+          }
+        }).then(response => {
+          this.candidate = response.data;
+          console.log(this.candidate)
+        })
+      }catch (error){
+        console.error(error)
+      }
+    },
      async logout() {
       logout()
        this.$router.push('/');
+    },
+    async saveVacancy(){
+      try {
+        if (this.isSaverInJob) {
+          this.job.savers = this.job.savers.filter(c => c.id !== this.candidate.id);
+        } else {
+          this.job.savers.push(this.candidate);
+        }
+        await axios.put(`http://localhost:8085/vacancies/${this.job.id}`, this.job, {
+          headers: {
+            Authorization: localStorage.getItem('token')
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async applyVacancy(){
+      try{
+        this.job.candidates.push(this.candidate)
+        await axios.put(`http://localhost:8085/vacancies/${this.job.id}`, this.job, {
+          headers: {
+            Authorization: localStorage.getItem('token')
+          }
+        })
+      }catch (error) {
+        console.error(error)
+      }
     },
     async fetchVacancyInfo() {
       try {
@@ -85,8 +142,7 @@ export default {
           headers: { Authorization: localStorage.getItem("token") },
         });
         this.job = response.data;
-        this.job.datePosted = new Date(this.job.datePosted).toLocaleDateString();
-        console.log(this.job);
+        this.displayedDate = this.formatDate()
       } catch (error) {
         console.log(error);
       }
@@ -100,6 +156,18 @@ export default {
 
 
 <style scoped>
+
+.toggled-button {
+  background-color: #168FF0;
+  color: white;
+}
+
+.apply-button.disabled-button {
+  background-color: #ccc;
+  color: white;
+  cursor: not-allowed;
+  pointer-events: none;
+}
 /* Body Styles */
 body {
   background-color: white;
@@ -141,10 +209,17 @@ a:hover {
   background-color: #0E6CB3;
 }
 
-/* Save button styles */
-.save-button {
-  border: 1px solid #168FF0;
+.unsave-button {
+  border: 1px solid red;
+  margin-right: 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #FFF;
+  color: red;
+  font-weight: bold;
+  text-decoration: none;
 }
+
 
 /* Main Styles */
 main {
@@ -218,17 +293,24 @@ main {
 .apply-button,
 .save-button {
   display: inline-block;
+  border: 1px solid #168FF0;
   margin-right: 10px;
   padding: 10px 20px;
   border-radius: 5px;
   background-color: #FFF;
   color: #168FF0;
+  font-weight: bold;
   text-decoration: none;
 }
 
 .apply-button:hover,
 .save-button:hover {
   background-color: #168FF0;
+  color: white;
+}
+
+.unsave-button:hover {
+  background-color: red;
   color: white;
 }
 

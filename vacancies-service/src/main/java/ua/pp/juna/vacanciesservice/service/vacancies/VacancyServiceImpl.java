@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ua.pp.juna.vacanciesservice.domain.vacancies.Vacancy;
+import ua.pp.juna.vacanciesservice.repo.CandidateRepository;
 import ua.pp.juna.vacanciesservice.repo.EmployerRepository;
 import ua.pp.juna.vacanciesservice.repo.vacancies.SkillsRepository;
 import ua.pp.juna.vacanciesservice.repo.vacancies.VacancyRepository;
@@ -20,6 +21,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class VacancyServiceImpl implements VacancyService {
     private final VacancyRepository vacancyRepository;
+
+    private final CandidateRepository candidateRepository;
     private final EmployerRepository employerRepository;
 
     private final SkillsRepository skillsRepository;
@@ -59,6 +62,22 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
+    public Collection<Vacancy> getAllByCandidate(Long candidateId) {
+        log.info("Fetching candidate with id {}", candidateId);
+        final var candidate = candidateRepository.findById(candidateId).orElse(null);
+        log.info("Fetching all vacancies by candidate {}", candidate);
+        return vacancyRepository.findAllByCandidates(candidate);
+    }
+
+    @Override
+    public Collection<Vacancy> getAllBySaver(Long saverId) {
+        log.info("Fetching candidate with id {}", saverId);
+        final var saver = candidateRepository.findById(saverId).orElse(null);
+        log.info("Fetching all vacancies by saver {}", saver);
+        return vacancyRepository.findAllBySavers(saver);
+    }
+
+    @Override
     public Vacancy updateVacancy(final Vacancy vacancy, final Long id) {
         log.info("Updating vacancy with id {} on {}", id, vacancy);
 
@@ -72,7 +91,8 @@ public class VacancyServiceImpl implements VacancyService {
                 .withEnglishLevel(vacancy.getEnglishLevel())
                 .withDescription(vacancy.getDescription())
                 .withSkills(vacancy.getSkills())
-                .withCandidates(vacancy.getCandidates());
+                .withCandidates(vacancy.getCandidates())
+                .withSavers(vacancy.getSavers());
 
         return vacancyRepository.save(updatedVacancy);
     }

@@ -143,6 +143,24 @@ spring:
             - Method=POST
           filters:
             - SetPath=/api/v1/employers
+        - id: getVacanciesBySaver
+          uri:
+            lb://vacancies-service
+          predicates:
+            - Path=/vacancies/savers/{id}
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/vacancies/savers/{id}
+            - JwtAuthenticationFilter
+        - id: getVacanciesByCandidate
+          uri:
+            lb://vacancies-service
+          predicates:
+            - Path=/vacancies/candidates/{id}
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/vacancies/candidates/{id}
+            - JwtAuthenticationFilter
         - id: getVacancies
           uri:
             lb://vacancies-service
