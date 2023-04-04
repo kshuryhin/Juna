@@ -10,6 +10,7 @@ import CandidateProfile from "@/pages/CandidateProfile.vue";
 import ChangePassword from "@/pages/ChangePassword.vue";
 import SavedVacancies from "@/pages/SavedVacancies.vue";
 import AppliedVacancies from "@/pages/AppliedVacancies.vue";
+import Candidates from "@/pages/Candidates.vue";
 const routes = [
     {
         path: '/about',
@@ -30,6 +31,11 @@ const routes = [
     {
         path: '/',
         component: MainPage
+    },
+    {
+        path: '/candidates',
+        name: 'candidates',
+        component: Candidates
     },
     {
         path: '/vacancies',
@@ -60,10 +66,6 @@ const routes = [
     {
         path: '/change',
         component: ChangePassword
-    },
-    {
-        path: '/candidates',
-        component: EmployerHome
     },
     {
         path: '/students',

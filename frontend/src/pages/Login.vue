@@ -53,12 +53,12 @@ export default {
             localStorage.token = response.data.token
             localStorage.role = response.data.role
             const role = localStorage.getItem('role')
-
             switch (role) {
               case roles.CANDIDATE:
                 this.$router.push('/vacancies')
                 break
               case roles.EMPLOYER:
+                console.log(role)
                 this.$router.push('/candidates')
                 break
               case roles.MENTOR:

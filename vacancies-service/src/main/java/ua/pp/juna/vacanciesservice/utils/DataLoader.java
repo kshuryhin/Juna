@@ -16,6 +16,7 @@ import ua.pp.juna.vacanciesservice.service.vacancies.SkillsService;
 import ua.pp.juna.vacanciesservice.service.vacancies.VacancyService;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -33,6 +34,52 @@ public class DataLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
 
         final var skillIDs = initSkills();
+
+        final var employerDetails = UserDetails.builder()
+                .email("anbro95@gmail.com")
+                .firstName("Andrew")
+                .lastName("Brovko")
+                .isLoggedIn(true)
+                .role(Role.EMPLOYERS)
+                .password(passwordEncoder.encode("1234"))
+                .build();
+        final var employer = Employer.builder()
+                        .userDetails(employerDetails)
+                        .companyName("Google")
+                        .build();
+
+        final var skill1 = skillsService.getSkillById(1L);
+        final var skill2 = skillsService.getSkillById(2L);
+        final var skill3 = skillsService.getSkillById(3L);
+
+        initCandidates(skill1, skill2, skill3);
+        final var employerId = employerService.saveEmployer(employer).getId();
+
+        initVacancies(employerId, skillIDs);
+    }
+
+    private List<Long> initSkills(){
+        final var skill1 = Skill.builder()
+                .name("qa")
+                .build();
+        final var skill2 = Skill.builder()
+                .name("docker")
+                .build();
+        final var skill3 = Skill.builder()
+                .name("kubernetes")
+                .build();
+
+        final var skill1Id = skillsService.saveSkill(skill1).getId();
+        final var skill2Id = skillsService.saveSkill(skill2).getId();
+        final var skill3Id = skillsService.saveSkill(skill3).getId();
+
+        return List.of(skill1Id, skill2Id, skill3Id);
+    }
+
+    private void initCandidates(final Skill...skills){
+        final var skill1 = skills[0];
+        final var skill2 = skills[1];
+        final var skill3 = skills[2];
         final var candidateDetails = UserDetails.builder()
                 .email("ksurygin5@gmail.com")
                 .firstName("Kostiantyn")
@@ -41,12 +88,20 @@ public class DataLoader implements ApplicationRunner {
                 .role(Role.CANDIDATES)
                 .password(passwordEncoder.encode("1234"))
                 .build();
-        final var employerDetails = UserDetails.builder()
-                .email("anbro95@gmail.com")
-                .firstName("Andrew")
-                .lastName("Brovko")
+        final var candidateDetails2 = UserDetails.builder()
+                .email("biba0202@gmail.com")
+                .firstName("Pavel")
+                .lastName("Till")
                 .isLoggedIn(true)
-                .role(Role.EMPLOYERS)
+                .role(Role.CANDIDATES)
+                .password(passwordEncoder.encode("1234"))
+                .build();
+        final var candidateDetails3 = UserDetails.builder()
+                .email("samwell@gmail.com")
+                .firstName("Sam")
+                .lastName("Harris")
+                .isLoggedIn(true)
+                .role(Role.CANDIDATES)
                 .password(passwordEncoder.encode("1234"))
                 .build();
         final var candidate = Candidate.builder()
@@ -59,6 +114,7 @@ public class DataLoader implements ApplicationRunner {
                 .phoneNumber("+380951427261")
                 .category(Category.JAVA)
                 .employmentType(EmploymentType.ALL)
+                .photoLink("kostya.jpg")
                 .salaryExpectations(2000)
                 .petProjectsDescription("As a Junior Java Developer, one potential pet project you could consider is a simple web-based application that helps users track their daily water intake. The application would allow users to input the amount of water they drink throughout the day and keep a running total of their intake.\n" +
                         "\n" +
@@ -87,38 +143,89 @@ public class DataLoader implements ApplicationRunner {
                         "Stay up-to-date with emerging trends and technologies in software development and contribute to knowledge-sharing sessions within the team.\n" +
                         "Note that this is just an example and actual job descriptions may vary depending on the company and specific job requirements.")
                 .build();
-        final var employer = Employer.builder()
-                        .userDetails(employerDetails)
-                        .companyName("Google")
-                        .build();
-
-
+        final var candidate2 = Candidate.builder()
+                .userDetails(candidateDetails2)
+                .englishLevel(EnglishLevel.UPPER_INTERMEDIATE)
+                .city("Berlin")
+                .position("Python Developer")
+                .grade(Grade.MIDDLE)
+                .country("Germany")
+                .phoneNumber("+380951427261")
+                .category(Category.PYTHON)
+                .employmentType(EmploymentType.REMOTE)
+                .photoLink("kostya.jpg")
+                .salaryExpectations(1500)
+                .petProjectsDescription("As a Junior Java Developer, one potential pet project you could consider is a simple web-based application that helps users track their daily water intake. The application would allow users to input the amount of water they drink throughout the day and keep a running total of their intake.\n" +
+                        "\n" +
+                        "Here are some features you could include in your water tracking application:\n" +
+                        "\n" +
+                        "User authentication: Allow users to create accounts and log in to their personal water tracking dashboard.\n" +
+                        "Water intake tracker: Provide a simple form where users can enter the amount of water they have consumed at different times of the day.\n" +
+                        "Daily summary: Show users a summary of their water intake for the day, including a percentage of their daily recommended intake.\n" +
+                        "Weekly and monthly reports: Allow users to view their water intake over longer periods of time to help them identify trends and set goals.\n" +
+                        "Reminders: Allow users to set reminders to drink water throughout the day, and send push notifications to their devices to remind them to stay hydrated.\n" +
+                        "Gamification: Consider adding some fun and engaging elements to your application to help motivate users to drink more water, such as rewards or challenges.\n" +
+                        "By building a simple but useful application like this, you can gain valuable experience working with Java and web development technologies, and create something that could potentially benefit others.")
+                .workExperience("A Junior Java developer typically has limited professional experience but possesses the fundamental skills necessary to write Java code and work within a development team. Here is an example work experience description for a Junior Java developer:\n" +
+                        "\n" +
+                        "Junior Java Developer\n" +
+                        "ABC Company\n" +
+                        "June 2021 - Present\n" +
+                        "\n" +
+                        "Work collaboratively with a team of developers to design and develop software solutions using Java technologies.\n" +
+                        "Participate in code reviews and debugging sessions to ensure code quality and optimize system performance.\n" +
+                        "Develop and maintain database schemas, and work with SQL databases and data modeling tools.\n" +
+                        "Develop and maintain RESTful web services and APIs using Spring Framework.\n" +
+                        "Write and maintain unit tests using JUnit and Mockito frameworks.\n" +
+                        "Contribute to continuous integration and delivery pipelines using GitLab and Jenkins.\n" +
+                        "Collaborate with other teams, including QA and project management, to ensure timely and effective delivery of software solutions.\n" +
+                        "Stay up-to-date with emerging trends and technologies in software development and contribute to knowledge-sharing sessions within the team.\n" +
+                        "Note that this is just an example and actual job descriptions may vary depending on the company and specific job requirements.")
+                .build();
+        final var candidate3 = Candidate.builder()
+                .userDetails(candidateDetails3)
+                .englishLevel(EnglishLevel.BEGINNER)
+                .city("Lviv")
+                .position("PHP Developer")
+                .grade(Grade.TRAINEE)
+                .country("Ukraine")
+                .phoneNumber("+380951427261")
+                .category(Category.PHP)
+                .employmentType(EmploymentType.OFFICE)
+                .salaryExpectations(900)
+                .petProjectsDescription("As a Junior Java Developer, one potential pet project you could consider is a simple web-based application that helps users track their daily water intake. The application would allow users to input the amount of water they drink throughout the day and keep a running total of their intake.\n" +
+                        "\n" +
+                        "Here are some features you could include in your water tracking application:\n" +
+                        "\n" +
+                        "User authentication: Allow users to create accounts and log in to their personal water tracking dashboard.\n" +
+                        "Water intake tracker: Provide a simple form where users can enter the amount of water they have consumed at different times of the day.\n" +
+                        "Daily summary: Show users a summary of their water intake for the day, including a percentage of their daily recommended intake.\n" +
+                        "Weekly and monthly reports: Allow users to view their water intake over longer periods of time to help them identify trends and set goals.\n" +
+                        "Reminders: Allow users to set reminders to drink water throughout the day, and send push notifications to their devices to remind them to stay hydrated.\n" +
+                        "Gamification: Consider adding some fun and engaging elements to your application to help motivate users to drink more water, such as rewards or challenges.\n" +
+                        "By building a simple but useful application like this, you can gain valuable experience working with Java and web development technologies, and create something that could potentially benefit others.")
+                .workExperience("A Junior Java developer typically has limited professional experience but possesses the fundamental skills necessary to write Java code and work within a development team. Here is an example work experience description for a Junior Java developer:\n" +
+                        "\n" +
+                        "Junior Java Developer\n" +
+                        "ABC Company\n" +
+                        "June 2021 - Present\n" +
+                        "\n" +
+                        "Work collaboratively with a team of developers to design and develop software solutions using Java technologies.\n" +
+                        "Participate in code reviews and debugging sessions to ensure code quality and optimize system performance.\n" +
+                        "Develop and maintain database schemas, and work with SQL databases and data modeling tools.\n" +
+                        "Develop and maintain RESTful web services and APIs using Spring Framework.\n" +
+                        "Write and maintain unit tests using JUnit and Mockito frameworks.\n" +
+                        "Contribute to continuous integration and delivery pipelines using GitLab and Jenkins.\n" +
+                        "Collaborate with other teams, including QA and project management, to ensure timely and effective delivery of software solutions.\n" +
+                        "Stay up-to-date with emerging trends and technologies in software development and contribute to knowledge-sharing sessions within the team.\n" +
+                        "Note that this is just an example and actual job descriptions may vary depending on the company and specific job requirements.")
+                .build();
+        candidateService.saveCandidate(candidate2);
+        candidateService.saveCandidate(candidate3);
         candidateService.saveCandidate(candidate);
-        final var skill1 = skillsService.getSkillById(1L);
-        final var skill2 = skillsService.getSkillById(2L);
-        final var skill3 = skillsService.getSkillById(3L);
         candidateService.updateCandidate(candidate.withSkills(List.of(skill1, skill2, skill3)), candidate.getId());
-        final var employerId = employerService.saveEmployer(employer).getId();
-
-        initVacancies(employerId, skillIDs);
-    }
-
-    private List<Long> initSkills(){
-        final var skill1 = Skill.builder()
-                .name("qa")
-                .build();
-        final var skill2 = Skill.builder()
-                .name("docker")
-                .build();
-        final var skill3 = Skill.builder()
-                .name("kubernetes")
-                .build();
-
-        final var skill1Id = skillsService.saveSkill(skill1).getId();
-        final var skill2Id = skillsService.saveSkill(skill2).getId();
-        final var skill3Id = skillsService.saveSkill(skill3).getId();
-
-        return List.of(skill1Id, skill2Id, skill3Id);
+        candidateService.updateCandidate(candidate2.withSkills(List.of(skill1)), candidate2.getId());
+        candidateService.updateCandidate(candidate3.withSkills(List.of(skill1, skill3)), candidate3.getId());
     }
     private void initVacancies(final Long employer, final List<Long> skillList) {
         final var description = "We are seeking a highly skilled software developer to join our team. The ideal candidate will have experience in developing software solutions using a variety of programming languages and platforms. The candidate will be responsible for designing, developing, and implementing software solutions that meet the needs of our clients.\n" +

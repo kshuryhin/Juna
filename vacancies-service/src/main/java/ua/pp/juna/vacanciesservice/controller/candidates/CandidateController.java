@@ -8,7 +8,10 @@ import org.springframework.web.multipart.MultipartFile;
 import ua.pp.juna.vacanciesservice.controller.candidates.models.ChangePasswordRequest;
 import ua.pp.juna.vacanciesservice.domain.candidates.Candidate;
 import ua.pp.juna.vacanciesservice.service.candidates.CandidateService;
+import ua.pp.juna.vacanciesservice.utils.Parameter;
 import ua.pp.juna.vacanciesservice.utils.PhotoSaver;
+
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -24,8 +27,22 @@ public class CandidateController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Candidate>> getAllCandidates() {
-        return ResponseEntity.ok().body(candidateService.getAllCandidates());
+    public ResponseEntity<List<Candidate>> getAllCandidates(
+            @RequestParam(required = false, name = "country") String country,
+            @RequestParam(required = false, name = "englishLevel") String englishLevel,
+            @RequestParam(required = false, name = "employmentType") String employmentType,
+            @RequestParam(required = false, name = "grade") String grade,
+            @RequestParam(required = false, name = "category") String category,
+            @RequestParam(required = false, name = "salaryExpectations") String salaryExpectations
+    ) {
+        final var map = new HashMap<Parameter, String>();
+        map.put(Parameter.CATEGORY, category);
+        map.put(Parameter.COUNTRY, country);
+        map.put(Parameter.SALARY_EXPECTATIONS, salaryExpectations);
+        map.put(Parameter.GRADE, grade);
+        map.put(Parameter.EMPLOYMENT, employmentType);
+        map.put(Parameter.ENGLISH_LEVEL, englishLevel);
+        return ResponseEntity.ok().body(candidateService.getAllCandidates(map));
     }
 
     @GetMapping("/{id}")

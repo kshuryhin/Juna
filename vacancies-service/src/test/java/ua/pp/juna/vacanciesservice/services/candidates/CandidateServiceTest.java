@@ -6,19 +6,25 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import ua.pp.juna.vacanciesservice.domain.UserDetails;
 import ua.pp.juna.vacanciesservice.domain.candidates.Candidate;
+import ua.pp.juna.vacanciesservice.domain.vacancies.Category;
+import ua.pp.juna.vacanciesservice.domain.vacancies.EmploymentType;
 import ua.pp.juna.vacanciesservice.domain.vacancies.EnglishLevel;
 import ua.pp.juna.vacanciesservice.domain.vacancies.Grade;
 import ua.pp.juna.vacanciesservice.repo.CandidateRepository;
 import ua.pp.juna.vacanciesservice.repo.UserDetailsRepository;
 import ua.pp.juna.vacanciesservice.service.candidates.CandidateService;
 import ua.pp.juna.vacanciesservice.service.candidates.CandidateServiceImpl;
+import ua.pp.juna.vacanciesservice.utils.Parameter;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static ua.pp.juna.vacanciesservice.domain.vacancies.Category.JAVA;
 
 class CandidateServiceTest {
     @Mock
@@ -29,6 +35,10 @@ class CandidateServiceTest {
     private CandidateService candidateService;
 
     private static final Long ID = 1L;
+    private static final String COUNTRY = "Germany";
+
+    private static final Category CATEGORY = JAVA;
+    private static final Integer SALARY_EXPECTATIONS = 2500;
 
     @BeforeEach
     void setUp() {
@@ -81,7 +91,64 @@ class CandidateServiceTest {
         when(candidateRepository.findAll()).thenReturn(expected);
 
         //act
-        final var actual = candidateService.getAllCandidates();
+        final var actual = candidateService.getAllCandidates(Map.of());
+
+        //assert
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void getAllCandidates_withParams_happyPath(){
+        final var candidate1 = Candidate.builder()
+                .id(ID)
+                .country("Germany")
+                .grade(Grade.JUNIOR)
+                .employmentType(EmploymentType.REMOTE)
+                .englishLevel(EnglishLevel.ADVANCED)
+                .category(Category.JAVA)
+                .salaryExpectations(1500)
+                .build();
+        final var candidate2  = Candidate.builder()
+                .id(2L)
+                .country("Ukraine")
+                .grade(Grade.MIDDLE)
+                .employmentType(EmploymentType.ALL)
+                .englishLevel(EnglishLevel.BEGINNER)
+                .category(Category.PHP)
+                .salaryExpectations(900)
+                .build();
+        final var candidate3 = Candidate.builder()
+                .id(3L)
+                .country("Germany")
+                .grade(Grade.JUNIOR)
+                .employmentType(EmploymentType.REMOTE)
+                .englishLevel(EnglishLevel.ADVANCED)
+                .category(Category.JAVA)
+                .salaryExpectations(2500)
+                .build();
+        final var candidate4 = Candidate.builder()
+                .id(4L)
+                .country("Germany")
+                .grade(Grade.SENIOR)
+                .employmentType(EmploymentType.ALL)
+                .englishLevel(EnglishLevel.ADVANCED)
+                .category(Category.JAVA)
+                .salaryExpectations(2400)
+                .build();
+        final var candidates = List.of(candidate1, candidate2, candidate3, candidate4);
+        final var expected = List.of(candidate1, candidate3, candidate4);
+        final var map = new HashMap<Parameter, String>();
+        map.put(Parameter.CATEGORY, CATEGORY.name());
+        map.put(Parameter.COUNTRY, COUNTRY);
+        map.put(Parameter.SALARY_EXPECTATIONS, String.valueOf(SALARY_EXPECTATIONS));
+        map.put(Parameter.GRADE, null);
+        map.put(Parameter.EMPLOYMENT, null);
+        map.put(Parameter.ENGLISH_LEVEL, null);
+
+        when(candidateRepository.findAll()).thenReturn(candidates);
+
+        //act
+        final var actual = candidateService.getAllCandidates(map);
 
         //assert
         assertThat(actual).isEqualTo(expected);

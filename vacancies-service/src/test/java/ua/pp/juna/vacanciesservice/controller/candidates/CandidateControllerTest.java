@@ -16,6 +16,7 @@ import ua.pp.juna.vacanciesservice.utils.PhotoSaver;
 import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.when;
 
 class CandidateControllerTest {
@@ -51,7 +52,7 @@ class CandidateControllerTest {
      }
 
      @Test
-     void getAllCandidates_happyPath(){
+     void getAllCandidates_withoutParams_happyPath(){
           //arrange
           final var candidates = List.of(
                   Candidate.builder().id(ID).build(),
@@ -59,10 +60,28 @@ class CandidateControllerTest {
                   Candidate.builder().id(3L).build()
           );
           final var expected = ResponseEntity.ok().body(candidates);
-          when(candidateService.getAllCandidates()).thenReturn(candidates);
+          when(candidateService.getAllCandidates(anyMap())).thenReturn(candidates);
 
           //act
-          final var actual = candidateController.getAllCandidates();
+          final var actual = candidateController.getAllCandidates(null, null, null, null, null, null);
+
+          //assert
+          assertThat(actual).isEqualTo(expected);
+     }
+
+     @Test
+     void getAllCandidates_withParams_happyPath(){
+          //arrange
+          final var candidates = List.of(
+                  Candidate.builder().id(1L).build(),
+                  Candidate.builder().id(2L).build()
+          );
+          final var expected = ResponseEntity.ok().body(candidates);
+
+          when(candidateService.getAllCandidates(anyMap())).thenReturn(candidates);
+
+          //act
+          final var actual = candidateController.getAllCandidates("Category", "Country", null, null, null, null);
 
           //assert
           assertThat(actual).isEqualTo(expected);
