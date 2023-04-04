@@ -115,6 +115,9 @@ public class DataLoader implements ApplicationRunner {
                 .category(Category.JAVA)
                 .employmentType(EmploymentType.ALL)
                 .photoLink("kostya.jpg")
+                .telegramLink("http://t.me/kostya2234")
+                .linkedinLink("https://www.linkedin.com/in/kostyan21/")
+                .githubLink("https://github.com/Shkaff02")
                 .salaryExpectations(2000)
                 .petProjectsDescription("As a Junior Java Developer, one potential pet project you could consider is a simple web-based application that helps users track their daily water intake. The application would allow users to input the amount of water they drink throughout the day and keep a running total of their intake.\n" +
                         "\n" +
@@ -155,6 +158,9 @@ public class DataLoader implements ApplicationRunner {
                 .employmentType(EmploymentType.REMOTE)
                 .photoLink("kostya.jpg")
                 .salaryExpectations(1500)
+                .telegramLink("http://t.me/kostya2234")
+                .linkedinLink("https://www.linkedin.com/in/kostyan21/")
+                .githubLink("https://github.com/Shkaff02")
                 .petProjectsDescription("As a Junior Java Developer, one potential pet project you could consider is a simple web-based application that helps users track their daily water intake. The application would allow users to input the amount of water they drink throughout the day and keep a running total of their intake.\n" +
                         "\n" +
                         "Here are some features you could include in your water tracking application:\n" +
@@ -193,6 +199,9 @@ public class DataLoader implements ApplicationRunner {
                 .category(Category.PHP)
                 .employmentType(EmploymentType.OFFICE)
                 .salaryExpectations(900)
+                .telegramLink("http://t.me/kostya2234")
+                .linkedinLink("https://www.linkedin.com/in/kostyan21/")
+                .githubLink("https://github.com/Shkaff02")
                 .petProjectsDescription("As a Junior Java Developer, one potential pet project you could consider is a simple web-based application that helps users track their daily water intake. The application would allow users to input the amount of water they drink throughout the day and keep a running total of their intake.\n" +
                         "\n" +
                         "Here are some features you could include in your water tracking application:\n" +

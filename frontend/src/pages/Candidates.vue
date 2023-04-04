@@ -106,7 +106,7 @@
         <h2>Available Candidates</h2>
         <ul id="candidate-listings">
           <li class="candidate" v-for="candidate in candidates" :key="candidate.id">
-            <h3>{{ candidate.position}}</h3>
+            <h3 @click="navigateToCandidate(candidate.id)" class="clickable">{{ candidate.position }}</h3>
               <div class="photo-container">
                 <img :src="candidate.photoLink ? require(`../assets/uploads/candidates/${candidate.photoLink}`) : require(`../assets/uploads/candidates/default.png`)" alt="Your Name" class="image-preview">
               </div>
@@ -153,6 +153,9 @@ export default {
     };
   },
   methods: {
+    navigateToCandidate(id){
+      this.$router.push({ name: 'candidate', params: { id: id } });
+    },
     async fetchCandidates() {
       try {
         const response = await axios.get('http://localhost:8085/candidates', {
@@ -246,6 +249,11 @@ header {
   justify-content: space-between;
   align-items: center;
 }
+
+.clickable {
+  cursor: pointer;
+}
+
 
 /* Set main container style */
 main {

@@ -71,7 +71,10 @@ public class CandidateServiceImpl implements CandidateService {
                 .withEmploymentType(candidate.getEmploymentType())
                 .withWorkExperience(candidate.getWorkExperience())
                 .withPetProjectsDescription(candidate.getPetProjectsDescription())
-                .withPhotoLink(candidate.getPhotoLink());
+                .withPhotoLink(candidate.getPhotoLink())
+                .withLinkedinLink(candidate.getLinkedinLink())
+                .withTelegramLink(candidate.getTelegramLink())
+                .withGithubLink(candidate.getGithubLink());
 
         final var updatedUserDetails = userDetailsRepository.findById(updatedCandidate.getUserDetails().getId()).get()
                 .withEmail(candidate.getUserDetails().getEmail())
