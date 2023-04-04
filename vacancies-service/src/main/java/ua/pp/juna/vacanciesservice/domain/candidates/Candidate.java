@@ -59,6 +59,12 @@ public class Candidate {
 
     private String photoLink;
 
+    private String linkedinLink;
+
+    private String telegramLink;
+
+    private String githubLink;
+
     @JsonIgnore
     public Map<Parameter, String> getParams() {
         return Map.of(
