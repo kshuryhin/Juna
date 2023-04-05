@@ -74,7 +74,7 @@ public class CandidateController {
 
     @PostMapping("/upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
-        final var fileName = photoSaver.savePhoto(file);
+        final var fileName = photoSaver.savePhoto(file, "candidates");
         return ResponseEntity.ok(fileName);
     }
 

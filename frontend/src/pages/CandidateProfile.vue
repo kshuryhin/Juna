@@ -275,19 +275,6 @@ export default {
             console.log(error)
           })
     },
-    updateSkills() {
-      const tempSkills = [];
-      // Add selected skills to tempSkills
-      this.selectedSkills.forEach(skill => {
-        const selectedSkill = this.skills.find(s => s.name === skill);
-        tempSkills.push({ id: selectedSkill.id, name: skill });
-      });
-      // Filter out unselected skills from tempSkills
-      this.candidateSkills = tempSkills.filter(skill => {
-        return this.selectedSkills.includes(skill.name);
-      });
-    },
-
 
     updateProfile() {
       // Disable the "Update" button while the request is being sent
@@ -316,7 +303,7 @@ export default {
         petProjectsDescription: this.petProjectsDescription
       };
 
-      axios.put(`http://localhost:8085/candidates/${this.id}`, requestBody, {
+      axios.put(`http://localhost:8085/employers/${this.id}`, requestBody, {
         headers: { Authorization: localStorage.getItem("token") },
       })
           .then(response => {

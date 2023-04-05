@@ -6,17 +6,16 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ua.pp.juna.vacanciesservice.domain.candidates.Candidate;
-import ua.pp.juna.vacanciesservice.domain.Employer;
+import ua.pp.juna.vacanciesservice.domain.employers.Employer;
 import ua.pp.juna.vacanciesservice.domain.Role;
 import ua.pp.juna.vacanciesservice.domain.UserDetails;
 import ua.pp.juna.vacanciesservice.domain.vacancies.*;
 import ua.pp.juna.vacanciesservice.service.candidates.CandidateService;
-import ua.pp.juna.vacanciesservice.service.EmployerService;
+import ua.pp.juna.vacanciesservice.service.employers.EmployerService;
 import ua.pp.juna.vacanciesservice.service.vacancies.SkillsService;
 import ua.pp.juna.vacanciesservice.service.vacancies.VacancyService;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -46,6 +45,21 @@ public class DataLoader implements ApplicationRunner {
         final var employer = Employer.builder()
                         .userDetails(employerDetails)
                         .companyName("Google")
+                        .companyWebSite("https://www.capgemini.com")
+                        .country("France")
+                        .companyDescription("TechWave Outsourcing Solutions is a premier IT outsourcing company that specializes in providing cost-effective, high-quality, and scalable technology solutions to businesses worldwide. With a diverse team of skilled professionals and a focus on customer satisfaction, our mission is to empower organizations to maximize their potential through innovative and customized IT services.\n" +
+                        "\n" +
+                        "We offer a comprehensive range of services, including software development, mobile app development, cloud computing, data analytics, cybersecurity, and IT consulting. By partnering with TechWave, clients gain access to our extensive industry expertise, state-of-the-art infrastructure, and cutting-edge technology that enables them to stay ahead of the competition.\n" +
+                        "\n" +
+                        "Key Features:\n" +
+                        "\n" +
+                        "Customized Solutions: Our team collaborates with clients to understand their unique business requirements and develop tailored IT solutions that align with their strategic objectives.\n" +
+                        "Quality Assurance: We adhere to strict quality standards and employ rigorous testing methodologies to ensure the delivery of high-performing, reliable, and secure solutions.\n" +
+                        "Scalability: TechWave's flexible engagement models enable businesses to scale their IT infrastructure seamlessly as they grow, without compromising on quality or performance.\n" +
+                        "Global Presence: With offices in multiple locations, our clients can leverage our global talent pool and industry insights to stay ahead of the curve.\n" +
+                        "Cost-Effective: Our competitive pricing models and innovative solutions help businesses reduce their IT expenses while maintaining the highest quality standards.\n" +
+                        "Dedicated Support: Our 24/7 customer support team ensures that clients receive prompt assistance and guidance throughout the project lifecycle, fostering long-lasting partnerships.\n" +
+                        "By choosing TechWave Outsourcing Solutions, businesses can focus on their core competencies while we take care of their IT needs, enabling them to achieve their goals and drive success in today's fast-paced digital landscape.")
                         .build();
 
         final var skill1 = skillsService.getSkillById(1L);

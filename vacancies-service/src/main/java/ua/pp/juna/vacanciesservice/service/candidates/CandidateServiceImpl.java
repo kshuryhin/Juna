@@ -4,8 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ua.pp.juna.vacanciesservice.domain.candidates.Candidate;
-import ua.pp.juna.vacanciesservice.domain.vacancies.Vacancy;
-import ua.pp.juna.vacanciesservice.repo.CandidateRepository;
+import ua.pp.juna.vacanciesservice.repo.candidates.CandidateRepository;
 import ua.pp.juna.vacanciesservice.repo.UserDetailsRepository;
 import ua.pp.juna.vacanciesservice.utils.Parameter;
 
