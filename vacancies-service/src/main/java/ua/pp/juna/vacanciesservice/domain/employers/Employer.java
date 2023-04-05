@@ -1,8 +1,9 @@
-package ua.pp.juna.vacanciesservice.domain;
+package ua.pp.juna.vacanciesservice.domain.employers;
 
 
 import jakarta.persistence.*;
 import lombok.*;
+import ua.pp.juna.vacanciesservice.domain.UserDetails;
 import ua.pp.juna.vacanciesservice.domain.vacancies.Vacancy;
 
 import java.util.List;
@@ -21,6 +22,15 @@ public class Employer {
     private Long id;
 
     private String companyName;
+
+    private String country;
+
+    @Column(length = 10_000)
+    private String companyDescription;
+
+    private String companyWebSite;
+
+    private String companyLogoUrl;
 
     @OneToOne(cascade = CascadeType.ALL)
     private UserDetails userDetails;

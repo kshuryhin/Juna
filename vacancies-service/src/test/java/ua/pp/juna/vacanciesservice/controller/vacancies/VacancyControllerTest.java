@@ -6,7 +6,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import ua.pp.juna.vacanciesservice.domain.Employer;
+import ua.pp.juna.vacanciesservice.domain.employers.Employer;
 import ua.pp.juna.vacanciesservice.domain.candidates.Candidate;
 import ua.pp.juna.vacanciesservice.domain.vacancies.Skill;
 import ua.pp.juna.vacanciesservice.domain.vacancies.Vacancy;

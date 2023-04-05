@@ -12,6 +12,7 @@ import SavedVacancies from "@/pages/SavedVacancies.vue";
 import AppliedVacancies from "@/pages/AppliedVacancies.vue";
 import Candidates from "@/pages/Candidates.vue";
 import Candidate from "@/pages/Candidate.vue";
+import EmployerProfile from "@/pages/EmployerProfile.vue";
 const routes = [
     {
         path: '/about',
@@ -59,6 +60,12 @@ const routes = [
         path: '/candidate/profile',
         name: 'candidateProfile',
         component: CandidateProfile,
+        props: true
+    },
+    {
+        path: '/employer/profile',
+        name: 'employerProfile',
+        component: EmployerProfile,
         props: true
     },
     {

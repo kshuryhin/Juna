@@ -10,7 +10,7 @@ import ua.pp.juna.vacanciesservice.domain.vacancies.Category;
 import ua.pp.juna.vacanciesservice.domain.vacancies.EmploymentType;
 import ua.pp.juna.vacanciesservice.domain.vacancies.EnglishLevel;
 import ua.pp.juna.vacanciesservice.domain.vacancies.Grade;
-import ua.pp.juna.vacanciesservice.repo.CandidateRepository;
+import ua.pp.juna.vacanciesservice.repo.candidates.CandidateRepository;
 import ua.pp.juna.vacanciesservice.repo.UserDetailsRepository;
 import ua.pp.juna.vacanciesservice.service.candidates.CandidateService;
 import ua.pp.juna.vacanciesservice.service.candidates.CandidateServiceImpl;

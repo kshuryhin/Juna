@@ -90,6 +90,15 @@ spring:
             - SetPath=/api/v1/candidates/email
             - JwtAuthenticationFilter
             - ExtractEmailFilter
+        - id: uploadEmployerPhoto
+          uri:
+            lb://vacancies-service
+          predicates:
+            - Path=/employers/upload
+            - Method=POST
+          filters:
+            - SetPath=/api/v1/employers/upload
+            - JwtAuthenticationFilter
         - id: uploadCandidatePhoto
           uri:
             lb://vacancies-service
@@ -143,6 +152,25 @@ spring:
             - Method=POST
           filters:
             - SetPath=/api/v1/employers
+        - id: updateEmployer
+          uri:
+            lb://vacancies-service
+          predicates:
+            - Path=/employers/{id}
+            - Method=PUT
+          filters:
+            - SetPath=/api/v1/employers/{id}
+            - JwtAuthenticationFilter
+        - id: getEmployerByEmail
+          uri:
+            lb://vacancies-service
+          predicates:
+            - Path=/employers/email
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/employers/email
+            - JwtAuthenticationFilter
+            - ExtractEmailFilter
         - id: getVacanciesBySaver
           uri:
             lb://vacancies-service

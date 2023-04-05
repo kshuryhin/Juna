@@ -17,10 +17,10 @@ import java.nio.file.StandardCopyOption;
 @Component
 public class PhotoSaver {
 
-    private static final String IMAGE_FOLDER = "frontend/src/assets/uploads/candidates/";
-    public String savePhoto(final MultipartFile file) {
+    private static String IMAGE_FOLDER = "frontend/src/assets/uploads/";
+    public String savePhoto(final MultipartFile file, final String folder) {
         final var fileName = file.getOriginalFilename();
-        final var filePath = Paths.get(IMAGE_FOLDER + fileName);
+        final var filePath = Paths.get(IMAGE_FOLDER + folder + "/" + fileName);
         try {
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
             return fileName;

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import ua.pp.juna.vacanciesservice.domain.candidates.Candidate;
-import ua.pp.juna.vacanciesservice.domain.Employer;
+import ua.pp.juna.vacanciesservice.domain.employers.Employer;
 import ua.pp.juna.vacanciesservice.utils.Parameter;
 
 import java.time.LocalDateTime;

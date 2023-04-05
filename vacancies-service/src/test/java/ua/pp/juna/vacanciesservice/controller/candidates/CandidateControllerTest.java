@@ -147,8 +147,9 @@ class CandidateControllerTest {
           //arrange
           final var name = "name";
           final var file = new MockMultipartFile(name, (byte[]) null);
+          final var folder = "candidates";
           final var expected = ResponseEntity.ok().body(name);
-          when(photoSaver.savePhoto(file)).thenReturn(name);
+          when(photoSaver.savePhoto(file, folder)).thenReturn(name);
 
           //act
           final var actual = candidateController.handleFileUpload(file);
