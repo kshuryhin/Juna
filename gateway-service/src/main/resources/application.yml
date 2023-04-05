@@ -256,6 +256,7 @@ spring:
             - Method=PUT
           filters:
             - SetPath=/auth/exchange
+            - ExtractEmailFilter
         - id: changePassword
           uri:
             lb://authentication-service

@@ -1,5 +1,6 @@
 package ua.pp.juna.gatewayservice.filter;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,12 @@ public class ExtractEmailFilter implements GatewayFilterFactory {
                 }
             }
 
-            final var email = jwtUtil.getSubject(token);
+            String email = "";
+            try {
+                email = jwtUtil.getSubject(token);
+            } catch (ExpiredJwtException e) {
+                email = e.getClaims().getSubject();
+            }
             if (email != null) {
                 final var newPath = exchange.getRequest().getPath().value()+"/"+email;
                 final var updatedRequest = request.mutate().path(newPath).build();

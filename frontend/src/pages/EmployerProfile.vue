@@ -86,16 +86,17 @@
 </template>
 <script>
 import axios from "axios";
-import vSelect from 'vue-select';
+// import vSelect from 'vue-select';
 import authMixin from "@/components/authMixin";
 import roleMixin from "@/components/roleMixin";
 import roles from "@/roles";
 import {logout} from "@/utils/auth";
 import Candidates from "@/pages/Candidates.vue";
+import silentLoginMixin from "@/components/silentLoginMixin";
 
 export default {
   name: "EmployerProfile",
-  mixins: [authMixin, roleMixin],
+  mixins: [authMixin, roleMixin, silentLoginMixin],
   requiredRole: roles.EMPLOYER,
 
   data() {

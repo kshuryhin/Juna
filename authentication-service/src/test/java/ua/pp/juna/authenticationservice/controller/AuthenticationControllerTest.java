@@ -89,10 +89,10 @@ public class AuthenticationControllerTest {
                 .build();
         final var expected = ResponseEntity.ok().body(authenticationResponse);
 
-        when(authenticationService.updateToken(exchangeRequest)).thenReturn(authenticationResponse);
+        when(authenticationService.updateToken(exchangeRequest.getEmail())).thenReturn(authenticationResponse);
 
         //act
-        final var actual = authenticationController.updateToken(exchangeRequest);
+        final var actual = authenticationController.updateToken(exchangeRequest.getEmail());
 
         //assert
         assertThat(actual).isEqualTo(expected);
