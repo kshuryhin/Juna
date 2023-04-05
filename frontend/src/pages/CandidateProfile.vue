@@ -72,6 +72,21 @@
           <input type="text" id="country" name="country" v-model="country">
         </div>
 
+        <div class="form-group">
+          <label class="label-bold" for="linkedinLink">Linked In</label>
+          <input type="text" id="linkedinLink" name="linkedinLink" v-model="linkedinLink">
+        </div>
+
+        <div class="form-group">
+          <label class="label-bold" for="telegramLink">Telegram</label>
+          <input type="text" id="telegramLink" name="linkedinLink" v-model="telegramLink">
+        </div>
+
+        <div class="form-group">
+          <label class="label-bold" for="githubLink">Git Hub</label>
+          <input type="text" id="githubLink" name="githubLink" v-model="githubLink">
+        </div>
+
 
         <div class="form-group">
           <label class="label-bold" for="category">Category</label>
@@ -234,6 +249,9 @@ export default {
       salaryExpectations: "",
       workExperience: "",
       petProjectsDescription:"",
+      linkedinLink:"",
+      telegramLink:"",
+      githubLink:"",
       skills:[],
       selectedSkills:[],
       candidateSkills:[],
@@ -313,6 +331,9 @@ export default {
         workExperience: this.workExperience,
         phoneNumber: this.phone,
         photoLink: this.imageName,
+        linkedinLink: this.linkedinLink,
+        telegramLink: this.telegramLink,
+        githubLink: this.githubLink,
         petProjectsDescription: this.petProjectsDescription
       };
 
@@ -363,6 +384,9 @@ export default {
     axios.get(`http://localhost:8085/candidates/email`, {
       headers: { Authorization: localStorage.getItem("token") },
     }).then(response => {
+      this.linkedinLink = response.data.linkedinLink;
+      this.telegramLink = response.data.telegramLink;
+      this.githubLink = response.data.githubLink;
       this.firstName = response.data.userDetails.firstName;
       this.id = response.data.id;
       this.lastName = response.data.userDetails.lastName;
