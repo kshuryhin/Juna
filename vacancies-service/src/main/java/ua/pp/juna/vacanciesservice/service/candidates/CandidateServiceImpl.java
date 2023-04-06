@@ -59,6 +59,7 @@ public class CandidateServiceImpl implements CandidateService {
         log.info("Updating candidate {}", candidate);
         final var updatedCandidate = candidateRepository.findById(id).get()
                 .withPosition(candidate.getPosition())
+                .withIsActive(candidate.getIsActive())
                 .withSalaryExpectations(candidate.getSalaryExpectations())
                 .withGrade(candidate.getGrade())
                 .withCountry(candidate.getCountry())

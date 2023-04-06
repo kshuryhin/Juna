@@ -135,6 +135,14 @@
           </select>
         </div>
 
+        <div class="form-group">
+          <label class="label-bold" for="isActive">Active</label>
+          <div class="switch-container">
+            <input type="checkbox" id="isActive" name="isActive" :checked="isActive" @change="toggleIsActive" class="switch-checkbox">
+            <label for="isActive" class="switch-label"></label>
+          </div>
+        </div>
+
 
         <div class="form-group">
           <label class="label-bold" for="salaryExpectations">Salary Expectations</label>
@@ -238,6 +246,7 @@ export default {
       firstName: "",
       lastName: "",
       position:"",
+      isActive:false,
       email: "",
       phone: "",
       city: "",
@@ -262,6 +271,9 @@ export default {
     };
   },
   methods: {
+    toggleIsActive: function() {
+      this.isActive = !this.isActive;
+    },
     navigateToChangePassword() {
       this.$router.push('/change');
     },
@@ -307,6 +319,7 @@ export default {
           lastName: this.lastName
         },
         position: this.position,
+        isActive: this.isActive,
         salaryExpectations: parseInt(this.salaryExpectations.replace("$", "")),
         grade: this.grade,
         country: this.country,
@@ -324,7 +337,7 @@ export default {
         petProjectsDescription: this.petProjectsDescription
       };
 
-      axios.put(`http://localhost:8085/employers/${this.id}`, requestBody, {
+      axios.put(`http://localhost:8085/candidates/${this.id}`, requestBody, {
         headers: { Authorization: localStorage.getItem("token") },
       })
           .then(response => {
@@ -380,6 +393,7 @@ export default {
       this.email = response.data.userDetails.email;
       this.phone = response.data.phoneNumber;
       this.position = response.data.position;
+      this.isActive = response.data.isActive;
       this.city = response.data.city;
       this.grade = response.data.grade;
       this.country = response.data.country;
@@ -402,6 +416,45 @@ export default {
 
 </script>
 <style scoped>
+.switch-container {
+  position: relative;
+  display: inline-block;
+  width: 57px;
+  height: 20px;
+}
+
+.switch-label {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 20px;
+}
+
+.switch-label:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.switch-checkbox:checked + .switch-label {
+  background-color: #168FF0;
+}
+
+.switch-checkbox:checked + .switch-label:before {
+  transform: translateX(20px);
+}
+
 body {
   background-color: white;
   font-family: Arial, sans-serif;
@@ -820,5 +873,4 @@ footer {
   font-size: 14px;
   color: #aaa;
 }
-
 </style>
