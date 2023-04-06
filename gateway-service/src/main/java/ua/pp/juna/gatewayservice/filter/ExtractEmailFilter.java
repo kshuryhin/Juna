@@ -30,7 +30,7 @@ public class ExtractEmailFilter implements GatewayFilterFactory {
                 }
             }
 
-            final var email = jwtUtil.getSubjectWithoutExpirationCheck(token);
+            final var email = jwtUtil.getSubject(token);
             if (email != null) {
                 final var newPath = exchange.getRequest().getPath().value()+"/"+email;
                 final var updatedRequest = request.mutate().path(newPath).build();

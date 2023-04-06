@@ -32,11 +32,6 @@ public class JwtUtil {
     }
 
     public String getSubject(final String token) {
-        final var subject = Jwts.parser().setSigningKey(getSignInKey()).parseClaimsJws(token).getBody().getSubject();
-        return subject;
-    }
-
-    public String getSubjectWithoutExpirationCheck(final String token) {
         final var parts = token.split("\\.");
         if (parts.length != 3) {
             throw new IllegalArgumentException("Invalid JWT token format");
