@@ -118,6 +118,7 @@ export default {
           headers: { Authorization: localStorage.getItem("token") },
         }).then(response => {
           this.candidate = response.data;
+          if (!this.candidate.isActive) this.$router.push({'name':'candidates'})
           this.imageName = response.data.photoLink===null?this.imageName:response.data.photoLink;
           this.imageUrl = require(`../assets/uploads/candidates/${this.imageName}`)
           this.candidate.englishLevel = this.candidate.englishLevel.replace("_", " ")
