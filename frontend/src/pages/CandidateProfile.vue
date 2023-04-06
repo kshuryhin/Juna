@@ -228,17 +228,18 @@
 </template>
 <script>
 import axios from "axios";
-import vSelect from 'vue-select';
+// import vSelect from 'vue-select';
 import authMixin from "@/components/authMixin";
 import roleMixin from "@/components/roleMixin";
 import roles from "@/roles";
 import {logout} from "@/utils/auth";
+import silentLoginMixin from "@/components/silentLoginMixin";
 
 export default {
   name: "CandidateProfile",
-  mixins: [authMixin, roleMixin],
+  mixins: [authMixin, roleMixin, silentLoginMixin],
   requiredRole: roles.CANDIDATE,
-  components: { vSelect },
+  // components: { vSelect },
 
   data() {
     return {

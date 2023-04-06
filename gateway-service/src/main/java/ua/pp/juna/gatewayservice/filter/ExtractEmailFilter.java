@@ -1,5 +1,6 @@
 package ua.pp.juna.gatewayservice.filter;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

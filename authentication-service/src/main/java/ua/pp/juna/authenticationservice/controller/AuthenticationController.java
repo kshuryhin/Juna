@@ -1,5 +1,6 @@
 package ua.pp.juna.authenticationservice.controller;
 
+import jakarta.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +26,9 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.authenticate(request));
     }
 
-    @PutMapping("/exchange")
-    public ResponseEntity<AuthenticationResponse> updateToken(@RequestBody ExchangeRequest exchangeRequest) {
-        return ResponseEntity.ok().body(service.updateToken(exchangeRequest));
+    @PutMapping("/exchange/{email}")
+    public ResponseEntity<AuthenticationResponse> updateToken(@PathVariable String email) {
+        return ResponseEntity.ok().body(service.updateToken(email));
     }
 
     @PutMapping("/logout/{email}")

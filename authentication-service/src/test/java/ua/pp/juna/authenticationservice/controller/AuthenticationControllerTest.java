@@ -80,19 +80,17 @@ public class AuthenticationControllerTest {
     @Test
     void exchange_happyPath() {
         //arrange
-        final var exchangeRequest = ExchangeRequest.builder()
-                .email(EMAIL)
-                .build();
+
         final var authenticationResponse = AuthenticationResponse.builder()
                 .token(TOKEN)
                 .role(Role.CANDIDATES)
                 .build();
         final var expected = ResponseEntity.ok().body(authenticationResponse);
 
-        when(authenticationService.updateToken(exchangeRequest)).thenReturn(authenticationResponse);
+        when(authenticationService.updateToken(EMAIL)).thenReturn(authenticationResponse);
 
         //act
-        final var actual = authenticationController.updateToken(exchangeRequest);
+        final var actual = authenticationController.updateToken(EMAIL);
 
         //assert
         assertThat(actual).isEqualTo(expected);

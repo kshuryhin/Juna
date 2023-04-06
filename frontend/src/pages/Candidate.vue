@@ -87,10 +87,13 @@ import authMixin from "@/components/authMixin.js";
 import roleMixin from "@/components/roleMixin.js";
 import roles from "@/roles";
 import { logout } from '@/utils/auth';
+import candidate from "./Candidate.vue";
+import Candidates from "@/pages/Candidates.vue";
+import silentLoginMixin from "@/components/silentLoginMixin";
 
 export default {
   name: "Candidate",
-  mixins: [authMixin, roleMixin],
+  mixins: [authMixin, roleMixin, silentLoginMixin],
   requiredRole: roles.EMPLOYER,
   data() {
     return {

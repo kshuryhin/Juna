@@ -53,8 +53,8 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse updateToken(final ExchangeRequest exchangeRequest) {
-        var user = (User)userDetailsService.loadUserByUsername(exchangeRequest.getEmail());
+    public AuthenticationResponse updateToken(final String email) {
+        var user = (User)userDetailsService.loadUserByUsername(email);
         if (!user.isLoggedIn()) throw new AuthorizationServiceException("User is logged out!");
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()

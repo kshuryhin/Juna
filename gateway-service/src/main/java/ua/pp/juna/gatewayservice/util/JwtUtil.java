@@ -1,22 +1,20 @@
 package ua.pp.juna.gatewayservice.util;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.impl.TextCodec;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 import ua.pp.juna.gatewayservice.exception.JwtTokenMalformedException;
 import ua.pp.juna.gatewayservice.exception.JwtTokenMissingException;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureException;
-import io.jsonwebtoken.UnsupportedJwtException;
-
 import javax.naming.AuthenticationException;
+import java.io.IOException;
 import java.security.Key;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Component
@@ -34,9 +32,21 @@ public class JwtUtil {
     }
 
     public String getSubject(final String token) {
-        final var subject = Jwts.parser().setSigningKey(getSignInKey()).parseClaimsJws(token).getBody().getSubject();
-        return subject;
+        final var parts = token.split("\\.");
+        if (parts.length != 3) {
+            throw new IllegalArgumentException("Invalid JWT token format");
+        }
+
+        final var payloadJson = new String(TextCodec.BASE64URL.decode(parts[1]));
+        final var objectMapper = new ObjectMapper();
+        try {
+            final var payloadMap = objectMapper.readValue(payloadJson, Map.class);
+            return (String) payloadMap.get("sub");
+        } catch (IOException e) {
+            throw new IllegalStateException("Error while parsing JWT payload", e);
+        }
     }
+
 
     public void validateRoles(final String token, final Set<String> roles) throws AuthenticationException {
         final var body = Jwts.parser().setSigningKey(getSignInKey()).parseClaimsJws(token).getBody();

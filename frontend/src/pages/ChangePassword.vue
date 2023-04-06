@@ -56,10 +56,11 @@ import {logout} from "@/utils/auth";
 import authMixin from "@/components/authMixin";
 import roleMixin from "@/components/roleMixin";
 import roles from "@/roles";
+import silentLoginMixin from "@/components/silentLoginMixin";
 
 
 export default {
-  mixins: [authMixin, roleMixin],
+  mixins: [authMixin, roleMixin, silentLoginMixin],
   requiredRole: roles.CANDIDATE,
   data() {
     return {

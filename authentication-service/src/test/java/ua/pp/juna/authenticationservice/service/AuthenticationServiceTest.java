@@ -155,7 +155,7 @@ public class AuthenticationServiceTest {
         when(jwtService.generateToken(user)).thenReturn(TOKEN);
 
         //act
-        final var actual = authenticationService.updateToken(exchangeRequest);
+        final var actual = authenticationService.updateToken(EMAIL);
 
         //assert
         assertThat(actual).isEqualTo(expected);
@@ -180,7 +180,7 @@ public class AuthenticationServiceTest {
         when(userService.loadUserByUsername(exchangeRequest.getEmail())).thenReturn(user);
 
         //act, assert
-        assertThatThrownBy(() -> authenticationService.updateToken(exchangeRequest))
+        assertThatThrownBy(() -> authenticationService.updateToken(EMAIL))
                 .isInstanceOf(expected.getClass())
                 .hasMessage(expected.getMessage());
     }
