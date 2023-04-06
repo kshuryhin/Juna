@@ -43,7 +43,7 @@ const routes = [
        path: '/candidate/:id',
        name: 'candidate',
        component: Candidate,
-        props: true
+       props: true,
     },
     {
         path: '/vacancies',

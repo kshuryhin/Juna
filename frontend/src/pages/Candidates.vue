@@ -164,7 +164,7 @@ export default {
           },
         });
 
-        this.allCandidates = response.data;
+        this.allCandidates = response.data.filter(candidate => candidate.isActive);
         this.candidates = this.allCandidates;
       } catch (error) {
         console.error(error);
@@ -200,7 +200,7 @@ export default {
           params,
         });
 
-        this.candidates = response.data;
+        this.candidates = response.data.filter(candidate => candidate.isActive);
       } catch (error) {
         console.error(error);
       }

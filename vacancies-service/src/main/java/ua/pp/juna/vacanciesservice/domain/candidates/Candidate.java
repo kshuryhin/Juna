@@ -25,6 +25,8 @@ public class Candidate {
 
     private String position;
 
+    private Boolean isActive;
+
     private Integer salaryExpectations;
 
     @Enumerated(EnumType.STRING)
