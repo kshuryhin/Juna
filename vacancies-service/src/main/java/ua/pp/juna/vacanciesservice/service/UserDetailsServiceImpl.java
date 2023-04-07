@@ -43,6 +43,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
+    public UserDetails patchUserDetails(String email, String newPassword) {
+        final var userDetails = userDetailsRepository.findUserDetailsByEmail(email).orElse(null);
+        return userDetailsRepository.save(userDetails.withPassword(newPassword));
+    }
+
+    @Override
     public void deleteUserDetails(Long id) {
         userDetailsRepository.deleteById(id);
     }

@@ -63,6 +63,15 @@ spring:
             - Method=GET
           filters:
             - SetPath=/api/v1/userDetails/email/{email}
+        - id: patchUserDetails
+          uri:
+            lb://vacancies-service
+          predicates:
+            - Path=/userDetails
+            - Method=PATCH
+          filters:
+            - SetPath=/api/v1/userDetails
+            - JwtAuthenticationFilter
         - id: updateUserDetails
           uri:
             lb://vacancies-service

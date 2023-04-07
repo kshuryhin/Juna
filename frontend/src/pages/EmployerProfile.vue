@@ -118,10 +118,10 @@ export default {
   },
   methods: {
     navigateToChangePassword() {
-      this.$router.push('/change');
+      this.$router.push('/change/employer');
     },
     navigateToPersonalInfo() {
-      this.$router.push('/candidate/profile');
+      this.$router.push({'name':'employerProfile'});
     },
     navigateToSavedCandidates() {
      //TBD

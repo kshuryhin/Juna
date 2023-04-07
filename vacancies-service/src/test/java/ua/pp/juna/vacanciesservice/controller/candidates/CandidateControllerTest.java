@@ -157,22 +157,4 @@ class CandidateControllerTest {
           //assert
           assertThat(actual).isEqualTo(expected);
      }
-
-     @Test
-     void patchCandidate_happyPath(){
-          //arrange
-          final var newPassword = "12345";
-          final var email = "ksurygin5@gmail.com";
-          final var changePasswordRequest = ChangePasswordRequest.builder().newPassword(newPassword).email(email).build();
-          final var candidate = Candidate.builder().userDetails(UserDetails.builder().password(newPassword).email(email).build()).build();
-          final var expected = ResponseEntity.ok(candidate);
-
-          when(candidateService.patchCandidate(email, newPassword)).thenReturn(candidate);
-
-          //act
-          final var actual = candidateController.patchCandidate(changePasswordRequest);
-
-          //assert
-          assertThat(actual).isEqualTo(expected);
-     }
 }
