@@ -188,27 +188,5 @@ class CandidateServiceTest {
         //assert
         verify(candidateRepository).deleteById(ID);
     }
-
-    @Test
-    void patchCandidate_happyPath(){
-        //arrange
-        final var email = "ksurygin5@gmail.com";
-        final var newPassword = "12345";
-        final var candidate = Candidate.builder()
-                .userDetails(UserDetails.builder().email(email).build())
-                .build();
-        final var expected = Candidate.builder()
-                .userDetails(UserDetails.builder().password(newPassword).email(email).build())
-                .build();
-
-        when(candidateRepository.findByUserDetailsEmail(email)).thenReturn(candidate);
-        when(candidateRepository.save(expected)).thenReturn(expected);
-
-        //act
-        final var actual = candidateService.patchCandidate(email, newPassword);
-
-        //assert
-        assertThat(actual).isEqualTo(expected);
-    }
 }
 

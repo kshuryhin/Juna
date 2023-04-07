@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ua.pp.juna.vacanciesservice.controller.candidates.models.ChangePasswordRequest;
 import ua.pp.juna.vacanciesservice.domain.candidates.Candidate;
 import ua.pp.juna.vacanciesservice.service.candidates.CandidateService;
 import ua.pp.juna.vacanciesservice.utils.Parameter;
@@ -60,12 +59,6 @@ public class CandidateController {
         return ResponseEntity.ok().body(candidateService.updateCandidate(candidate, id));
     }
 
-    @PatchMapping
-    public ResponseEntity<Candidate> patchCandidate(@RequestBody ChangePasswordRequest changePasswordRequest) {
-        return ResponseEntity.ok(candidateService.patchCandidate(changePasswordRequest.getEmail(),
-                changePasswordRequest.getNewPassword()));
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCandidate(@PathVariable Long id) {
         candidateService.deleteCandidate(id);
@@ -77,5 +70,4 @@ public class CandidateController {
         final var fileName = photoSaver.savePhoto(file, "candidates");
         return ResponseEntity.ok(fileName);
     }
-
 }

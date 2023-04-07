@@ -16,9 +16,6 @@ public interface CandidateService {
     List<Candidate> getAllCandidates(Map<Parameter, String> params);
 
     Candidate updateCandidate(Candidate candidate, Long id);
-
-    Candidate patchCandidate(String email, String newPassword);
-
     void deleteCandidate(Long id);
 
 }

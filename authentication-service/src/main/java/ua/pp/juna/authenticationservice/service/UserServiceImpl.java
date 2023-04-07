@@ -46,6 +46,6 @@ public class UserServiceImpl implements UserService {
         final var request = CandidatePatchRequest.builder().newPassword(newPassword).email(email).build();
         final var httpEntity = new HttpEntity<>(request, headers);
         headers.add("Authorization", token);
-        restTemplate.exchange(HOST+"/candidates", HttpMethod.PATCH, httpEntity, String.class);
+        restTemplate.exchange(HOST+"/userDetails", HttpMethod.PATCH, httpEntity, String.class);
     }
 }

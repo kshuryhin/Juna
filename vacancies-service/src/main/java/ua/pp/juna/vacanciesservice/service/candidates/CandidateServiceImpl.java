@@ -86,14 +86,6 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public Candidate patchCandidate(String email, String newPassword) {
-        final var candidate = candidateRepository.findByUserDetailsEmail(email);
-        log.info("Patching candidate {} with new password", candidate);
-        candidate.getUserDetails().setPassword(newPassword);
-        return candidateRepository.save(candidate);
-    }
-
-    @Override
     public void deleteCandidate(Long id) {
         log.info("Deleting candidate with id {}", id);
         candidateRepository.deleteById(id);
