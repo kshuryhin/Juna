@@ -36,14 +36,12 @@ class VacancyControllerTest {
         //arrange
         final var vacancy = Vacancy.builder().name("Junior Java Developer").build();
         final var saved = vacancy.withEmployer(Employer.builder().build()).withSkills(List.of(Skill.builder().build()));
-        final var skillIDs = List.of(1L,2L,3L);
-        final var employerId = 1L;
         final var expected = ResponseEntity.status(HttpStatus.CREATED).body(saved);
 
-        when(vacancyService.createVacancy(vacancy, employerId, skillIDs)).thenReturn(saved);
+        when(vacancyService.createVacancy(vacancy)).thenReturn(saved);
 
         //act
-        final var actual = vacancyController.saveVacancy(vacancy, skillIDs, employerId);
+        final var actual = vacancyController.saveVacancy(vacancy);
 
         //assert
         assertThat(actual).isEqualTo(expected);

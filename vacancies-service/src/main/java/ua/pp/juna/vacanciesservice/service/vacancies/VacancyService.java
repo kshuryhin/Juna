@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface VacancyService {
-    Vacancy createVacancy(Vacancy vacancy, Long employerId, List<Long> skills);
+    Vacancy createVacancy(Vacancy vacancy);
 
     Vacancy getVacancyById(Long id);
 
