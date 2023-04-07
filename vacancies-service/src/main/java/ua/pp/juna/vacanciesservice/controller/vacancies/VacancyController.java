@@ -20,10 +20,8 @@ public class VacancyController {
     private final VacancyService vacancyService;
 
     @PostMapping
-    public ResponseEntity<Vacancy> saveVacancy(@RequestBody Vacancy vacancy,
-                                               @RequestParam(name = "skills") List<Long> skills,
-                                               @RequestParam(name = "employer") Long id) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(vacancyService.createVacancy(vacancy, id, skills));
+    public ResponseEntity<Vacancy> saveVacancy(@RequestBody Vacancy vacancy) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(vacancyService.createVacancy(vacancy));
     }
 
     @GetMapping("/{id}")

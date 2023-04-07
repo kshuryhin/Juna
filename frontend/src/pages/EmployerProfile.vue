@@ -23,6 +23,7 @@
       <button class="tablinks active" @click="navigateToPersonalInfo" id="defaultOpen">Personal Info</button>
       <button class="tablinks" @click="navigateToChangePassword">Change Password</button>
       <button class="tablinks" @click="navigateToSavedCandidates">Saved Candidates</button>
+      <button class="tablinks" @click="navigateToMyVacancies">My Vacancies</button>
     </div>
 
     <div id="personal-info" class="tabcontent">
@@ -125,6 +126,9 @@ export default {
     },
     navigateToSavedCandidates() {
      //TBD
+    },
+    navigateToMyVacancies(){
+      this.$router.push('/myVacancies')
     },
 
     async logout() {

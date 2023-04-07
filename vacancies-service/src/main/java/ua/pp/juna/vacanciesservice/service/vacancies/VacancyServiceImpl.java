@@ -23,18 +23,11 @@ public class VacancyServiceImpl implements VacancyService {
     private final VacancyRepository vacancyRepository;
 
     private final CandidateRepository candidateRepository;
-    private final EmployerRepository employerRepository;
-
-    private final SkillsRepository skillsRepository;
     @Override
-    public Vacancy createVacancy(final Vacancy vacancy, final Long employerId, final List<Long> skillId) {
+    public Vacancy createVacancy(final Vacancy vacancy) {
         log.info("Persisting vacancy {}", vacancy);
-        final var employer = employerRepository.findById(employerId).get();
-        final var skills = skillsRepository.findAllById(skillId);
         return vacancyRepository.save(
                 vacancy
-                    .withSkills(skills)
-                .withEmployer(employer)
                 .withDatePosted(LocalDateTime.now()));
     }
 

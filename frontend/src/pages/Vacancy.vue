@@ -171,7 +171,10 @@ export default {
 body {
   background-color: white;
   font-family: Arial, sans-serif;
+  min-height: 100vh;
   color: #168FF0; /* changed text color to #168FF0 */
+  display: flex;
+  flex-direction: column;
 }
 
 h3 {
@@ -225,6 +228,7 @@ main {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+  flex: 1;
 }
 
 .candidate-info {

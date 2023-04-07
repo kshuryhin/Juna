@@ -63,7 +63,7 @@ class VacanciesServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        this.vacancyService = new VacancyServiceImpl(vacancyRepository, candidateRepository, employerRepository, skillsRepository);
+        this.vacancyService = new VacancyServiceImpl(vacancyRepository, candidateRepository);
     }
 
     @Test
@@ -88,15 +88,11 @@ class VacanciesServiceTest {
                 .salaryTo(SALARY_TO)
                 .skills(skills)
                 .build();
-        final var employerId = 1L;
-        final var skillsId = List.of(1L,2L,3L);
 
-        when(employerRepository.findById(employerId)).thenReturn(Optional.of(employer));
-        when(skillsRepository.findAllById(skillsId)).thenReturn(skills);
         when(vacancyRepository.save(any(Vacancy.class))).thenReturn(expected);
 
         //act
-        final var actual = vacancyService.createVacancy(expected, employerId, skillsId);
+        final var actual = vacancyService.createVacancy(expected);
 
         //assert
         assertThat(actual).isEqualTo(expected);

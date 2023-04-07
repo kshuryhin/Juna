@@ -306,7 +306,18 @@ export default {
             console.log(error)
           })
     },
-
+    updateSkills() {
+      const tempSkills = [];
+      // Add selected skills to tempSkills
+      this.selectedSkills.forEach(skill => {
+        const selectedSkill = this.skills.find(s => s.name === skill);
+        tempSkills.push({ id: selectedSkill.id, name: skill });
+      });
+      // Filter out unselected skills from tempSkills
+      this.candidateSkills = tempSkills.filter(skill => {
+        return this.selectedSkills.includes(skill.name);
+      });
+    },
     updateProfile() {
       // Disable the "Update" button while the request is being sent
       this.isUpdating = true;

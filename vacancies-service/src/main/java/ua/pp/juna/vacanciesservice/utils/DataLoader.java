@@ -67,9 +67,9 @@ public class DataLoader implements ApplicationRunner {
         final var skill3 = skillsService.getSkillById(3L);
 
         initCandidates(skill1, skill2, skill3);
-        final var employerId = employerService.saveEmployer(employer).getId();
+        employerService.saveEmployer(employer);
 
-        initVacancies(employerId, skillIDs);
+        initVacancies(employer, List.of(skill1, skill2, skill3));
     }
 
     private List<Long> initSkills(){
@@ -250,7 +250,7 @@ public class DataLoader implements ApplicationRunner {
         candidateService.updateCandidate(candidate2.withSkills(List.of(skill1)), candidate2.getId());
         candidateService.updateCandidate(candidate3.withSkills(List.of(skill1, skill3)), candidate3.getId());
     }
-    private void initVacancies(final Long employer, final List<Long> skillList) {
+    private void initVacancies(final Employer employer, final List<Skill> skills) {
         final var description = "We are seeking a highly skilled software developer to join our team. The ideal candidate will have experience in developing software solutions using a variety of programming languages and platforms. The candidate will be responsible for designing, developing, and implementing software solutions that meet the needs of our clients.\n" +
                 "\n" +
                 "Responsibilities:\n" +
@@ -266,6 +266,8 @@ public class DataLoader implements ApplicationRunner {
                 .name("Java Developer")
                 .country("Ukraine")
                 .salaryFrom(1000)
+                .employer(employer)
+                .skills(skills)
                 .salaryTo(3000)
                 .grade(Grade.JUNIOR)
                 .employmentType(EmploymentType.REMOTE)
@@ -278,6 +280,8 @@ public class DataLoader implements ApplicationRunner {
                 .name("Python Developer")
                 .country("Ukraine")
                 .salaryFrom(1300)
+                .employer(employer)
+                .skills(skills)
                 .salaryTo(2900)
                 .grade(Grade.MIDDLE)
                 .employmentType(EmploymentType.REMOTE)
@@ -290,6 +294,8 @@ public class DataLoader implements ApplicationRunner {
                 .name("Java Developer")
                 .country("Germany")
                 .salaryFrom(2400)
+                .employer(employer)
+                .skills(skills)
                 .salaryTo(3600)
                 .grade(Grade.SENIOR)
                 .employmentType(EmploymentType.OFFICE)
@@ -302,6 +308,8 @@ public class DataLoader implements ApplicationRunner {
                 .name("PHP Developer")
                 .country("USA")
                 .salaryFrom(900)
+                .employer(employer)
+                .skills(skills)
                 .salaryTo(1420)
                 .grade(Grade.JUNIOR)
                 .employmentType(EmploymentType.REMOTE)
@@ -315,6 +323,8 @@ public class DataLoader implements ApplicationRunner {
                 .country("Ukraine")
                 .salaryFrom(500)
                 .salaryTo(900)
+                .employer(employer)
+                .skills(skills)
                 .grade(Grade.TRAINEE)
                 .employmentType(EmploymentType.OFFICE)
                 .englishLevel(EnglishLevel.BEGINNER)
@@ -328,6 +338,8 @@ public class DataLoader implements ApplicationRunner {
                 .salaryFrom(1320)
                 .salaryTo(2930)
                 .grade(Grade.MIDDLE)
+                .employer(employer)
+                .skills(skills)
                 .employmentType(EmploymentType.REMOTE)
                 .englishLevel(EnglishLevel.PRE_INTERMEDIATE)
                 .category(Category.JS)
@@ -339,6 +351,8 @@ public class DataLoader implements ApplicationRunner {
                 .country("Germany")
                 .salaryFrom(5000)
                 .salaryTo(7000)
+                .employer(employer)
+                .skills(skills)
                 .grade(Grade.SENIOR)
                 .employmentType(EmploymentType.REMOTE)
                 .englishLevel(EnglishLevel.UPPER_INTERMEDIATE)
@@ -348,12 +362,12 @@ public class DataLoader implements ApplicationRunner {
                 .build();
 
 
-        vacancyService.createVacancy(vacancy1, employer, skillList);
-        vacancyService.createVacancy(vacancy2, employer, skillList);
-        vacancyService.createVacancy(vacancy3, employer, skillList);
-        vacancyService.createVacancy(vacancy4, employer, skillList);
-        vacancyService.createVacancy(vacancy5, employer, skillList);
-        vacancyService.createVacancy(vacancy6, employer, skillList);
-        vacancyService.createVacancy(vacancy7, employer, skillList);
+        vacancyService.createVacancy(vacancy1);
+        vacancyService.createVacancy(vacancy2);
+        vacancyService.createVacancy(vacancy3);
+        vacancyService.createVacancy(vacancy4);
+        vacancyService.createVacancy(vacancy5);
+        vacancyService.createVacancy(vacancy6);
+        vacancyService.createVacancy(vacancy7);
     }
 }
