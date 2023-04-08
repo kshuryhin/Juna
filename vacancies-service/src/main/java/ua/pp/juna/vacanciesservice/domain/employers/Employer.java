@@ -4,6 +4,7 @@ package ua.pp.juna.vacanciesservice.domain.employers;
 import jakarta.persistence.*;
 import lombok.*;
 import ua.pp.juna.vacanciesservice.domain.UserDetails;
+import ua.pp.juna.vacanciesservice.domain.candidates.Candidate;
 import ua.pp.juna.vacanciesservice.domain.vacancies.Vacancy;
 
 import java.util.List;
@@ -37,4 +38,7 @@ public class Employer {
 
     @OneToMany
     private List<Vacancy> vacancies;
+
+    @ManyToMany
+    private List<Candidate> savedCandidates;
 }

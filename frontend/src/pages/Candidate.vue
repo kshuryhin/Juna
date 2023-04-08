@@ -70,7 +70,7 @@
       </li>
     </ul>
   </div>
-  <button @click="saveCandidate" :class="{ 'save-button': !isSaverInJob, 'unsave-button': isSaverInJob, 'toggled-button': isSaverInJob }">{{ isSaverInJob ? 'Unsave' : 'Save' }}</button>  </main>
+  <button @click="saveCandidate" :class="{ 'save-button': !isCandidateSaved, 'unsave-button': isCandidateSaved, 'toggled-button': isCandidateSaved }">{{ isCandidateSaved ? 'Unsave' : 'Save' }}</button>  </main>
 <main v-else>
   <p>Loading...</p>
 </main>
@@ -87,8 +87,6 @@ import authMixin from "@/components/authMixin.js";
 import roleMixin from "@/components/roleMixin.js";
 import roles from "@/roles";
 import { logout } from '@/utils/auth';
-import candidate from "./Candidate.vue";
-import Candidates from "@/pages/Candidates.vue";
 import silentLoginMixin from "@/components/silentLoginMixin";
 
 export default {
@@ -99,9 +97,15 @@ export default {
     return {
       displayedDate:{},
       candidate:{},
+      employer:{},
       imageName: "default.png",
       imageUrl: require(`../assets/uploads/candidates/default.png`),
     };
+  },
+  computed: {
+    isCandidateSaved() {
+      return this.employer.savedCandidates.some(c => c.id === this.candidate.id);
+    },
   },
   methods: {
     async logout() {
@@ -109,7 +113,21 @@ export default {
       this.$router.push('/');
     },
     async saveCandidate(){
-     //TBD
+      try {
+        console.log(this.isCandidateSaved)
+        if (this.isCandidateSaved) {
+          this.employer.savedCandidates = this.employer.savedCandidates.filter(c => c.id !== this.candidate.id);
+        } else {
+          this.employer.savedCandidates.push(this.candidate);
+        }
+        await axios.put(`http://localhost:8085/employers/${this.employer.id}`, this.employer, {
+          headers: {
+            Authorization: localStorage.getItem('token')
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
     },
      async fetchCandidateInfo() {
       try {
@@ -121,7 +139,6 @@ export default {
           if (!this.candidate.isActive) this.$router.push({'name':'candidates'})
           this.imageName = response.data.photoLink===null?this.imageName:response.data.photoLink;
           this.imageUrl = require(`../assets/uploads/candidates/${this.imageName}`)
-          this.candidate.englishLevel = this.candidate.englishLevel.replace("_", " ")
         })
       } catch (error) {
         console.log(error);
@@ -129,6 +146,13 @@ export default {
     },
   },
    created() {
+     axios.get(`http://localhost:8085/employers/email`, {
+       headers: { Authorization: localStorage.getItem("token") },
+     }).then(response => {
+       this.employer = response.data
+     }).catch(error => {
+       console.log(error);
+     });
      this.fetchCandidateInfo();
   },
 };
