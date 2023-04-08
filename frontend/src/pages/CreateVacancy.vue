@@ -190,18 +190,28 @@ export default {
       logout()
       this.$router.push('/');
     },
+    validateDescription() {
+      const description = this.vacancy.description;
+      if (description.length < 2000) {
+        alert("Description must contain at least 2000 symbols.");
+        return false;
+      }
+      return true;
+    },
     saveVacancy() {
-      axios.post(`http://localhost:8085/vacancies`, this.vacancy, {
-        headers: { Authorization: localStorage.getItem("token") },
-      })
-          .then(response => {
-            // Handle successful response
-            console.log(response.data);
-          })
-          .catch(error => {
-            // Handle error
-            console.log(error.response.data);
-          })
+      if (this.validateDescription()){
+        axios.post(`http://localhost:8085/vacancies`, this.vacancy, {
+          headers: { Authorization: localStorage.getItem("token") },
+        })
+            .then(response => {
+              // Handle successful response
+              console.log(response.data);
+            })
+            .catch(error => {
+              // Handle error
+              console.log(error.response.data);
+            })
+      }
     },
     fetchSkills() {
       axios.get(`http://localhost:8085/skills`, {
