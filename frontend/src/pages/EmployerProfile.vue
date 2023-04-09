@@ -125,7 +125,7 @@ export default {
       this.$router.push({'name':'employerProfile'});
     },
     navigateToSavedCandidates() {
-     //TBD
+     this.$router.push({'name':'savedCandidates'})
     },
     navigateToMyVacancies(){
       this.$router.push('/myVacancies')
