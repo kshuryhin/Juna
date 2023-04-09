@@ -3,7 +3,6 @@
   <html>
   <head>
     <title>Juna Jobs</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
   <header>
@@ -424,5 +423,4 @@ footer {
   background-color: #168FF0;
   color: white;
 }
-
 </style>

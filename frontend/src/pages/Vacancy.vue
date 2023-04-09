@@ -14,7 +14,7 @@
     </nav>
   </header>
   <main v-if="job">
-    <div class="candidate-info">
+    <div class="vacancy-info">
       <div>
         <h2>{{ job.name }}</h2>
         <div class="employer">{{ job.employer.companyName}}, {{job.employer.userDetails.firstName}} {{job.employer.userDetails.lastName}}</div>
@@ -87,6 +87,9 @@ export default {
     this.getCandidateByEmail()
   },
   methods: {
+    formatDate() {
+      return new Date(this.job.datePosted).toLocaleDateString();
+    },
      getCandidateByEmail() {
       try {
          axios.get('http://localhost:8085/candidates/email', {
@@ -140,8 +143,7 @@ export default {
           headers: { Authorization: localStorage.getItem("token") },
         });
         this.job = response.data;
-        this.imageName = response.data.photoLink===null?this.imageName:response.data.photoLink;
-        this.imageUrl = require(`../assets/uploads/candidates/${this.imageName}`)
+        this.displayedDate = this.formatDate()
       } catch (error) {
         console.log(error);
       }
@@ -231,14 +233,14 @@ main {
   flex: 1;
 }
 
-.candidate-info {
+.vacancy-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.candidate-info h2 {
+.vacancy-info h2 {
   margin: 0;
 }
 
