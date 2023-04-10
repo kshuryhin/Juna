@@ -17,6 +17,7 @@ import ChangePasswordForEmployer from "@/pages/ChangePasswordForEmployer.vue";
 import CreateVacancy from "@/pages/CreateVacancy.vue";
 import MyVacancies from "@/pages/MyVacancies.vue";
 import SavedCandidates from "@/pages/SavedCandidates.vue";
+import Mentors from "@/pages/Mentors.vue";
 const routes = [
     {
         path: '/about',
@@ -110,6 +111,11 @@ const routes = [
         path: '/login',
         component: Login
     },
+    {
+        path: '/mentors',
+        name: 'mentors',
+        component: Mentors
+    }
 
 
 
