@@ -45,8 +45,8 @@ public class EmployerServiceImpl implements EmployerService{
                 .withCompanyWebSite(employer.getCompanyWebSite())
                 .withCompanyLogoUrl(employer.getCompanyLogoUrl())
                 .withCountry(employer.getCountry())
-                .withVacancies(employer.getVacancies())
-                .withSavedCandidates(employer.getSavedCandidates());
+                .withSavedCandidates(employer.getSavedCandidates())
+                .withCountry(employer.getCountry());
 
         final var updatedUserDetails = userDetailsRepository.findById(updateEmployer.getUserDetails().getId()).get()
                 .withEmail(employer.getUserDetails().getEmail())

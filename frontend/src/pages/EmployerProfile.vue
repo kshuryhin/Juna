@@ -87,12 +87,10 @@
 </template>
 <script>
 import axios from "axios";
-// import vSelect from 'vue-select';
 import authMixin from "@/components/authMixin";
 import roleMixin from "@/components/roleMixin";
 import roles from "@/roles";
 import {logout} from "@/utils/auth";
-import Candidates from "@/pages/Candidates.vue";
 import silentLoginMixin from "@/components/silentLoginMixin";
 
 export default {
@@ -110,7 +108,6 @@ export default {
       companyDescription: "",
       country: "",
       companyWebSite: "",
-      vacancies: [],
       isUpdating: false,
       imageName: "default.png",
       imageUrl: require(`../assets/uploads/employers/default.png`),
@@ -166,7 +163,6 @@ export default {
         companyDescription: this.companyDescription,
         companyWebSite: this.companyWebSite,
         companyLogoUrl: this.imageName,
-        vacancies: this.vacancies
       };
 
       axios.put(`http://localhost:8085/employers/${this.id}`, requestBody, {
@@ -202,7 +198,6 @@ export default {
       this.vacancies = response.data.vacancies;
       this.imageName = response.data.companyLogoUrl===null?this.imageName:response.data.companyLogoUrl;
       this.imageUrl = require(`../assets/uploads/employers/${this.imageName}`)
-      this.vacancies = response.data.vacancies;
     }).catch(error => {
       console.log(error);
     });
