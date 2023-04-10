@@ -55,6 +55,7 @@ public class Vacancy {
     private List<Skill> skills;
 
     @ManyToOne
+    @JoinColumn(name = "employer_id")
     private Employer employer;
 
     @ManyToMany
