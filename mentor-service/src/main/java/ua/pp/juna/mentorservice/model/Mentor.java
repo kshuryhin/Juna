@@ -20,6 +20,7 @@ public class Mentor {
 
     private String firstName;
     private String lastName;
+    @Column(length = 10_000)
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
