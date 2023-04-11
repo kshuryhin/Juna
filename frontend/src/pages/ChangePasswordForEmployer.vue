@@ -7,8 +7,8 @@
       </div>
       <nav>
         <ul>
-          <router-link class="route-active" :to="{ name: 'candidateProfile'}">My Profile</router-link>
-          <router-link :to="{ name: 'vacancies'}">Vacancies</router-link>
+          <router-link :to="{ name: 'employerProfile'}">My Profile</router-link>
+          <router-link :to="{ name: 'candidates'}">Candidates</router-link>
           <li><a href="#">Analytics</a></li>
           <li><a @click="this.logout()" href="#">Logout</a></li>
         </ul>
