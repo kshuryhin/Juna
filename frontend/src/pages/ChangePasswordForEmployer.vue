@@ -7,7 +7,7 @@
       </div>
       <nav>
         <ul>
-          <router-link :to="{ name: 'employerProfile'}">My Profile</router-link>
+          <router-link class="route-active" :to="{ name: 'employerProfile'}">My Profile</router-link>
           <router-link :to="{ name: 'candidates'}">Candidates</router-link>
           <li><a href="#">Analytics</a></li>
           <li><a @click="this.logout()" href="#">Logout</a></li>
@@ -323,5 +323,9 @@ html {
 
 .submit {
   font-weight: bold;
+}
+
+.route-active{
+  text-decoration: underline;
 }
 </style>

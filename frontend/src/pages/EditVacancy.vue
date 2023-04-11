@@ -11,7 +11,7 @@
     </div>
     <nav>
       <ul>
-        <router-link :to="{ name: 'employerProfile'}">My Profile</router-link>
+        <router-link class="route-active" :to="{ name: 'employerProfile'}">My Profile</router-link>
         <router-link :to="{ name: 'candidates'}">Candidates</router-link>
         <li><a href="#">Analytics</a></li>
         <li><a @click="this.logout()" href="#">Logout</a></li>
@@ -137,11 +137,8 @@
             </div>
           </div>
         </div>
-
-
-        <form @submit.prevent="this.updateVacancy()">
-          <button type="submit" class="update-btn">Update</button>
-        </form>
+          <button @click="updateVacancy" type="submit" class="update-btn">Update</button>
+          <button @click="deleteVacancy" type="submit" class="delete-btn">Delete</button>
       </div>
     </div>
   </div>
@@ -186,6 +183,17 @@ export default {
         return false;
       }
       return true;
+    },
+    deleteVacancy(){
+      const id = this.$route.params.id;
+      axios.delete(`http://localhost:8085/vacancies/${id}`, {
+        headers: { Authorization: localStorage.getItem("token") },
+      }).then(response => {
+        alert("Vacancy was deleted successfully!")
+        this.$router.push('/myVacancies')
+      }).catch(error => {
+            console.log(error)
+          })
     },
     updateVacancy() {
       if (this.validateDescription()){
@@ -435,19 +443,6 @@ select::-webkit-select {
   appearance: none;
 }
 
-.create-vacancy button[type=submit] {
-  background-color: #168FF0;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.create-vacancy button[type=submit]:hover {
-  background-color: #0D5CA5;
-}
-
 .create-vacancy img {
   display: block;
   width: 150px;
@@ -599,5 +594,42 @@ footer {
   text-align: center;
   font-size: 14px;
   color: #aaa;
+}
+
+.delete-btn {
+  border: 1px solid red;
+  margin-right: 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #FFF;
+  color: red;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.delete-btn:hover {
+  background-color: red;
+  color: white;
+}
+
+.update-btn {
+  display: inline-block;
+  border: 1px solid #168FF0;
+  margin-right: 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #FFF;
+  color: #168FF0;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.update-btn:hover {
+  background-color: #168FF0;
+  color: white;
+}
+
+.route-active {
+  text-decoration: underline;
 }
 </style>
