@@ -1,5 +1,6 @@
 package ua.pp.juna.vacanciesservice.service.vacancies;
 
+import ua.pp.juna.vacanciesservice.domain.employers.Employer;
 import ua.pp.juna.vacanciesservice.domain.vacancies.Vacancy;
 import ua.pp.juna.vacanciesservice.utils.Parameter;
 
@@ -17,6 +18,8 @@ public interface VacancyService {
     Collection<Vacancy> getAllByCandidate(Long candidateId);
 
     Collection<Vacancy> getAllBySaver(Long saverId);
+
+    Collection<Vacancy> getAllByEmployer(Long id);
 
     Vacancy updateVacancy(Vacancy vacancy, Long id);
 
