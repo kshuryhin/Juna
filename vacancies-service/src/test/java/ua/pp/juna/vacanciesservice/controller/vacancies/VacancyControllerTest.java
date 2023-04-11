@@ -174,4 +174,28 @@ class VacancyControllerTest {
         //assert
         assertThat(actual).isEqualTo(expected);
     }
+
+    @Test
+    void getAllByEmployer_happyPath(){
+        //arrange
+        final var id = 1L;
+        final var vacancy1 = Vacancy.builder()
+                .name("test-vacancy-1")
+                .employer(Employer.builder().build())
+                .build();
+        final var vacancy2 = Vacancy.builder()
+                .name("test-vacancy-2")
+                .employer(Employer.builder().build())
+                .build();
+        final var expected = ResponseEntity.ok(List.of(vacancy1, vacancy2));
+
+        when(vacancyService.getAllByEmployer(id)).thenReturn(List.of(vacancy1, vacancy2));
+
+        //act
+        final var actual = vacancyController.getAllByEmployer(id);
+
+        //assert
+        assertThat(actual).isEqualTo(expected);
+    }
+
 }

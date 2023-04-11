@@ -180,6 +180,15 @@ spring:
             - SetPath=/api/v1/employers/email
             - JwtAuthenticationFilter
             - ExtractEmailFilter
+        - id: getVacanciesByEmployer
+          uri:
+            lb://vacancies-service
+          predicates:
+            - Path=/vacancies/employers/{id}
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/vacancies/employers/{id}
+            - JwtAuthenticationFilter
         - id: getVacanciesBySaver
           uri:
             lb://vacancies-service

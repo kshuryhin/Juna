@@ -3,16 +3,15 @@ package ua.pp.juna.vacanciesservice.service.vacancies;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ua.pp.juna.vacanciesservice.domain.employers.Employer;
 import ua.pp.juna.vacanciesservice.domain.vacancies.Vacancy;
 import ua.pp.juna.vacanciesservice.repo.candidates.CandidateRepository;
 import ua.pp.juna.vacanciesservice.repo.employers.EmployerRepository;
-import ua.pp.juna.vacanciesservice.repo.vacancies.SkillsRepository;
 import ua.pp.juna.vacanciesservice.repo.vacancies.VacancyRepository;
 import ua.pp.juna.vacanciesservice.utils.Parameter;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -23,6 +22,8 @@ public class VacancyServiceImpl implements VacancyService {
     private final VacancyRepository vacancyRepository;
 
     private final CandidateRepository candidateRepository;
+
+    private final EmployerRepository employerRepository;
     @Override
     public Vacancy createVacancy(final Vacancy vacancy) {
         log.info("Persisting vacancy {}", vacancy);
@@ -68,6 +69,13 @@ public class VacancyServiceImpl implements VacancyService {
         final var saver = candidateRepository.findById(saverId).orElse(null);
         log.info("Fetching all vacancies by saver {}", saver);
         return vacancyRepository.findAllBySavers(saver);
+    }
+
+    @Override
+    public Collection<Vacancy> getAllByEmployer(final Long id) {
+        final var employer = employerRepository.findById(id).orElse(null);
+        log.info("Fetching all vacancies by employer {}", employer);
+        return vacancyRepository.findAllByEmployer(employer);
     }
 
     @Override

@@ -63,7 +63,7 @@ class VacanciesServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        this.vacancyService = new VacancyServiceImpl(vacancyRepository, candidateRepository);
+        this.vacancyService = new VacancyServiceImpl(vacancyRepository, candidateRepository, employerRepository);
     }
 
     @Test
@@ -251,6 +251,34 @@ class VacanciesServiceTest {
 
         //act
         final var actual = vacancyService.getAllBySaver(saver_id);
+
+        //assert
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void getAllByEmployer_happyPath(){
+        //arrange
+        final var employer_id = 1L;
+        final var employer = Employer.builder()
+                .id(employer_id)
+                .build();
+        final var vacancy1 = Vacancy
+                .builder()
+                .name("test-vacancy-1")
+                .employer(employer)
+                .build();
+        final var vacancy2 = Vacancy
+                .builder()
+                .name("test-vacancy-2")
+                .employer(employer)
+                .build();
+        final var expected = List.of(vacancy1, vacancy2);
+        when(employerRepository.findById(employer_id)).thenReturn(Optional.of(employer));
+        when(vacancyRepository.findAllByEmployer(employer)).thenReturn(expected);
+
+        //act
+        final var actual = vacancyService.getAllByEmployer(employer_id);
 
         //assert
         assertThat(actual).isEqualTo(expected);
