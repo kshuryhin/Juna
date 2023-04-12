@@ -25,18 +25,16 @@
     <button class="tablinks active" @click="navigateToSavedCandidates">Saved Candidates</button>
     <button class="tablinks" @click="navigateToMyVacancies">My Vacancies</button>
   </div>
+  <div class="search-container">
+    <section id="search" class="search-centered">
+      <h2 class="search-label">Search</h2>
+      <div class="search-row">
+        <input id="search" type="text" v-model="searchTerm" placeholder="Search by candidate position" class="search-input" />
+        <button @click="searchCandidates" class="search-button">Search</button>
+      </div>
+    </section>
+  </div>
   <main v-if="filteredCandidates.length > 0">
-    <div class="search-container">
-      <section id="search" class="search-centered">
-        <h2 class="search-label">Search</h2>
-        <div class="search-row">
-          <input id="search" type="text" v-model="searchTerm" placeholder="Search by candidate position" class="search-input" />
-          <button @click="searchCandidates" class="search-button">Search</button>
-        </div>
-      </section>
-
-    </div>
-
     <div class="content-container">
       <section id="candidates">
         <h2>Available Candidates</h2>
@@ -337,6 +335,7 @@ nav a:hover {
 }
 
 .search-container {
+  margin-top: 270px;
   position: absolute;
   width: 500px;
   left: 50%;
