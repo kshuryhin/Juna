@@ -28,6 +28,7 @@ public class CourseServiceImpl implements CourseService{
 
         Course result = courseRepository.save(course);
         mentor.getCourses().add(course);
+        mentor.setCourseNumber(mentor.getCourseNumber()+1);
         mentorRepository.save(mentor);
         return result;
     }
@@ -49,6 +50,9 @@ public class CourseServiceImpl implements CourseService{
     public boolean deleteCourse(final Long id) {
         log.info("Deleting course with id {}", id);
         try {
+            Course course = courseRepository.findById(id).orElse(null);
+            Mentor mentor = mentorRepository.findByCourses(course);
+            mentor.setCourseNumber(mentor.getCourseNumber()-1);
             courseRepository.deleteById(id);
             return true;
         } catch (Exception e) {

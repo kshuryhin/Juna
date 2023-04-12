@@ -18,6 +18,8 @@ public class Mentor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private int courseNumber;
+
     private String firstName;
     private String lastName;
     @Column(length = 10_000)

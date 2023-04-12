@@ -57,10 +57,10 @@
                         <option value="OTHER">OTHER</option>
                     </select>
                     <label for="sortType">Sort by:</label>
-                    <select name="sorting" id="sortType" v-model="filters.sortType">
+                    <select name="sorting" id="sortType" v-model="this.filters.sortType">
                         <option value="">Dont sort</option>
-                        <option value="BY_RATING">By Rating</option>
-                        <option value="BY_Courses_NUMBER">By Number of courses</option>
+                        <option value="rating">By Rating</option>
+                        <option value="courseNumber">By Number of courses</option>
                     </select>
                     <button type="submit">Apply Filters</button>
                 </form>
@@ -68,8 +68,8 @@
             <section id="jobs">
                 <h2>Available Mentors</h2>
                 <ul id="job-listings">
-                    <li class="job" v-for="mentor in mentors" :key="mentor.id">
-                        <h3>{{ mentor.firstName }} {{ mentor.lastName }}</h3>
+                    <li class="job" v-for="mentor in sortedMentors" :key="mentor.id">
+                        <h3>{{ mentor.firstName }} {{ mentor.lastName }} {{ mentor.courseNumber }}</h3>
                         <p class="description">{{ mentor.description }}</p>
 
                         <router-link :to="{ name: 'vacancy', params: { id: mentor.id }}">Visit</router-link>
@@ -92,7 +92,7 @@ import {logout} from '@/utils/auth';
 import silentLoginMixin from "@/components/silentLoginMixin";
 
 export default {
-    mixins: [authMixin, roleMixin, silentLoginMixin],
+    // mixins: [authMixin, roleMixin, silentLoginMixin],
     requiredRole: roles.CANDIDATE,
     data() {
         return {
@@ -109,6 +109,7 @@ export default {
             },
             mentors: [],
             allMentors: [],
+            selectedSort: '',
         };
     },
     methods: {
@@ -165,6 +166,12 @@ export default {
             logout();
             this.$router.push('/');
         },
+    },
+
+    computed: {
+        sortedMentors() {
+            return [...this.mentors].sort((mentor1, mentor2) => mentor1[this.filters.sortType] - mentor2[this.filters.sortType]).reverse()
+        }
     },
     mounted() {
         // this.applyFilters();
