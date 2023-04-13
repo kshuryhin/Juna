@@ -18,8 +18,11 @@
       </ul>
     </nav>
   </header>
+  <div class="tabs">
+    <button class="tablinks active" @click="navigateToEditVacancy" id="defaultOpen">Edit Vacancy</button>
+    <button class="tablinks" @click="navigateToApplications">Applications</button>
+  </div>
   <div class="container">
-
     <div id="create-vacancy" class="tabcontent">
       <h2>Edit Vacancy</h2>
 
@@ -172,6 +175,13 @@ export default {
     };
   },
   methods: {
+    navigateToEditVacancy(){
+      this.$router.push({name: 'editVacancy',
+        params: { id: this.vacancy.id }})
+    },
+    navigateToApplications(){
+      this.$router.push({name: 'applications', params: {id: this.vacancy.id}})
+    },
     async logout() {
       logout()
       this.$router.push('/');
@@ -291,6 +301,30 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.tablinks {
+  background-color: white;
+  color: #168FF0;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 16px 24px; /* increase padding */
+  margin: 0 10px;
+  border-radius: 4px 4px 0 0;
+  font-size: 16px; /* increase font size */
+  margin-bottom: -10px;
+}
+
+.tablinks:hover, .active {
+  background-color: #168FF0;
+  color: white;
 }
 
 a {
