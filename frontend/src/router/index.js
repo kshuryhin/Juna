@@ -19,6 +19,8 @@ import MyVacancies from "@/pages/MyVacancies.vue";
 import SavedCandidates from "@/pages/SavedCandidates.vue";
 import EditVacancy from "@/pages/EditVacancy.vue";
 import Mentors from "@/pages/Mentors.vue";
+import Applications from "@/pages/Applications.vue";
+import Application from "@/pages/Application.vue";
 
 const routes = [
     {
@@ -109,6 +111,18 @@ const routes = [
         path: '/editVacancy/:id',
         name: 'editVacancy',
         component: EditVacancy,
+        props: true
+    },
+    {
+        path: '/applications/vacancy/:id',
+        name: 'applications',
+        component: Applications,
+        props: true
+    },
+    {
+        path: '/application/:id/vacancy/:vacancyId',
+        name: 'application',
+        component: Application,
         props: true
     },
     {
