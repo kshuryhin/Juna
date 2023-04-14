@@ -21,6 +21,7 @@
         <module>gateway-service</module>
         <module>eureka-server</module>
         <module>mentor-service</module>
+        <module>data-analytics</module>
     </modules>
 
     <dependencies>
