@@ -17,7 +17,7 @@
     <div class="vacancy-info">
       <div>
         <h2>{{ job.name }}</h2>
-        <div class="employer">{{ job.employer.companyName}}, {{job.employer.userDetails.firstName}} {{job.employer.userDetails.lastName}}</div>
+        <div @click="goToEmployerProfile(job.employer.id)" class="employer cursor-pointer">Employer: {{ job.employer.companyName}}, {{job.employer.userDetails.firstName}} {{job.employer.userDetails.lastName}}</div>
       </div>
       <div class="salary">
         ${{ job.salaryFrom }} - ${{ job.salaryTo }}
@@ -89,6 +89,11 @@ export default {
   methods: {
     formatDate() {
       return new Date(this.job.datePosted).toLocaleDateString();
+    },
+    goToEmployerProfile(employerId) {
+      this.$router.push({
+        path: `/employer/${employerId}/vacancy/${this.job.id}`,
+      });
     },
      getCandidateByEmail() {
       try {
@@ -374,4 +379,9 @@ footer {
   font-size: 14px;
   color: #aaa;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
 </style>

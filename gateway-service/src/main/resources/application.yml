@@ -170,6 +170,15 @@ spring:
           filters:
             - SetPath=/api/v1/employers/{id}
             - JwtAuthenticationFilter
+        - id: getEmployerByID
+          uri:
+            lb://vacancies-service
+          predicates:
+            - Path=/employers/id/{id}
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/employers/{id}
+            - JwtAuthenticationFilter
         - id: getEmployerByEmail
           uri:
             lb://vacancies-service
