@@ -14,7 +14,7 @@
       <ul>
         <router-link :to="{ name: 'candidateProfile'}">My Profile</router-link>
         <router-link :to="{ name: 'vacancies'}">Vacancies</router-link>
-        <li><a href="#">Analytics</a></li>
+        <router-link :to="{ name: 'analytics'}">Analytics</router-link>
         <li><a @click="this.logout()" href="#">Logout</a></li>
       </ul>
     </nav>
@@ -353,7 +353,7 @@ export default {
         headers: { Authorization: localStorage.getItem("token") },
       })
           .then(response => {
-            // Handle successful response
+            this.updateCandidateAnalytics(response.data)
             console.log(response.data);
           })
           .catch(error => {
@@ -364,6 +364,11 @@ export default {
             // Re-enable the "Update" button after the request is complete
             this.isUpdating = false;
           });
+    },
+    updateCandidateAnalytics(candidateAnalytics){
+      axios.put(`http://localhost:8085/analytics/candidates`, candidateAnalytics, {
+        headers: {Authorization: localStorage.getItem('token')}
+      })
     },
     fetchSkills() {
       axios.get(`http://localhost:8085/skills`, {

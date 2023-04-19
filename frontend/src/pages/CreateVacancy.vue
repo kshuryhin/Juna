@@ -13,7 +13,7 @@
       <ul>
         <router-link :to="{ name: 'employerProfile'}">My Profile</router-link>
         <router-link :to="{ name: 'candidates'}">Candidates</router-link>
-        <li><a href="#">Analytics</a></li>
+        <router-link :to="{ name: 'analytics'}">Analytics</router-link>
         <li><a @click="this.logout()" href="#">Logout</a></li>
       </ul>
     </nav>
@@ -204,14 +204,24 @@ export default {
           headers: { Authorization: localStorage.getItem("token") },
         })
             .then(response => {
-              // Handle successful response
-              console.log(response.data);
+              this.saveVacancyAnalytics(response.data.id)
             })
             .catch(error => {
               // Handle error
               console.log(error.response.data);
             })
       }
+    },
+    saveVacancyAnalytics(originVacancyId){
+      const vacancyAnalytics = Object.assign({}, this.vacancy, { originVacancyId: originVacancyId },
+          {views: 0}, {applications: 0}, {savings: 0});
+      axios.post(`http://localhost:8085/analytics/vacancies`, vacancyAnalytics, {
+        headers: {Authorization: localStorage.getItem('token')},
+      }).then(response => {
+        console.log("Analytics saved")
+      }).catch(error => {
+        console.log(error)
+      })
     },
     fetchSkills() {
       axios.get(`http://localhost:8085/skills`, {

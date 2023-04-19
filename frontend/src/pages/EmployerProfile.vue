@@ -13,7 +13,7 @@
       <ul>
         <router-link :to="{ name: 'employerProfile'}">My Profile</router-link>
         <router-link :to="{ name: 'candidates'}">Candidates</router-link>
-        <li><a href="#">Analytics</a></li>
+        <router-link :to="{ name: 'analytics'}">Analytics</router-link>
         <li><a @click="this.logout()" href="#">Logout</a></li>
       </ul>
     </nav>

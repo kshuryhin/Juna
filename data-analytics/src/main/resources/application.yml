@@ -1,0 +1,25 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://myuser:mypassword@localhost:27017/analytics
+      database: analytics
+      authentication-database: analytics
+      retry-writes: true
+      write-concern: ACKNOWLEDGED
+      initialization-mode: always
+      auto-index-creation: on
+  application:
+    name: data-analytics
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+    allow-redirects: true
+  instance:
+    preferIpAddress: true
+    lease-renewal-interval-in-seconds: 5
+
+server:
+  port: 0
+

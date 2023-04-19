@@ -22,6 +22,10 @@ import Mentors from "@/pages/Mentors.vue";
 import Applications from "@/pages/Applications.vue";
 import Application from "@/pages/Application.vue";
 import Employer from "@/pages/Employer.vue";
+import Analytics from "@/pages/Analytics.vue";
+import Analytics2 from "@/pages/SalariesAnalytics.vue";
+import SalariesAnalytics from "@/pages/SalariesAnalytics.vue";
+import CandidateAnalytics from "@/pages/CandidateAnalytics.vue";
 
 const routes = [
     {
@@ -144,6 +148,21 @@ const routes = [
         path: '/mentors',
         name: 'mentors',
         component: Mentors
+    },
+    {
+        path: '/analytics',
+        name: 'analytics',
+        component: Analytics
+    },
+    {
+        path: '/analytics/salaries',
+        name: 'salariesAnalytics',
+        component: SalariesAnalytics
+    },
+    {
+        path: '/analytics/candidates',
+        name: 'candidatesAnalytics',
+        component: CandidateAnalytics
     }
 
 
