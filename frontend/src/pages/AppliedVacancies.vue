@@ -14,7 +14,7 @@
       <ul>
         <router-link class="route-active" :to="{ name: 'candidateProfile'}">My Profile</router-link>
         <router-link :to="{ name: 'vacancies'}">Vacancies</router-link>
-        <li><a href="#">Analytics</a></li>
+        <router-link :to="{ name: 'analytics'}">Analytics</router-link>
         <li><a @click="this.logout()" href="#">Logout</a></li>
       </ul>
     </nav>

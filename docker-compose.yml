@@ -22,7 +22,20 @@ services:
       PGADMIN_DEFAULT_PASSWORD: admin
     volumes:
       - pgadmin-data:/var/lib/pgadmin
+  mongodb:
+    image: mongo:latest
+    container_name: local_mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: mongoPass
+    volumes:
+      - local_mongodata:/data/db
 
 volumes:
   local_pgdata:
   pgadmin-data:
+  local_mongodata:
+

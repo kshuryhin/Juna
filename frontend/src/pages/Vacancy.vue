@@ -8,7 +8,7 @@
       <ul>
         <router-link :to="{ name: 'candidateProfile'}">My Profile</router-link>
         <router-link :to="{ name: 'vacancies'}">Vacancies</router-link>
-        <li><a href="#">Analytics</a></li>
+        <router-link :to="{ name: 'analytics'}">Analytics</router-link>
         <li><a @click="this.logout()" href="#">Logout</a></li>
       </ul>
     </nav>
@@ -114,9 +114,11 @@ export default {
        this.$router.push('/');
     },
     async saveVacancy(){
+      let isSave = true
       try {
         if (this.isSaverInJob) {
           this.job.savers = this.job.savers.filter(c => c.id !== this.candidate.id);
+          isSave = false
         } else {
           this.job.savers.push(this.candidate);
         }
@@ -124,7 +126,7 @@ export default {
           headers: {
             Authorization: localStorage.getItem('token')
           }
-        });
+        }).then(response => this.updateVacancyAnalyticsSavings(isSave))
       } catch (error) {
         console.error(error);
       }
@@ -136,10 +138,46 @@ export default {
           headers: {
             Authorization: localStorage.getItem('token')
           }
-        })
+        }).then(response => this.updateVacancyAnalyticsApplications())
       }catch (error) {
         console.error(error)
       }
+    },
+    async updateVacancyAnalyticsSavings(isSave){
+      const id = this.$route.params.id;
+      axios.get(`http://localhost:8085/analytics/vacancies/origin/${id}`, {
+        headers: {Authorization: localStorage.getItem('token')}
+      }).then(response => {
+        const vacancyAnalytics = response.data
+        vacancyAnalytics.savings = isSave ? vacancyAnalytics.savings+1 : vacancyAnalytics.savings-1
+        axios.put(`http://localhost:8085/analytics/vacancies/${response.data.id}`, vacancyAnalytics, {
+          headers: {Authorization: localStorage.getItem('token')}
+        }).catch(error => console.log(error))
+      })
+    },
+    async updateVacancyAnalyticsApplications(){
+      const id = this.$route.params.id;
+      axios.get(`http://localhost:8085/analytics/vacancies/origin/${id}`, {
+        headers: {Authorization: localStorage.getItem('token')}
+      }).then(response => {
+        const vacancyAnalytics = response.data
+        vacancyAnalytics.applications += 1
+        axios.put(`http://localhost:8085/analytics/vacancies/${response.data.id}`, vacancyAnalytics, {
+          headers: {Authorization: localStorage.getItem('token')}
+        }).catch(error => console.log(error))
+      })
+    },
+    async updateVacancyAnalytics(){
+      const id = this.$route.params.id;
+      axios.get(`http://localhost:8085/analytics/vacancies/origin/${id}`, {
+        headers: {Authorization: localStorage.getItem('token')}
+      }).then(response => {
+        const vacancyAnalytics = response.data
+        vacancyAnalytics.views += 1
+        axios.put(`http://localhost:8085/analytics/vacancies/${response.data.id}`, vacancyAnalytics, {
+          headers: {Authorization: localStorage.getItem('token')}
+        }).catch(error => console.log(error))
+      })
     },
     async fetchVacancyInfo() {
       try {
@@ -155,6 +193,7 @@ export default {
     },
   },
   async mounted() {
+    await this.updateVacancyAnalytics();
     await this.fetchVacancyInfo();
   },
 };

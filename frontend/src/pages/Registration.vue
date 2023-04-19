@@ -70,6 +70,15 @@ export default {
   },
 
   methods: {
+    saveCandidateAnalytics(originCandidateId){
+      axios.post(`http://localhost:8085/analytics/candidates`, this.user, {
+        headers: {Authorization: localStorage.getItem('token')},
+      }).then(response => {
+        console.log("Analytics saved")
+      }).catch(error => {
+        console.log(error)
+      })
+    },
     createUser() {
       this.$emit('create', this.user)
 
@@ -86,6 +95,7 @@ export default {
 
             switch (this.user.role) {
               case roles.CANDIDATE:
+                this.saveCandidateAnalytics(response.data.id)
                 this.$router.push('/vacancies')
                 break
               case roles.EMPLOYER:
