@@ -23,9 +23,9 @@ import Applications from "@/pages/Applications.vue";
 import Application from "@/pages/Application.vue";
 import Employer from "@/pages/Employer.vue";
 import Analytics from "@/pages/Analytics.vue";
-import Analytics2 from "@/pages/SalariesAnalytics.vue";
 import SalariesAnalytics from "@/pages/SalariesAnalytics.vue";
 import CandidateAnalytics from "@/pages/CandidateAnalytics.vue";
+import VacancyAnalytics from "@/pages/VacancyAnalytics.vue";
 
 const routes = [
     {
@@ -122,6 +122,12 @@ const routes = [
         path: '/editVacancy/:id',
         name: 'editVacancy',
         component: EditVacancy,
+        props: true
+    },
+    {
+        path: '/vacancy/analytics/:id',
+        name: 'vacancyAnalytics',
+        component: VacancyAnalytics,
         props: true
     },
     {
