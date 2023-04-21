@@ -386,3 +386,12 @@ spring:
             - SetPath=/api/v1/analytics/candidates/origin
             - JwtAuthenticationFilter
             - ExtractEmailFilter
+        - id: generateCv
+          uri:
+            lb://data-analytics
+          predicates:
+            - Path=/cv
+            - Method=POST
+          filters:
+            - SetPath=/api/v1/cv
+            - JwtAuthenticationFilter
