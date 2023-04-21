@@ -49,6 +49,7 @@
               <p class="salaryTo">Salary To: {{ job.salaryTo }}$</p>
               <p class="description">{{ job.description }}</p>
               <router-link :to="{ name: 'editVacancy', params: { id: job.id }}">View</router-link>
+              <router-link class="analytics-link" :to="{ name: 'vacancyAnalytics', params: { id: job.id }}">Analytics</router-link>
             </li>
           </ul>
         </div>
@@ -467,5 +468,22 @@ footer {
 .route-active {
   text-decoration: underline;
 }
+
+/* Add this to your existing CSS styles */
+.analytics-link {
+  background-color: white;
+  border: 2px solid #c9c313;
+  color: #c9c313;
+  padding: 8px 16px;
+  border-radius: 5px;
+  margin-left: 10px;
+  font-size: 14px; /* add this line */
+}
+
+.analytics-link:hover {
+  background-color: #c9c313;
+  color: white;
+}
+
 
 </style>
