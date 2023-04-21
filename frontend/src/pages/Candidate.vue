@@ -70,7 +70,10 @@
       </li>
     </ul>
   </div>
-  <button @click="saveCandidate" :class="{ 'save-button': !isCandidateSaved, 'unsave-button': isCandidateSaved, 'toggled-button': isCandidateSaved }">{{ isCandidateSaved ? 'Unsave' : 'Save' }}</button>  </main>
+  <button @click="saveCandidate" :class="{ 'save-button': !isCandidateSaved, 'unsave-button': isCandidateSaved, 'toggled-button': isCandidateSaved }">{{ isCandidateSaved ? 'Unsave' : 'Save' }}</button>
+  <button @click="downloadCandidateCV" class="generate-btn">Generate CV</button>
+
+</main>
 <main v-else>
   <p>Loading...</p>
 </main>
@@ -111,6 +114,51 @@ export default {
     async logout() {
       logout()
       this.$router.push('/');
+    },
+    downloadCandidateCV() {
+      console.log(this.candidate)
+      const candidateRequest = {
+        position: this.candidate.position,
+        isActive: this.candidate.isActive,
+        salaryExpectations: this.candidate.salaryExpectations,
+        grade: this.candidate.grade,
+        country: this.candidate.country,
+        city: this.candidate.city,
+        skills: this.candidate.skills.map(skill => skill.name),
+        firstName: this.candidate.userDetails.firstName,
+        lastName: this.candidate.userDetails.lastName,
+        email: this.candidate.userDetails.email,
+        category: this.candidate.category,
+        englishLevel: this.candidate.englishLevel,
+        employmentType: this.candidate.employmentType,
+        workExperience: this.candidate.workExperience,
+        phoneNumber: this.candidate.phoneNumber,
+        petProjectsDescription: this.candidate.petProjectsDescription,
+        photoLink: this.imageName,
+        linkedinLink: this.candidate.linkedinLink,
+        telegramLink: this.candidate.telegramLink,
+        githubLink: this.candidate.githubLink
+      }
+      axios.post('http://localhost:8085/cv', candidateRequest, {
+        headers: {Authorization: localStorage.getItem('token')},
+        responseType: "blob"
+      })
+          .then(response => {
+            // Create a blob from the response data
+            const blob = new Blob([response.data], { type: 'application/pdf' });
+
+            // Create a download link
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'candidate_cv.pdf';
+            link.click();
+
+            // Clean up the link
+            URL.revokeObjectURL(link.href);
+          })
+          .catch(error => {
+            console.error('Error downloading the PDF:', error);
+          });
     },
     async saveCandidate(){
       try {
@@ -247,6 +295,23 @@ a:hover {
   color: red;
   font-weight: bold;
   text-decoration: none;
+}
+
+.generate-btn {
+  display: inline-block;
+  border: 1px solid #c9c313;
+  margin-right: 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #FFF;
+  color: #c9c313;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.generate-btn:hover {
+  background-color: #c9c313;
+  color: white;
 }
 
 
