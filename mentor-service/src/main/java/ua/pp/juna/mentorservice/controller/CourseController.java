@@ -11,7 +11,7 @@ import ua.pp.juna.mentorservice.repo.StudentRepository;
 import ua.pp.juna.mentorservice.service.CourseService;
 
 import java.util.List;
-
+@CrossOrigin(origins = {"http://localhost:8085", "http://localhost:4200"})
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/courses")

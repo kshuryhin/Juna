@@ -20,6 +20,9 @@ public class Course {
 
     private String name;
 
+    @Column(length = 10_000)
+    private String description;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "courseId")
     private List<Lesson> lessons;
