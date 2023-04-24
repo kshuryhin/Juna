@@ -21,11 +21,10 @@ import EditVacancy from "@/pages/EditVacancy.vue";
 import Mentors from "@/pages/Mentors.vue";
 import Applications from "@/pages/Applications.vue";
 import Application from "@/pages/Application.vue";
-import Employer from "@/pages/Employer.vue";
-import Analytics from "@/pages/Analytics.vue";
-import SalariesAnalytics from "@/pages/SalariesAnalytics.vue";
-import CandidateAnalytics from "@/pages/CandidateAnalytics.vue";
 import VacancyAnalytics from "@/pages/VacancyAnalytics.vue";
+import Employer from "@/pages/Employer.vue";
+import Mentor from "@/pages/Mentor.vue";
+import MentorCourses from "@/pages/MentorCourses.vue";
 
 const routes = [
     {
@@ -156,19 +155,14 @@ const routes = [
         component: Mentors
     },
     {
-        path: '/analytics',
-        name: 'analytics',
-        component: Analytics
+        path:'/mentor/:id',
+        name: 'mentor',
+        component: Mentor,
     },
     {
-        path: '/analytics/salaries',
-        name: 'salariesAnalytics',
-        component: SalariesAnalytics
-    },
-    {
-        path: '/analytics/candidates',
-        name: 'candidatesAnalytics',
-        component: CandidateAnalytics
+        path: '/mentor/:id/courses',
+        name: 'mentor-courses',
+        component: MentorCourses,
     }
 
 

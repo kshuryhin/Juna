@@ -72,7 +72,7 @@
                         <h3>{{ mentor.firstName }} {{ mentor.lastName }}</h3>
                         <p class="description">{{ mentor.description }}</p>
 
-                        <router-link :to="{ name: 'vacancy', params: { id: mentor.id }}">Visit</router-link>
+                        <router-link :to="{ name: 'mentor', params: { id: mentor.id }}">Visit</router-link>
                     </li>
                 </ul>
             </section>
@@ -92,7 +92,7 @@ import {logout} from '@/utils/auth';
 import silentLoginMixin from "@/components/silentLoginMixin";
 
 export default {
-    mixins: [authMixin, roleMixin, silentLoginMixin],
+    // mixins: [authMixin, roleMixin, silentLoginMixin],
     requiredRole: roles.CANDIDATE,
     data() {
         return {
