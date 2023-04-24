@@ -200,9 +200,9 @@ li {
     margin-right: 20px;
 }
 
-.router-link-active {
-    text-decoration: underline;
-}
+/*.router-link-active {*/
+/*    text-decoration: underline;*/
+/*}*/
 
 .header h1 {
     margin: 0;

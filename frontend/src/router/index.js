@@ -21,6 +21,10 @@ import EditVacancy from "@/pages/EditVacancy.vue";
 import Mentors from "@/pages/Mentors.vue";
 import Applications from "@/pages/Applications.vue";
 import Application from "@/pages/Application.vue";
+import VacancyAnalytics from "@/pages/VacancyAnalytics.vue";
+import Employer from "@/pages/Employer.vue";
+import Mentor from "@/pages/Mentor.vue";
+import MentorCourses from "@/pages/MentorCourses.vue";
 
 const routes = [
     {
@@ -149,6 +153,16 @@ const routes = [
         path: '/mentors',
         name: 'mentors',
         component: Mentors
+    },
+    {
+        path:'/mentor/:id',
+        name: 'mentor',
+        component: Mentor,
+    },
+    {
+        path: '/mentor/:id/courses',
+        name: 'mentor-courses',
+        component: MentorCourses,
     }
 
 
