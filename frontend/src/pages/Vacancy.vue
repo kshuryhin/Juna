@@ -8,7 +8,7 @@
       <ul>
         <router-link :to="{ name: 'candidateProfile'}">My Profile</router-link>
         <router-link :to="{ name: 'vacancies'}">Vacancies</router-link>
-        <li><a href="#">Analytics</a></li>
+        <router-link :to="{ name: 'analytics'}">Analytics</router-link>
         <li><a @click="this.logout()" href="#">Logout</a></li>
       </ul>
     </nav>
@@ -17,7 +17,7 @@
     <div class="vacancy-info">
       <div>
         <h2>{{ job.name }}</h2>
-        <div class="employer">{{ job.employer.companyName}}, {{job.employer.userDetails.firstName}} {{job.employer.userDetails.lastName}}</div>
+        <div @click="goToEmployerProfile(job.employer.id)" class="employer cursor-pointer">Employer: {{ job.employer.companyName}}, {{job.employer.userDetails.firstName}} {{job.employer.userDetails.lastName}}</div>
       </div>
       <div class="salary">
         ${{ job.salaryFrom }} - ${{ job.salaryTo }}
@@ -90,6 +90,11 @@ export default {
     formatDate() {
       return new Date(this.job.datePosted).toLocaleDateString();
     },
+    goToEmployerProfile(employerId) {
+      this.$router.push({
+        path: `/employer/${employerId}/vacancy/${this.job.id}`,
+      });
+    },
      getCandidateByEmail() {
       try {
          axios.get('http://localhost:8085/candidates/email', {
@@ -109,9 +114,11 @@ export default {
        this.$router.push('/');
     },
     async saveVacancy(){
+      let isSave = true
       try {
         if (this.isSaverInJob) {
           this.job.savers = this.job.savers.filter(c => c.id !== this.candidate.id);
+          isSave = false
         } else {
           this.job.savers.push(this.candidate);
         }
@@ -119,7 +126,7 @@ export default {
           headers: {
             Authorization: localStorage.getItem('token')
           }
-        });
+        }).then(response => this.updateVacancyAnalyticsSavings(isSave))
       } catch (error) {
         console.error(error);
       }
@@ -131,10 +138,46 @@ export default {
           headers: {
             Authorization: localStorage.getItem('token')
           }
-        })
+        }).then(response => this.updateVacancyAnalyticsApplications())
       }catch (error) {
         console.error(error)
       }
+    },
+    async updateVacancyAnalyticsSavings(isSave){
+      const id = this.$route.params.id;
+      axios.get(`http://localhost:8085/analytics/vacancies/origin/${id}`, {
+        headers: {Authorization: localStorage.getItem('token')}
+      }).then(response => {
+        const vacancyAnalytics = response.data
+        vacancyAnalytics.savings = isSave ? vacancyAnalytics.savings+1 : vacancyAnalytics.savings-1
+        axios.put(`http://localhost:8085/analytics/vacancies/${response.data.id}`, vacancyAnalytics, {
+          headers: {Authorization: localStorage.getItem('token')}
+        }).catch(error => console.log(error))
+      })
+    },
+    async updateVacancyAnalyticsApplications(){
+      const id = this.$route.params.id;
+      axios.get(`http://localhost:8085/analytics/vacancies/origin/${id}`, {
+        headers: {Authorization: localStorage.getItem('token')}
+      }).then(response => {
+        const vacancyAnalytics = response.data
+        vacancyAnalytics.applications += 1
+        axios.put(`http://localhost:8085/analytics/vacancies/${response.data.id}`, vacancyAnalytics, {
+          headers: {Authorization: localStorage.getItem('token')}
+        }).catch(error => console.log(error))
+      })
+    },
+    async updateVacancyAnalytics(){
+      const id = this.$route.params.id;
+      axios.get(`http://localhost:8085/analytics/vacancies/origin/${id}`, {
+        headers: {Authorization: localStorage.getItem('token')}
+      }).then(response => {
+        const vacancyAnalytics = response.data
+        vacancyAnalytics.views += 1
+        axios.put(`http://localhost:8085/analytics/vacancies/${response.data.id}`, vacancyAnalytics, {
+          headers: {Authorization: localStorage.getItem('token')}
+        }).catch(error => console.log(error))
+      })
     },
     async fetchVacancyInfo() {
       try {
@@ -150,6 +193,7 @@ export default {
     },
   },
   async mounted() {
+    await this.updateVacancyAnalytics();
     await this.fetchVacancyInfo();
   },
 };
@@ -374,4 +418,9 @@ footer {
   font-size: 14px;
   color: #aaa;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
 </style>

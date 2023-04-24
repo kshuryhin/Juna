@@ -14,7 +14,7 @@
       <ul>
         <router-link :to="{ name: 'candidateProfile'}">My Profile</router-link>
         <router-link :to="{ name: 'vacancies'}">Vacancies</router-link>
-        <li><a href="#">Analytics</a></li>
+        <router-link :to="{ name: 'analytics'}">Analytics</router-link>
         <li><a @click="this.logout()" href="#">Logout</a></li>
       </ul>
     </nav>
@@ -202,9 +202,8 @@
         </div>
 
 
-        <form @submit.prevent="this.updateProfile()">
-          <button type="submit" class="update-btn" :disabled="isUpdating">Save</button>
-        </form>
+        <button type="submit" @click="updateProfile" class="update-btn" :disabled="isUpdating">Save</button>
+        <button @click="downloadCandidateCV" class="generate-btn">Generate CV</button>
       </div>
     </div>
 
@@ -272,6 +271,50 @@ export default {
     };
   },
   methods: {
+    downloadCandidateCV() {
+      const candidateRequest = {
+        position: this.position,
+        isActive: this.isActive,
+        salaryExpectations: parseInt(this.salaryExpectations.replace("$", ""), 10),
+        grade: this.grade,
+        country: this.country,
+        city: this.city,
+        skills: this.skills.map(skill => skill.name),
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        category: this.category,
+        englishLevel: this.englishLevel,
+        employmentType: this.employmentType,
+        workExperience: this.workExperience,
+        phoneNumber: this.phone,
+        petProjectsDescription: this.petProjectsDescription,
+        photoLink: this.imageName,
+        linkedinLink: this.linkedinLink,
+        telegramLink: this.telegramLink,
+        githubLink: this.githubLink
+      }
+      axios.post('http://localhost:8085/cv', candidateRequest, {
+        headers: {Authorization: localStorage.getItem('token')},
+        responseType: "blob"
+      })
+          .then(response => {
+            // Create a blob from the response data
+            const blob = new Blob([response.data], { type: 'application/pdf' });
+
+            // Create a download link
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'candidate_cv.pdf';
+            link.click();
+
+            // Clean up the link
+            URL.revokeObjectURL(link.href);
+          })
+          .catch(error => {
+            console.error('Error downloading the PDF:', error);
+          });
+    },
     toggleIsActive: function() {
       this.isActive = !this.isActive;
     },
@@ -353,7 +396,7 @@ export default {
         headers: { Authorization: localStorage.getItem("token") },
       })
           .then(response => {
-            // Handle successful response
+            this.updateCandidateAnalytics(response.data)
             console.log(response.data);
           })
           .catch(error => {
@@ -364,6 +407,11 @@ export default {
             // Re-enable the "Update" button after the request is complete
             this.isUpdating = false;
           });
+    },
+    updateCandidateAnalytics(candidateAnalytics){
+      axios.put(`http://localhost:8085/analytics/candidates`, candidateAnalytics, {
+        headers: {Authorization: localStorage.getItem('token')}
+      })
     },
     fetchSkills() {
       axios.get(`http://localhost:8085/skills`, {
@@ -819,6 +867,23 @@ select::-webkit-select {
   border-right: 0.3em solid transparent;
   border-bottom: 0;
   border-left: 0.3em solid transparent;
+}
+
+.generate-btn {
+  display: inline-block;
+  border: 1px solid #c9c313;
+  margin-right: 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #FFF;
+  color: #c9c313;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.generate-btn:hover {
+  background-color: #c9c313;
+  color: white;
 }
 
 

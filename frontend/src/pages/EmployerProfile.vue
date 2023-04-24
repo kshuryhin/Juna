@@ -13,7 +13,7 @@
       <ul>
         <router-link :to="{ name: 'employerProfile'}">My Profile</router-link>
         <router-link :to="{ name: 'candidates'}">Candidates</router-link>
-        <li><a href="#">Analytics</a></li>
+        <router-link :to="{ name: 'analytics'}">Analytics</router-link>
         <li><a @click="this.logout()" href="#">Logout</a></li>
       </ul>
     </nav>
@@ -197,6 +197,7 @@ export default {
       this.companyWebSite = response.data.companyWebSite
       this.vacancies = response.data.vacancies;
       this.imageName = response.data.companyLogoUrl===null?this.imageName:response.data.companyLogoUrl;
+      console.log(response.data.companyLogoUrl)
       this.imageUrl = require(`../assets/uploads/employers/${this.imageName}`)
     }).catch(error => {
       console.log(error);

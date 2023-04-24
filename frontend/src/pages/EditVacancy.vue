@@ -13,7 +13,7 @@
       <ul>
         <router-link class="route-active" :to="{ name: 'employerProfile'}">My Profile</router-link>
         <router-link :to="{ name: 'candidates'}">Candidates</router-link>
-        <li><a href="#">Analytics</a></li>
+        <router-link :to="{ name: 'analytics'}">Analytics</router-link>
         <li><a @click="this.logout()" href="#">Logout</a></li>
       </ul>
     </nav>
@@ -212,8 +212,10 @@ export default {
           headers: { Authorization: localStorage.getItem("token") },
         })
             .then(response => {
-              // Handle successful response
-              console.log(response.data);
+              const updatedVacancy = response.data
+              axios.get(`http://localhost:8085/analytics/vacancies/origin/${id}`, {
+                headers: {Authorization: localStorage.getItem('token')}
+              }).then(response => this.updateVacancyAnalytics(response.data, updatedVacancy))
               alert("Vacancy was updated successfully!");
             })
             .catch(error => {
@@ -221,6 +223,25 @@ export default {
               console.log(error.response.data);
             })
       }
+    },
+    updateVacancyAnalytics(vacancyAnalytics, updatedVacancy){
+      console.log(updatedVacancy)
+      vacancyAnalytics.name = updatedVacancy.name
+      vacancyAnalytics.country = updatedVacancy.country
+      vacancyAnalytics.salaryFrom = updatedVacancy.salaryFrom
+      vacancyAnalytics.salaryTo = updatedVacancy.salaryTo
+      vacancyAnalytics.grade = updatedVacancy.grade
+      vacancyAnalytics.employmentType = updatedVacancy.employmentType
+      vacancyAnalytics.englishLevel = updatedVacancy.englishLevel
+      vacancyAnalytics.category = updatedVacancy.category
+
+      axios.put(`http://localhost:8085/analytics/vacancies/${vacancyAnalytics.id}`, vacancyAnalytics, {
+        headers: {Authorization: localStorage.getItem('token')},
+      }).then(response => {
+        console.log("Analytics saved")
+      }).catch(error => {
+        console.log(error)
+      })
     },
     fetchVacancy(){
       const id = this.$route.params.id;

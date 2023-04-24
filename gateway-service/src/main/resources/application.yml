@@ -170,6 +170,15 @@ spring:
           filters:
             - SetPath=/api/v1/employers/{id}
             - JwtAuthenticationFilter
+        - id: getEmployerByID
+          uri:
+            lb://vacancies-service
+          predicates:
+            - Path=/employers/id/{id}
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/employers/{id}
+            - JwtAuthenticationFilter
         - id: getEmployerByEmail
           uri:
             lb://vacancies-service
@@ -294,3 +303,95 @@ spring:
           filters:
             - SetPath=/auth/logout
             - ExtractEmailFilter
+        - id: saveVacancyForAnalytics
+          uri:
+            lb://data-analytics
+          predicates:
+            - Path=/analytics/vacancies
+            - Method=POST
+          filters:
+            - SetPath=/api/v1/analytics/vacancies
+            - JwtAuthenticationFilter
+        - id: updateVacancyForAnalytics
+          uri:
+            lb://data-analytics
+          predicates:
+            - Path=/analytics/vacancies/{id}
+            - Method=PUT
+          filters:
+            - SetPath=/api/v1/analytics/vacancies/{id}
+            - JwtAuthenticationFilter
+        - id: getVacancyAnalyticsByOriginId
+          uri:
+            lb://data-analytics
+          predicates:
+            - Path=/analytics/vacancies/origin/{id}
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/analytics/vacancies/origin/{id}
+            - JwtAuthenticationFilter
+        - id: getAllVacancyAnalytics
+          uri:
+            lb://data-analytics
+          predicates:
+            - Path=/analytics/vacancies
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/analytics/vacancies
+            - JwtAuthenticationFilter
+        - id: getAllCandidateAnalytics
+          uri:
+            lb://data-analytics
+          predicates:
+            - Path=/analytics/candidates
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/analytics/candidates
+            - JwtAuthenticationFilter
+        - id: saveCandidateAnalytics
+          uri:
+            lb://data-analytics
+          predicates:
+            - Path=/analytics/candidates
+            - Method=POST
+          filters:
+            - SetPath=/api/v1/analytics/candidates
+            - JwtAuthenticationFilter
+        - id: updateCandidateAnalytics
+          uri:
+            lb://data-analytics
+          predicates:
+            - Path=/analytics/candidates
+            - Method=PUT
+          filters:
+            - SetPath=/api/v1/analytics/candidates
+            - JwtAuthenticationFilter
+            - ExtractEmailFilter
+        - id: getCandidateAnalyticsById
+          uri:
+            lb://data-analytics
+          predicates:
+            - Path=/analytics/candidates/{id}
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/analytics/candidates/{id}
+            - JwtAuthenticationFilter
+        - id: getCandidateAnalyticsByOriginEmail
+          uri:
+            lb://data-analytics
+          predicates:
+            - Path=/analytics/candidates/origin
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/analytics/candidates/origin
+            - JwtAuthenticationFilter
+            - ExtractEmailFilter
+        - id: generateCv
+          uri:
+            lb://data-analytics
+          predicates:
+            - Path=/cv
+            - Method=POST
+          filters:
+            - SetPath=/api/v1/cv
+            - JwtAuthenticationFilter

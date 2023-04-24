@@ -43,6 +43,7 @@ public class Vacancy {
     private EmploymentType employmentType;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private EnglishLevel englishLevel;
 
     @Column(nullable = false, length = 10_000)
