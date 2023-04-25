@@ -26,6 +26,7 @@ import Employer from "@/pages/Employer.vue";
 import Mentor from "@/pages/Mentor.vue";
 import MentorCourses from "@/pages/MentorCourses.vue";
 import Courses from "@/pages/Courses.vue";
+import Course from "@/pages/Course.vue";
 
 const routes = [
     {
@@ -169,6 +170,11 @@ const routes = [
         path: '/courses',
         name: 'courses',
         component: Courses,
+    },
+    {
+        path: '/course/:id',
+        name: 'course',
+        component: Course
     }
 
 

@@ -26,10 +26,10 @@ public class CourseServiceImpl implements CourseService{
             return null;
 
 
-        Course result = courseRepository.save(course);
+//        Course result = courseRepository.save(course);
         mentor.getCourses().add(course);
         mentorRepository.save(mentor);
-        return result;
+        return course;
     }
 
     @Override
@@ -68,6 +68,7 @@ public class CourseServiceImpl implements CourseService{
         updated.setStudents(course.getStudents());
         updated.setName(course.getName());
         updated.setDescription(course.getDescription());
+        updated.setLessons(updated.getLessons());
 
         return courseRepository.save(updated);
     }

@@ -70,9 +70,10 @@
                 <ul id="job-listings">
                     <li class="job" v-for="course in courses" :key="course.id">
                         <h3>{{ course.name }}</h3>
-                        <!--                        <p class="description">{{ course.description }}</p>-->
+                        <h3>{{ course.category }}</h3>
+                        <p class="description">{{ course.description }}</p>
 
-                        <!--                        <router-link :to="{ name: 'mentor', params: { id: mentor.id }}">Visit</router-link>-->
+                        <router-link :to="{ name: 'course', params: { id: course.id }}">Open</router-link>
                     </li>
                 </ul>
             </section>
@@ -98,12 +99,6 @@ export default {
         return {
             filters: {
                 selectedCategory: '',
-                selectedCountry: '',
-                selectedSalaryFrom: '',
-                selectedCustomSalaryFrom: '',
-                selectedGrade: '',
-                selectedEmploymentType: '',
-                selectedEnglishLevel: '',
                 searchTerm: '',
                 sortType: '',
             },
@@ -121,53 +116,34 @@ export default {
                 });
 
                 this.allCourses = response.data;
-                this.courses = this.allCourses;
+                this.courses = this.allCourses.slice();
             } catch (error) {
                 console.error(error);
             }
         },
         searchCourse() {
             const searchTerm = this.searchTerm.toLowerCase();
-            this.courses = this.allCourses.filter((course) =>
+            this.filteredCourses = this.allCourses.filter((course) =>
                 course.name.toLowerCase().includes(searchTerm)
             );
+            this.applyFilters();
         },
-        // async applyFilters() {
-        //     try {
-        //         const { selectedCountry, selectedEnglishLevel, selectedEmploymentType, selectedGrade, selectedCategory, selectedSalaryFrom, selectedCustomSalaryFrom } = this.filters;
-        //         let params = {};
-        //
-        //         if (selectedCountry) params.country = selectedCountry;
-        //         if (selectedEnglishLevel) params.englishLevel = selectedEnglishLevel;
-        //         if (selectedEmploymentType) params.employmentType = selectedEmploymentType;
-        //         if (selectedGrade) params.grade = selectedGrade;
-        //         if (selectedCategory) params.category = selectedCategory;
-        //
-        //         if (selectedSalaryFrom === 'custom' && selectedCustomSalaryFrom !== '') {
-        //             this.filters.selectedSalaryFrom = selectedCustomSalaryFrom;
-        //         }
-        //
-        //         if (selectedSalaryFrom) params.salaryFrom = selectedSalaryFrom;
-        //
-        //         const response = await axios.get('http://localhost:8085/vacancies', {
-        //             headers: {
-        //                 Authorization: localStorage.getItem('token'),
-        //             },
-        //             params,
-        //         });
-        //
-        //         this.jobs = response.data;
-        //     } catch (error) {
-        //         console.error(error);
-        //     }
-        // },
+        async applyFilters() {
+            let filteredCourses = this.filteredCourses || this.allCourses;
+            if (this.filters.selectedCategory !== '') {
+                filteredCourses = filteredCourses.filter((course) =>
+                    course.category.includes(this.filters.selectedCategory)
+                );
+            }
+            this.courses = filteredCourses;
+
+        },
         async logout() {
             logout();
             this.$router.push('/');
         },
     },
     mounted() {
-        // this.applyFilters();
         this.fetchCourses();
     },
 };

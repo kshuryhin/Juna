@@ -26,10 +26,11 @@ public class LessonServiceImpl implements LessonService{
             return null;
 
         course.getLessons().add(lesson);
-        Lesson result =  lessonRepository.save(lesson);
+
+//        Lesson result =  lessonRepository.save(lesson);
         courseRepository.save(course);
 
-        return result;
+        return null;
     }
 
     @Override

@@ -98,12 +98,6 @@ export default {
         return {
             filters: {
                 selectedCategory: '',
-                selectedCountry: '',
-                selectedSalaryFrom: '',
-                selectedCustomSalaryFrom: '',
-                selectedGrade: '',
-                selectedEmploymentType: '',
-                selectedEnglishLevel: '',
                 searchTerm: '',
                 sortType: '',
             },
@@ -132,35 +126,9 @@ export default {
                 `${mentor.firstName} ${mentor.lastName}`.toLowerCase().includes(searchTerm)
             );
         },
-        // async applyFilters() {
-        //     try {
-        //         const { selectedCountry, selectedEnglishLevel, selectedEmploymentType, selectedGrade, selectedCategory, selectedSalaryFrom, selectedCustomSalaryFrom } = this.filters;
-        //         let params = {};
-        //
-        //         if (selectedCountry) params.country = selectedCountry;
-        //         if (selectedEnglishLevel) params.englishLevel = selectedEnglishLevel;
-        //         if (selectedEmploymentType) params.employmentType = selectedEmploymentType;
-        //         if (selectedGrade) params.grade = selectedGrade;
-        //         if (selectedCategory) params.category = selectedCategory;
-        //
-        //         if (selectedSalaryFrom === 'custom' && selectedCustomSalaryFrom !== '') {
-        //             this.filters.selectedSalaryFrom = selectedCustomSalaryFrom;
-        //         }
-        //
-        //         if (selectedSalaryFrom) params.salaryFrom = selectedSalaryFrom;
-        //
-        //         const response = await axios.get('http://localhost:8085/vacancies', {
-        //             headers: {
-        //                 Authorization: localStorage.getItem('token'),
-        //             },
-        //             params,
-        //         });
-        //
-        //         this.jobs = response.data;
-        //     } catch (error) {
-        //         console.error(error);
-        //     }
-        // },
+        async applyFilters() {
+
+        },
         async logout() {
             logout();
             this.$router.push('/');

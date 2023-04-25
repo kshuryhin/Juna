@@ -1,14 +1,11 @@
 package ua.pp.juna.mentorservice.utils;
-
+//public class DataLoader{}
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import ua.pp.juna.mentorservice.model.Course;
-import ua.pp.juna.mentorservice.model.Lesson;
-import ua.pp.juna.mentorservice.model.Mentor;
-import ua.pp.juna.mentorservice.model.VideoLink;
+import ua.pp.juna.mentorservice.model.*;
 import ua.pp.juna.mentorservice.service.CourseService;
 import ua.pp.juna.mentorservice.service.LessonService;
 import ua.pp.juna.mentorservice.service.MentorService;
@@ -123,6 +120,7 @@ public class DataLoader implements ApplicationRunner {
     private void initCourses() {
         Course course1 = Course.builder()
                 .name("Andrew's first Java course")
+                .category(Category.JAVA)
                 .description("This course is likely an introductory level course on Java programming taught by Andrew. " +
                         "Students will learn the basics of Java programming such as syntax, data types, control statements," +
                         " classes, and objects. This course may also cover basic programming concepts such as algorithms," +
@@ -131,6 +129,7 @@ public class DataLoader implements ApplicationRunner {
 
         Course course2 = Course.builder()
                 .name("Andrew's second Java course")
+                .category(Category.JAVA)
                 .description(" This course is probably a continuation of Andrew's first Java course and is aimed at " +
                         "students who already have some experience with Java programming. Students will build on their" +
                         " existing knowledge to learn more advanced Java programming concepts, such as data handling," +
@@ -139,6 +138,7 @@ public class DataLoader implements ApplicationRunner {
 
         Course course3 = Course.builder()
                 .name("Andrew's third Java course")
+                .category(Category.JAVA)
                 .description("This course is likely an advanced level course on Java programming taught by Andrew." +
                         " It may cover topics such as performance optimization, security, advanced data structures and" +
                         " algorithms, and design patterns. This course is intended for experienced Java developers who" +
@@ -147,6 +147,7 @@ public class DataLoader implements ApplicationRunner {
 
         Course course4 = Course.builder()
                 .name("Emma's first Docker course")
+                .category(Category.DEVOPS)
                 .description("This course is likely an introductory level course on Docker, a containerization technology." +
                         " Students will learn the basics of Docker, including how to create, run, and manage containers." +
                         " This course may also cover topics such as container orchestration and Docker best practices.")
@@ -154,6 +155,7 @@ public class DataLoader implements ApplicationRunner {
 
         Course course5 = Course.builder()
                 .name("Emma's Kubernetes course")
+                .category(Category.DEVOPS)
                 .description("This course is probably a more advanced course on containerization technology, focusing" +
                         " specifically on Kubernetes, an open-source container orchestration system. Students will learn" +
                         " how to deploy, manage, and scale containerized applications using Kubernetes. This course may" +
@@ -162,6 +164,7 @@ public class DataLoader implements ApplicationRunner {
 
         Course course6 = Course.builder()
                 .name("David's Haskell course")
+                .category(Category.OTHER)
                 .description("This course is likely an introductory level course on the Haskell programming language," +
                         " which is known for its functional programming paradigm. Students will learn the basics of " +
                         "Haskell programming, including syntax, types, and functions. This course may also cover topics" +
