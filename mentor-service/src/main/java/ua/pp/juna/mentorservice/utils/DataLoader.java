@@ -27,7 +27,7 @@ public class DataLoader implements ApplicationRunner {
 
 
     private void initMentors() {
-        Mentor mentor1 = Mentor.builder()
+        final Mentor mentor1 = Mentor.builder()
                 .firstName("Andrew")
                 .lastName("Brovko")
                 .description("As a Java course mentor on our employment resource, I am dedicated to providing comprehensive" +
@@ -38,7 +38,7 @@ public class DataLoader implements ApplicationRunner {
                         "you achieve your goals and advance your career in the exciting field of software development.")
                 .build();
 
-        Mentor mentor2 = Mentor.builder()
+        final Mentor mentor2 = Mentor.builder()
                 .firstName("Kostya")
                 .lastName("Shurigin")
                 .description("As a Python course mentor on our employment resource, I am passionate about empowering " +
@@ -51,7 +51,7 @@ public class DataLoader implements ApplicationRunner {
                         "proficient developer.")
                 .build();
 
-        Mentor mentor3 = Mentor.builder()
+        final Mentor mentor3 = Mentor.builder()
                 .firstName("Mark")
                 .lastName("Johnson")
                 .description("As a Java mentor, I am dedicated to helping learners master this dynamic and popular " +
@@ -61,7 +61,7 @@ public class DataLoader implements ApplicationRunner {
                         "committed to providing comprehensive and practical training that will help you achieve your goals.")
                 .build();
 
-        Mentor mentor4 = Mentor.builder()
+        final Mentor mentor4 = Mentor.builder()
                 .firstName("John")
                 .lastName("Smith")
                 .description("As a Python mentor, I am passionate about empowering learners to master this dynamic and " +
@@ -72,7 +72,7 @@ public class DataLoader implements ApplicationRunner {
                         "you achieve your goals and advance your career.")
                 .build();
 
-        Mentor mentor5 = Mentor.builder()
+        final Mentor mentor5 = Mentor.builder()
                 .firstName("Emma")
                 .lastName("Johnson")
                 .description("As a Python mentor, I am committed to helping learners unlock the full potential of this " +
@@ -83,7 +83,7 @@ public class DataLoader implements ApplicationRunner {
                         "you achieve your goals.")
                 .build();
 
-        Mentor mentor6 = Mentor.builder()
+        final Mentor mentor6 = Mentor.builder()
                 .firstName("David")
                 .lastName("Jones")
                 .description("As a Haskell mentor, I am passionate about helping learners explore the power and elegance " +
@@ -94,7 +94,7 @@ public class DataLoader implements ApplicationRunner {
                         "practical training that will help you achieve your goals and advance your career.")
                 .build();
 
-        Mentor mentor7 = Mentor.builder()
+        final Mentor mentor7 = Mentor.builder()
                 .firstName("Samantha")
                 .lastName("Smith")
                 .description("As a Java mentor, I am passionate about helping learners build a strong foundation in Java " +
@@ -116,7 +116,7 @@ public class DataLoader implements ApplicationRunner {
 
 
     private void initCourses() {
-        Course course1 = Course.builder()
+        final Course course1 = Course.builder()
                 .name("Andrew's first Java course")
                 .category(Category.JAVA)
                 .description("This course is likely an introductory level course on Java programming taught by Andrew. " +
@@ -125,7 +125,7 @@ public class DataLoader implements ApplicationRunner {
                         " data structures, and software design principles.")
                 .build();
 
-        Course course2 = Course.builder()
+        final Course course2 = Course.builder()
                 .name("Andrew's second Java course")
                 .category(Category.JAVA)
                 .description(" This course is probably a continuation of Andrew's first Java course and is aimed at " +
@@ -134,7 +134,7 @@ public class DataLoader implements ApplicationRunner {
                         " multithreading, and network programming.")
                 .build();
 
-        Course course3 = Course.builder()
+        final Course course3 = Course.builder()
                 .name("Andrew's third Java course")
                 .category(Category.JAVA)
                 .description("This course is likely an advanced level course on Java programming taught by Andrew." +
@@ -143,7 +143,7 @@ public class DataLoader implements ApplicationRunner {
                         " want to take their skills to the next level.")
                 .build();
 
-        Course course4 = Course.builder()
+        final Course course4 = Course.builder()
                 .name("Emma's first Docker course")
                 .category(Category.DEVOPS)
                 .description("This course is likely an introductory level course on Docker, a containerization technology." +
@@ -151,7 +151,7 @@ public class DataLoader implements ApplicationRunner {
                         " This course may also cover topics such as container orchestration and Docker best practices.")
                 .build();
 
-        Course course5 = Course.builder()
+        final Course course5 = Course.builder()
                 .name("Emma's Kubernetes course")
                 .category(Category.DEVOPS)
                 .description("This course is probably a more advanced course on containerization technology, focusing" +
@@ -160,7 +160,7 @@ public class DataLoader implements ApplicationRunner {
                         " also cover advanced Kubernetes topics such as load balancing, auto-scaling, and monitoring.")
                 .build();
 
-        Course course6 = Course.builder()
+        final Course course6 = Course.builder()
                 .name("David's Haskell course")
                 .category(Category.OTHER)
                 .description("This course is likely an introductory level course on the Haskell programming language," +
@@ -179,7 +179,7 @@ public class DataLoader implements ApplicationRunner {
     }
 
     private void initLessons() {
-        Lesson lesson1 = Lesson.builder()
+        final Lesson lesson1 = Lesson.builder()
                 .name("First Java Lesson")
                 .text("Java is a popular programming language that was first released in 1995. It is an object-oriented language that is designed to be portable, meaning that code written in Java can be run on any platform that has a Java Virtual Machine (JVM) installed.\n" +
                         "\n" +
@@ -267,7 +267,7 @@ public class DataLoader implements ApplicationRunner {
                         VideoLink.builder().link("https://www.youtube.com/watch?v=eQ90v7HQT-Q&list=PLwvrYc43l1MyAmDss3HEYYBIQwY3pITeA&index=2").build()))
                 .build();
 
-        Lesson lesson2 = Lesson.builder()
+        final Lesson lesson2 = Lesson.builder()
                 .name("First Java Lesson")
                 .text("Java is an object-oriented programming language that is widely used for developing a variety of applications, including desktop applications, mobile apps, and web applications. Java code is compiled into bytecode, which can be run on any platform that has a Java Virtual Machine (JVM) installed.\n" +
                         "\n" +

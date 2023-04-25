@@ -1,5 +1,6 @@
 package ua.pp.juna.mentorservice.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,10 +23,8 @@ public class CourseServiceImpl implements CourseService{
         log.info("Adding course with id {}", course.getId());
         final Mentor mentor = mentorRepository.findById(mentorId).orElse(null);
         if (mentor == null)
-            return null;
+            throw new EntityNotFoundException("Cannot find mentor with id" + mentorId);
 
-
-//        Course result = courseRepository.save(course);
         mentor.getCourses().add(course);
         return mentorRepository.save(mentor);
     }

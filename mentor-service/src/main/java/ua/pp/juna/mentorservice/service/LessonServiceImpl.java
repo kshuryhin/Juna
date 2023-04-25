@@ -1,5 +1,6 @@
 package ua.pp.juna.mentorservice.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class LessonServiceImpl implements LessonService{
         log.info("Adding lesson with id {}", lesson.getId());
         final Course course = courseRepository.findById(courseId).orElse(null);
         if (course == null)
-            return null;
+            throw new EntityNotFoundException("Cannot find course with id" + courseId);
 
         course.getLessons().add(lesson);
 
