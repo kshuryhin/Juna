@@ -19,7 +19,7 @@ public class LessonServiceImpl implements LessonService{
     private final CourseRepository courseRepository;
 
     @Override
-    public Lesson addLesson(final Lesson lesson, final Long courseId) {
+    public Course addLesson(final Lesson lesson, final Long courseId) {
         log.info("Adding lesson with id {}", lesson.getId());
         final Course course = courseRepository.findById(courseId).orElse(null);
         if (course == null)
@@ -27,10 +27,7 @@ public class LessonServiceImpl implements LessonService{
 
         course.getLessons().add(lesson);
 
-//        Lesson result =  lessonRepository.save(lesson);
-        courseRepository.save(course);
-
-        return null;
+        return courseRepository.save(course);
     }
 
     @Override

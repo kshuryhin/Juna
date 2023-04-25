@@ -1,11 +1,12 @@
 package ua.pp.juna.mentorservice.service;
 
+import ua.pp.juna.mentorservice.model.Course;
 import ua.pp.juna.mentorservice.model.Lesson;
 
 import java.util.List;
 
 public interface LessonService {
-    Lesson addLesson(Lesson lesson, Long courseId);
+    Course addLesson(Lesson lesson, Long courseId);
     Lesson getLessonById(Long id);
     List<Lesson> getAllLessons();
     boolean deleteLesson(Long id);

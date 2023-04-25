@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.pp.juna.mentorservice.model.Course;
+import ua.pp.juna.mentorservice.model.Mentor;
 import ua.pp.juna.mentorservice.model.Student;
 import ua.pp.juna.mentorservice.repo.CourseRepository;
 import ua.pp.juna.mentorservice.repo.StudentRepository;
@@ -21,7 +22,7 @@ public class CourseController {
     private final CourseRepository courseRepository;
 
     @PostMapping("/{mentorId}")
-    public ResponseEntity<Course> addCourse(@RequestBody Course course, @PathVariable Long mentorId) {
+    public ResponseEntity<Mentor> addCourse(@RequestBody Course course, @PathVariable Long mentorId) {
         return ResponseEntity.ok().body(courseService.addCourse(course, mentorId));
     }
 

@@ -1,6 +1,4 @@
 package ua.pp.juna.mentorservice.utils;
-//public class DataLoader{}
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ua.pp.juna.mentorservice.model.Course;
 import ua.pp.juna.mentorservice.model.Mentor;
-import ua.pp.juna.mentorservice.model.Student;
 import ua.pp.juna.mentorservice.repo.CourseRepository;
 import ua.pp.juna.mentorservice.repo.MentorRepository;
 
@@ -19,7 +18,7 @@ public class CourseServiceImpl implements CourseService{
     private final MentorRepository mentorRepository;
 
     @Override
-    public Course addCourse(final Course course, final Long mentorId) {
+    public Mentor addCourse(final Course course, final Long mentorId) {
         log.info("Adding course with id {}", course.getId());
         final Mentor mentor = mentorRepository.findById(mentorId).orElse(null);
         if (mentor == null)
@@ -28,8 +27,7 @@ public class CourseServiceImpl implements CourseService{
 
 //        Course result = courseRepository.save(course);
         mentor.getCourses().add(course);
-        mentorRepository.save(mentor);
-        return course;
+        return mentorRepository.save(mentor);
     }
 
     @Override
