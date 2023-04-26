@@ -25,6 +25,9 @@ public class Mentor {
     @Column(length = 10_000)
     private String description;
 
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "mentorId")
     private List<Course> courses;
