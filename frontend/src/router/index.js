@@ -27,6 +27,9 @@ import Mentor from "@/pages/Mentor.vue";
 import MentorCourses from "@/pages/MentorCourses.vue";
 import Courses from "@/pages/Courses.vue";
 import Course from "@/pages/Course.vue";
+import Analytics from "@/pages/Analytics.vue";
+import SalariesAnalytics from "@/pages/SalariesAnalytics.vue";
+import CandidateAnalytics from "@/pages/CandidateAnalytics.vue";
 
 const routes = [
     {
@@ -175,6 +178,21 @@ const routes = [
         path: '/course/:id',
         name: 'course',
         component: Course
+    },
+    {
+        path: '/analytics',
+        name: 'analytics',
+        component: Analytics
+    },
+    {
+        path: '/analytics/salaries',
+        name: 'salariesAnalytics',
+        component: SalariesAnalytics
+    },
+    {
+        path: '/analytics/candidates',
+        name: 'candidatesAnalytics',
+        component: CandidateAnalytics
     }
 
 
