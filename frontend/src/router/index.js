@@ -30,6 +30,8 @@ import Course from "@/pages/Course.vue";
 import Analytics from "@/pages/Analytics.vue";
 import SalariesAnalytics from "@/pages/SalariesAnalytics.vue";
 import CandidateAnalytics from "@/pages/CandidateAnalytics.vue";
+import Lesson from "@/pages/Lesson.vue";
+import VideoLinks from "@/pages/VideoLinks.vue";
 
 const routes = [
     {
@@ -193,6 +195,16 @@ const routes = [
         path: '/analytics/candidates',
         name: 'candidatesAnalytics',
         component: CandidateAnalytics
+    },
+    {
+        path: '/lesson/:id',
+        name: 'lesson',
+        component: Lesson
+    },
+    {
+        path: '/videolinks/:id',
+        name: 'videolinks',
+        component: VideoLinks
     }
 
 

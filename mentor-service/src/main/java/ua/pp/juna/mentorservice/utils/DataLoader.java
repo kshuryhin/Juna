@@ -270,8 +270,8 @@ public class DataLoader implements ApplicationRunner {
                         "\n" +
                         "In conclusion, Java is a powerful and versatile programming language that is widely used for developing a wide range of")
                 .videoLinks(Arrays.asList(
-                        VideoLink.builder().link("https://www.youtube.com/watch?v=z7bsNF2Dtf0&list=PLwvrYc43l1MyAmDss3HEYYBIQwY3pITeA&index=1").build(),
-                        VideoLink.builder().link("https://www.youtube.com/watch?v=eQ90v7HQT-Q&list=PLwvrYc43l1MyAmDss3HEYYBIQwY3pITeA&index=2").build()))
+                        VideoLink.builder().link("https://www.youtube.com/embed/z7bsNF2Dtf0").build(),
+                        VideoLink.builder().link("https://www.youtube.com/embed/eQ90v7HQT-Q").build()))
                 .build();
 
         final Lesson lesson2 = Lesson.builder()
@@ -288,8 +288,8 @@ public class DataLoader implements ApplicationRunner {
                         "\n" +
                         "Overall, Java is a powerful and versatile programming language that is widely used in the industry and can be used to develop a wide range of applications.")
                 .videoLinks(Arrays.asList(
-                        VideoLink.builder().link("https://www.youtube.com/watch?v=aR0pyhjeFRE&list=PLwvrYc43l1MyAmDss3HEYYBIQwY3pITeA&index=3").build(),
-                        VideoLink.builder().link("https://www.youtube.com/watch?v=eQ90v7HQT-Q&list=PLwvrYc43l1MyAmDss3HEYYBIQwY3pITeA&index=2").build()))
+                        VideoLink.builder().link("https://www.youtube.com/embed/aR0pyhjeFRE").build(),
+                        VideoLink.builder().link("https://www.youtube.com/embed/5yquJa2x3Ko").build()))
                 .build();
 
         lessonService.addLesson(lesson1, 1L);
