@@ -3,6 +3,7 @@ package ua.pp.juna.mentorservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.pp.juna.mentorservice.model.Course;
 import ua.pp.juna.mentorservice.model.Lesson;
 import ua.pp.juna.mentorservice.service.LessonService;
 import java.util.List;
@@ -15,8 +16,8 @@ public class LessonController {
 
 
     @PostMapping("/{courseId}")
-    public ResponseEntity<Lesson> addLesson(@RequestBody Lesson lesson, @PathVariable Long courseId) {
-        final Lesson result = lessonService.addLesson(lesson, courseId);
+    public ResponseEntity<Course> addLesson(@RequestBody Lesson lesson, @PathVariable Long courseId) {
+        final Course result = lessonService.addLesson(lesson, courseId);
         if (result == null) {
             return ResponseEntity.notFound().build();
         } else {

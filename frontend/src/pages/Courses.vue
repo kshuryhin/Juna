@@ -24,8 +24,8 @@
             <section id="search" class="search-centered">
                 <h2 class="search-label">Search</h2>
                 <div class="search-row">
-                    <input id="search" type="text" v-model="searchTerm" placeholder="Search by name" class="search-input" />
-                    <button @click="searchJobs" class="search-button">Search</button>
+                    <input id="search" type="text" v-model="searchTerm" placeholder="Search by name" class="search-input"/>
+                    <button @click="searchCourse" class="search-button">Search</button>
                 </div>
             </section>
 
@@ -68,11 +68,12 @@
             <section id="jobs">
                 <h2>Available Mentors</h2>
                 <ul id="job-listings">
-                    <li class="job" v-for="mentor in mentors" :key="mentor.id">
-                        <h3>{{ mentor.firstName }} {{ mentor.lastName }}</h3>
-                        <p class="description">{{ mentor.description }}</p>
+                    <li class="job" v-for="course in courses" :key="course.id">
+                        <h3>{{ course.name }}</h3>
+                        <h3>{{ course.category }}</h3>
+                        <p class="description">{{ course.description }}</p>
 
-                        <router-link :to="{ name: 'mentor', params: { id: mentor.id }}">Visit</router-link>
+                        <router-link :to="{ name: 'course', params: { id: course.id }}">Open</router-link>
                     </li>
                 </ul>
             </section>
@@ -93,7 +94,7 @@ import silentLoginMixin from "@/components/silentLoginMixin";
 
 export default {
     // mixins: [authMixin, roleMixin, silentLoginMixin],
-    requiredRole: roles.CANDIDATE,
+    // requiredRole: roles.CANDIDATE,
     data() {
         return {
             filters: {
@@ -101,32 +102,40 @@ export default {
                 searchTerm: '',
                 sortType: '',
             },
-            mentors: [],
-            allMentors: [],
+            courses: [],
+            allCourses: [],
         };
     },
     methods: {
-        async fetchMentors() {
+        async fetchCourses() {
             try {
-                const response = await axios.get('http://localhost:8082/api/v1/mentors', {
+                const response = await axios.get('http://localhost:8082/api/v1/courses', {
                     // headers: {
                     //     Authorization: localStorage.getItem('token'),
                     // },
                 });
 
-                this.allMentors = response.data;
-                this.mentors = this.allMentors;
+                this.allCourses = response.data;
+                this.courses = this.allCourses.slice();
             } catch (error) {
                 console.error(error);
             }
         },
-        searchJobs() {
+        searchCourse() {
             const searchTerm = this.searchTerm.toLowerCase();
-            this.mentors = this.allMentors.filter((mentor) =>
-                `${mentor.firstName} ${mentor.lastName}`.toLowerCase().includes(searchTerm)
+            this.filteredCourses = this.allCourses.filter((course) =>
+                course.name.toLowerCase().includes(searchTerm)
             );
+            this.applyFilters();
         },
         async applyFilters() {
+            let filteredCourses = this.filteredCourses || this.allCourses;
+            if (this.filters.selectedCategory !== '') {
+                filteredCourses = filteredCourses.filter((course) =>
+                    course.category.includes(this.filters.selectedCategory)
+                );
+            }
+            this.courses = filteredCourses;
 
         },
         async logout() {
@@ -135,8 +144,7 @@ export default {
         },
     },
     mounted() {
-        // this.applyFilters();
-        this.fetchMentors();
+        this.fetchCourses();
     },
 };
 </script>

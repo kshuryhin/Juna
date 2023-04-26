@@ -20,7 +20,13 @@ public class Course {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Column(length = 10_000)
+    private String description;
+
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "courseId")
     private List<Lesson> lessons;
 
