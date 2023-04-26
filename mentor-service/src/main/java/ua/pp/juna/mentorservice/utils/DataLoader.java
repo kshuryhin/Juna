@@ -29,6 +29,7 @@ public class DataLoader implements ApplicationRunner {
     private void initMentors() {
         final Mentor mentor1 = Mentor.builder()
                 .firstName("Andrew")
+                .category(Category.JAVA)
                 .lastName("Brovko")
                 .description("As a Java course mentor on our employment resource, I am dedicated to providing comprehensive" +
                         " and practical training to help aspiring Java developers build a strong foundation in programming " +
@@ -41,6 +42,7 @@ public class DataLoader implements ApplicationRunner {
         final Mentor mentor2 = Mentor.builder()
                 .firstName("Kostya")
                 .lastName("Shurigin")
+                .category(Category.PYTHON)
                 .description("As a Python course mentor on our employment resource, I am passionate about empowering " +
                         "learners to master this dynamic and popular programming language. Through my expert guidance" +
                         " and engaging instruction, students will gain hands-on experience in Python programming and" +
@@ -54,6 +56,7 @@ public class DataLoader implements ApplicationRunner {
         final Mentor mentor3 = Mentor.builder()
                 .firstName("Mark")
                 .lastName("Johnson")
+                .category(Category.JAVA)
                 .description("As a Java mentor, I am dedicated to helping learners master this dynamic and popular " +
                         "programming language. Through my expert guidance and engaging instruction, students can gain " +
                         "valuable experience in Java programming and develop the skills necessary to succeed in a variety " +
@@ -64,6 +67,7 @@ public class DataLoader implements ApplicationRunner {
         final Mentor mentor4 = Mentor.builder()
                 .firstName("John")
                 .lastName("Smith")
+                .category(Category.PYTHON)
                 .description("As a Python mentor, I am passionate about empowering learners to master this dynamic and " +
                         "versatile programming language. Through my expert guidance and engaging instruction, students " +
                         "will gain hands-on experience in Python programming and develop the skills necessary to succeed " +
@@ -75,7 +79,8 @@ public class DataLoader implements ApplicationRunner {
         final Mentor mentor5 = Mentor.builder()
                 .firstName("Emma")
                 .lastName("Johnson")
-                .description("As a Python mentor, I am committed to helping learners unlock the full potential of this " +
+                .category(Category.DEVOPS)
+                .description("As a Devops mentor, I am committed to helping learners unlock the full potential of this " +
                         "popular and versatile programming language. Through my expert guidance and engaging instruction, " +
                         "students can gain hands-on experience in Python programming and develop the skills necessary to " +
                         "succeed in a variety of industries. Whether you are new to Python or seeking to enhance your " +
@@ -86,6 +91,7 @@ public class DataLoader implements ApplicationRunner {
         final Mentor mentor6 = Mentor.builder()
                 .firstName("David")
                 .lastName("Jones")
+                .category(Category.OTHER)
                 .description("As a Haskell mentor, I am passionate about helping learners explore the power and elegance " +
                         "of functional programming. Through my expert guidance and engaging instruction, students can " +
                         "gain hands-on experience with Haskell and develop the skills necessary to create elegant and " +
@@ -97,6 +103,7 @@ public class DataLoader implements ApplicationRunner {
         final Mentor mentor7 = Mentor.builder()
                 .firstName("Samantha")
                 .lastName("Smith")
+                .category(Category.JAVA)
                 .description("As a Java mentor, I am passionate about helping learners build a strong foundation in Java " +
                         "programming. Through my expert guidance and engaging instruction, students will gain valuable " +
                         "hands-on experience and develop the skills necessary to succeed in the industry. Whether you are " +

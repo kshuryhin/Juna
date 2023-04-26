@@ -25,7 +25,7 @@
                 <h2 class="search-label">Search</h2>
                 <div class="search-row">
                     <input id="search" type="text" v-model="searchTerm" placeholder="Search by name" class="search-input" />
-                    <button @click="searchJobs" class="search-button">Search</button>
+                    <button @click="searchMentors" class="search-button">Search</button>
                 </div>
             </section>
 
@@ -70,6 +70,7 @@
                 <ul id="job-listings">
                     <li class="job" v-for="mentor in mentors" :key="mentor.id">
                         <h3>{{ mentor.firstName }} {{ mentor.lastName }}</h3>
+                        <h3>{{ mentor.category }}</h3>
                         <p class="description">{{ mentor.description }}</p>
 
                         <router-link :to="{ name: 'mentor', params: { id: mentor.id }}">Visit</router-link>
@@ -120,13 +121,21 @@ export default {
                 console.error(error);
             }
         },
-        searchJobs() {
+        searchMentors() {
             const searchTerm = this.searchTerm.toLowerCase();
-            this.mentors = this.allMentors.filter((mentor) =>
+            this.filteredMentors = this.allMentors.filter((mentor) =>
                 `${mentor.firstName} ${mentor.lastName}`.toLowerCase().includes(searchTerm)
             );
+            this.applyFilters();
         },
         async applyFilters() {
+            let filteredMentors = this.filteredMentors || this.allMentors;
+            if (this.filters.selectedCategory !== '') {
+                filteredMentors = filteredMentors.filter((mentor) =>
+                    mentor.category.includes(this.filters.selectedCategory)
+                );
+            }
+            this.mentors = filteredMentors;
 
         },
         async logout() {
@@ -135,7 +144,6 @@ export default {
         },
     },
     mounted() {
-        // this.applyFilters();
         this.fetchMentors();
     },
 };

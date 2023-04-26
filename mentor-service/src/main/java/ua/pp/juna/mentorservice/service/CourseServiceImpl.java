@@ -65,6 +65,7 @@ public class CourseServiceImpl implements CourseService{
         updated.setStudents(course.getStudents());
         updated.setName(course.getName());
         updated.setDescription(course.getDescription());
+        updated.setCategory(course.getCategory());
         updated.setLessons(updated.getLessons());
 
         return courseRepository.save(updated);
