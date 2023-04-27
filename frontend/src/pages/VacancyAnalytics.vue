@@ -134,7 +134,7 @@ export default {
           (item) => item.category === this.comparisonParameter || this.comparisonParameter === "ALL"
       );
 
-      const labels = filteredAnalytics.map((item, index) => `Vacancy ${index + 1}`);
+      const labels = filteredAnalytics.map(item => `${item.name}`);
       const views = filteredAnalytics.map((item) => item.views);
 
       const comparisonCtx = this.$refs.comparisonChart.getContext("2d");
@@ -150,7 +150,7 @@ export default {
               backgroundColor: "rgba(75, 192, 192, 0.2)",
             },
             {
-              label: "Current Vacancy",
+              label: "My Vacancy",
               data: Array.from({ length: views.length }, () => this.analytics.views),
               borderColor: "rgba(255, 99, 132, 1)",
               backgroundColor: "rgba(255, 99, 132, 0.2)",
