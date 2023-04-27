@@ -36,7 +36,6 @@
 </template>
 <script>
 import axios from "axios";
-// import vSelect from 'vue-select';
 import authMixin from "@/components/authMixin";
 import roleMixin from "@/components/roleMixin";
 import roles from "@/roles";
@@ -47,7 +46,6 @@ export default {
     name: "Mentor",
     // mixins: [authMixin, roleMixin, silentLoginMixin],
     // requiredRole: roles.CANDIDATE,
-    // components: { vSelect },
 
     data() {
         return {
