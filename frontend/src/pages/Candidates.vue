@@ -112,7 +112,6 @@
               </div>
             <p class="grade">Grade: {{ candidate.grade }}</p>
             <p class="country">Country: {{ candidate.country }}</p>
-            <p class="englishLevel">English level: {{ candidate.englishLevel }}</p>
             <p class="employmentType">Employment Type: {{ candidate.employmentType }}</p>
             <p class="salaryExpectations">Salary Expectations: {{ candidate.salaryExpectations }}$</p>
             <p class="description">{{ candidate.petProjectsDescription }}</p>
@@ -315,8 +314,30 @@ button {
   cursor: pointer;
 }
 
+/* Add this block for custom scrollbar styling */
+#candidates::-webkit-scrollbar {
+  width: 8px;
+  background-color: #F5F5F5;
+  border-radius: 4px;
+}
+
+#candidates::-webkit-scrollbar-thumb {
+  background-color: #168FF0;
+  border-radius: 4px;
+}
+
+#candidates::-webkit-scrollbar-track {
+  background-color: #F5F5F5;
+  border-radius: 4px;
+}
+/* End of custom scrollbar styling */
+
+/* Add a margin to separate the scrollbar from the content */
 #candidates {
   width: 65%;
+  overflow-y: auto;
+  max-height: calc(100vh - 220px);
+  padding-right: 10px; /* Add this line to give some margin from the scrollbar */
 }
 
 ul {

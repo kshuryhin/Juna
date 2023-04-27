@@ -49,7 +49,7 @@
         <div class="form-group">
           <label class="label-bold" for="category">Category</label>
           <select id="category" name="category" v-model="vacancy.category">
-            <option value="">All</option>
+            <option value="">Please select</option>
             <option value="JS">JS</option>
             <option value="HTML">HTML</option>
             <option value="PHP">PHP</option>
@@ -84,6 +84,7 @@
         <div class="form-group">
           <label class="label-bold" for="englishLevel">English Level</label>
           <select id="englishLevel" name="englishLevel" v-model="vacancy.englishLevel">
+            <option value="">Please select</option>
             <option value="NO_ENGLISH">NO_ENGLISH</option>
             <option value="BEGINNER">BEGINNER</option>
             <option value="PRE_INTERMEDIATE">PRE_INTERMEDIATE</option>
@@ -96,6 +97,7 @@
         <div class="form-group">
           <label class="label-bold" for="grade">Grade</label>
           <select id="grade" name="grade" v-model="vacancy.grade">
+            <option value="">Please select</option>
             <option value="TRAINEE">TRAINEE</option>
             <option value="JUNIOR">JUNIOR</option>
             <option value="MIDDLE">MIDDLE</option>
@@ -190,6 +192,13 @@ export default {
       logout()
       this.$router.push('/');
     },
+    validateDropdowns() {
+      if (!this.vacancy.category || !this.vacancy.englishLevel || !this.vacancy.grade) {
+        alert("Please select an option for Category, English Level, and Grade.");
+        return false;
+      }
+      return true;
+    },
     validateDescription() {
       const description = this.vacancy.description;
       if (description.length < 2000) {
@@ -199,7 +208,7 @@ export default {
       return true;
     },
     saveVacancy() {
-      if (this.validateDescription()){
+      if (this.validateDescription() && this.validateDropdowns()){
         axios.post(`http://localhost:8085/vacancies`, this.vacancy, {
           headers: { Authorization: localStorage.getItem("token") },
         })
