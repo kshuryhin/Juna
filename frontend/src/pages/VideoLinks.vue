@@ -1,5 +1,4 @@
 <template>
-    <body>
     <header>
         <div class="logo">
             <h1>Juna Mentors</h1>
@@ -17,114 +16,53 @@
 
         <h1>{{ this.lesson.name }}</h1>
         <div class="tabs">
-            <button class="tablinks active" @click="" id="defaultOpen">Lesson</button>
-            <button class="tablinks" @click="navigateToVideoLinks()">Videos</button>
+            <button class="tablinks" @click="navigateToLesson()" id="defaultOpen">Lesson</button>
+            <button class="tablinks active">Videos</button>
         </div>
-        <p class="lesson-text">{{ this.lesson.text }}</p>
-        <div class="button-group">
-            <button class="prev-button" @click="navigateToLesson(-1)">&lt; Previous</button>
-            <button class="next-button" @click="navigateToLesson(1)">Next &gt;</button>
+        <div v-for="link in videoLinksArray">
+            <iframe width="560" height="315" :src="link" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
     </main>
 
-    <footer>
-        <div class="footer-bottom">
-            <p>&copy; 2023 Juna Jobs</p>
-        </div>
-    </footer>
-    </body>
 </template>
+
 <script>
 import axios from "axios";
-import authMixin from "@/components/authMixin";
-import roleMixin from "@/components/roleMixin";
-import roles from "@/roles";
-import {logout} from "@/utils/auth";
-import silentLoginMixin from "@/components/silentLoginMixin";
 
 export default {
-    name: "Mentor",
-    // mixins: [authMixin, roleMixin, silentLoginMixin],
-    // requiredRole: roles.CANDIDATE,
-
     data() {
         return {
             lesson: {},
+            videoLinks: [],
             id: 0,
-        };
+        }
     },
+
     methods: {
-        async fetchLessonInfo() {
+        async fetchVideoLinks() {
             this.id = this.$route.params.id
             const response = await axios.get(`http://localhost:8082/api/v1/lessons/${this.id}`)
             this.lesson = response.data
+            this.videoLinks = this.lesson.videoLinks
         },
-        navigateToVideoLinks() {
-            this.$router.push({name: 'videolinks', params:{id: this.id}})
-        }
+
+        navigateToLesson() {
+            this.$router.push({name: 'lesson', params:{id: this.id}})
+        },
     },
-    async mounted() {
-        await this.fetchLessonInfo();
+
+    mounted() {
+        this.fetchVideoLinks()
+    },
+    computed: {
+        videoLinksArray() {
+            return this.videoLinks.map((videoLink) => videoLink.link);
+        }
     }
-};
-
+}
 </script>
-<style scoped>
 
-.button-group {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 40px;
-}
-.prev-button,
-.next-button {
-    background-color: transparent;
-    border: none;
-    color: #168FF0;
-    font-size: px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.lesson-text {
-    color: black;
-    width: 70%;
-    margin: auto;
-    text-align: justify;
-    line-height: 1.5;
-}
-
-.switch-container {
-    position: relative;
-    display: inline-block;
-    width: 57px;
-    height: 20px;
-}
-
-.switch-label {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: 0.4s;
-    border-radius: 20px;
-}
-
-.switch-label:before {
-    position: absolute;
-    content: "";
-    height: 14px;
-    width: 14px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: 0.4s;
-    border-radius: 50%;
-}
-
+<style lang="scss" scoped>
 .switch-checkbox:checked + .switch-label {
     background-color: #168FF0;
 }
