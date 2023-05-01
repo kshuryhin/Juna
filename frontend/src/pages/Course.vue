@@ -1,621 +1,192 @@
 <template>
-  <body>
-  <header>
-    <div class="logo">
-      <h1>Juna Mentors</h1>
-    </div>
-    <nav>
-      <ul>
-        <router-link :to="{ name: 'mentors'}">Mentors</router-link>
-        <router-link :to="{ name: ''}">Applied Courses</router-link>
-        <li><a @click="this.logout()" href="#">Logout</a></li>
-      </ul>
-    </nav>
-  </header>
+    <body>
+    <header>
+        <div class="logo">
+            <h1>Juna Mentors</h1>
+        </div>
+        <nav>
+            <ul>
+                <router-link :to="{ name: 'mentors'}">Mentors</router-link>
+                <router-link :to="{ name: ''}">Applied Courses</router-link>
+                <li><a @click="logout" href="#">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <main>
+    <main>
 
-    <h1>{{ course.name }}</h1>
+        <h1>{{ course.name }}</h1>
 
-    <p class="course_description">{{ this.course.description }}</p>
+        <p class="course_description">{{ course.description }}</p><br><br>
 
-    <div class="box">
-      <div class="content" v-for="lesson in lessons" :key="lesson.id">
+        <ol class="ordered-list">
+            <li v-for="(lesson, index) in lessons" :key="index" @click="navigateToLesson(lesson.id)">
+                 {{ lesson.name }}
+            </li>
+        </ol>
 
-      </div>
-    </div>
-  </main>
-
-  <footer>
-    <div class="footer-bottom">
-      <p>&copy; 2023 Juna Jobs</p>
-    </div>
-  </footer>
-  </body>
+    </main>
+    </body>
 </template>
+
 <script>
 import axios from "axios";
 
 export default {
-  data() {
-    return {
-      course: {},
-      lessons: [],
-    }
-  },
+    data() {
+        return {
+            course: {},
+            lessons: [
+                {id:1, name:"First Java Lesson"},
+                {id:2, name:"First Docker lesson for dev ops"},
+                {id:3, name:"Second Java Lesson"},
+                {id:4, name:"Third Java lesson"},
+                {id:5, name:"First Haskell lesson (please read me)"}
+            ],
+        }
+    },
 
-  methods: {
-    async fetchCourseInfo() {
-      const id = this.$route.params.id
-      const response = await axios.get(`http://localhost:8082/api/v1/courses/${id}`)
-      this.course = response.data
-      this.lessons = this.course.lessons
-    }
-  },
+    methods: {
+        async fetchCourseInfo() {
+            const id = this.$route.params.id
+            const response = await axios.get(`http://localhost:8082/api/v1/courses/${id}`)
+            this.course = response.data
+            // this.lessons = this.course.lessons
+        },
 
-  mounted() {
-    this.fetchCourseInfo()
-  }
+        navigateToLesson(id) {
+            this.$router.push({name: 'lesson', params:{id:id}})
+        },
+
+    },
+
+    mounted() {
+        this.fetchCourseInfo()
+    }
 }
 </script>
+
 <style scoped>
 
-.course_description {
-  color: black;
-  text-align: justify;
-  width: 80%;
-  margin: auto;
-}
-
-/* Dropdown */
-
-.lesson {
-  cursor:pointer;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #333;
-  text-align: start;
-  padding-left: 3%;
-}
-
-.lessons-block {
-  border: #168FF0 solid 1px;
-  border-radius: 10px;
-}
-
-.content {
-  width: 80%;
-  padding: 0;
-  margin: 0 auto;
-}
-summary {
-  font-size: 1.25rem;
-  font-weight: 600;
-  background-color: #fff;
-  color: #333;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  outline: none;
-  border-radius: 0.25rem;
-  text-align: left;
-  cursor: pointer;
-  position: relative;
-}
-/*details > summary::after {*/
-/*    position: absolute;*/
-/*    content: "+";*/
-/*    right: 20px;*/
-/*}*/
-/*details[open] > summary::after {*/
-/*    position: absolute;*/
-/*    content: "-";*/
-/*    right: 20px;*/
-/*}*/
-
-details summary::-webkit-details-marker {
-  display: none;
-}
-details summary {
-  position: relative;
-}
-details summary:before {
-  content: "Open";
-  background-color: #168FF0;
-  color: white;
-  display: inline-block;
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  position: absolute;
-  top: 0;
-  right: 20px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
-details > summary::-webkit-details-marker {
-  display: none;
-}
-
-details[open] summary ~ * {
-  animation: sweep 0.5s ease-in-out;
-}
-@keyframes sweep {
-  0% {
-    opacity: 0;
-    margin-top: -10px;
-  }
-  100% {
-    opacity: 1;
-    margin-top: 0px;
-  }
-}
-
-/**/
-
-
-.mentor-description {
-  color: black;
-  width: 70%;
-  margin: auto;
-  text-align: start;
-}
-
-.switch-container {
-  position: relative;
-  display: inline-block;
-  width: 57px;
-  height: 20px;
-}
-
-.switch-label {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 20px;
-}
-
-.switch-label:before {
-  position: absolute;
-  content: "";
-  height: 14px;
-  width: 14px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
-}
-
-.switch-checkbox:checked + .switch-label {
-  background-color: #168FF0;
-}
-
-.switch-checkbox:checked + .switch-label:before {
-  transform: translateX(20px);
-}
-
-body {
-  background-color: white;
-  font-family: Arial, sans-serif;
-  color: #168FF0;
-}
-
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-header {
-  background-color: #168FF0;
-  color: white;
-  text-align: center;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-a {
-  background-color: #168FF0;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  text-align: center;
-  display: inline-block;
-  margin-top: 10px;
-  text-decoration: none;
-  font-weight: bold;
-  /* Apply button styles */
-  border: none;
-  cursor: pointer;
-}
-
-a:hover {
-  background-color: #0E6CB3;
-}
-
-.logo {
-  float: left;
-}
 
 /* Set navigation style */
 nav {
-  float: right;
-  display: flex;
-  justify-content: flex-end;
+    float: right;
+    display: flex;
+    justify-content: flex-end;
 }
 
 nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
 }
 
 nav li {
-  margin-left: 20px;
+    margin-left: 20px;
 }
 
 nav a {
-  display: block;
-  padding: 10px;
-  color: white;
-  text-decoration: none;
+    display: block;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
 }
 
 nav a.active,
 nav a:hover {
-  background-color: #168FF0;
+    background-color: #168FF0;
 }
 
 ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
-li {
-  display: inline-block;
-  margin-right: 20px;
-}
+/*li {*/
+/*    display: inline-block;*/
+/*    margin-right: 20px;*/
+/*}*/
 
 .router-link-active {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .header h1 {
-  margin: 0;
-}
-
-.tabs {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.tablinks {
-  background-color: white;
-  color: #168FF0;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 16px 24px; /* increase padding */
-  margin: 0 10px;
-  border-radius: 4px 4px 0 0;
-  font-size: 16px; /* increase font size */
-  margin-bottom: -10px;
-}
-
-.tablinks:hover, .active {
-  background-color: #168FF0;
-  color: white;
-}
-
-.tabcontent {
-  display: none;
-  padding: 20px;
-  border-top: none;
-}
-
-#personal-info {
-  display: block;
-}
-
-#saved-vacancies {
-  display: none;
-}
-
-#applied-vacancies {
-  display: none;
-}
-
-.form-group {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.label-bold {
-  font-weight: bold;
-}
-
-.form-group label {
-  flex-basis: 30%;
-  margin-right: 1em;
-  font-size: 16px;
-  color: #555;
-}
-
-.form-group input,
-.form-group textarea {
-  flex-basis: 70%;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group input:not(:placeholder-shown),
-.form-group textarea:not(:placeholder-shown) {
-  transition: all 0.5s ease-in-out;
+    margin: 0;
 }
 
 
-.form-group input:focus,
-.form-group textarea:focus {
-  outline: none;
-  box-shadow: 0 0 3px #bbb;
+.ordered-list {
+    list-style-type: decimal;
+    width: 80%;
+    margin: 0 auto;
+    text-align: left;
+    font-size: 1.2em;
+    padding-left: 3%;
 }
 
-.form-group input:hover,
-.form-group textarea:hover {
-  background-color: #e0e0e0;
+.ordered-list li {
+    margin-bottom: 10px;
+    cursor: pointer;
 }
 
-.form-group textarea {
-  flex-basis: 70%;
-  padding: 10px;
-  border-radius: 5px;
-  height: 200px; /* adjust this value as needed */
+.course_description {
+    color: black;
+    text-align: justify;
+    width: 80%;
+    margin: auto;
 }
 
-.form-group select {
-  flex-basis: 70%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+.switch-checkbox:checked + .switch-label {
+    background-color: #168FF0;
 }
 
-.form-group select:focus {
-  outline: none;
-  box-shadow: 0 0 3px #bbb;
+.switch-checkbox:checked + .switch-label:before {
+    transform: translateX(20px);
 }
 
-.form-group select:hover {
-  background-color: #e0e0e0;
+body {
+    background-color: white;
+    font-family: Arial, sans-serif;
+    color: #168FF0;
 }
 
-/* Hide default select arrow */
-select::-ms-expand {
-  display: none;
+header {
+    background-color: #168FF0;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-select::-webkit-select {
-  -webkit-appearance: none;
-  appearance: none;
+a {
+    background-color: #168FF0;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    /* Apply button styles */
+    border: none;
+    cursor: pointer;
 }
 
-
-.personal-info button[type=submit] {
-  background-color: #168FF0;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+a:hover {
+    background-color: #0E6CB3;
 }
 
-.personal-info button[type=submit]:hover {
-  background-color: #0D5CA5;
+.logo {
+    float: left;
 }
 
-.personal-info img {
-  display: block;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  margin: 0 auto 20px;
-}
-
-.skills-container {
-  margin: 20px 0;
-}
-
-.skills-title {
-  margin-top: 0;
-}
-.skills {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.skills li {
-  margin-bottom: 5px;
-  display: inline-block;
-  padding: 5px 10px;
-  border: 1px solid #168FF0;
-  border-radius: 5px;
-  border-radius: 3px;
-  color: #168FF0;
-  font-weight: bold;
-  margin-right: 10px;
-}
-
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 1000;
-  display: none;
-  float: left;
-  min-width: 10rem;
-  padding: 0.5rem 0;
-  margin: 0.125rem 0 0;
-  max-height: 100px;
-  overflow-y: auto;
-  font-size: 1rem;
-  color: #212529;
-  text-align: left;
-  list-style: none;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 0.25rem;
-}
-
-.dropdown-menu.show {
-  display: block;
-}
-
-.dropdown-item {
-  display: block;
-  width: 100%;
-  padding: 0.25rem 1.5rem;
-  clear: both;
-  font-weight: 400;
-  color: #212529;
-  text-align: inherit;
-  white-space: nowrap;
-  background-color: transparent;
-  border: 0;
-}
-
-.dropdown-item:focus,
-.dropdown-item:hover {
-  color: #16181b;
-  text-decoration: none;
-  background-color: #f8f9fa;
-}
-
-.dropdown-menu .dropdown-item.disabled,
-.dropdown-menu .dropdown-item:disabled {
-  color: #6c757d;
-  background-color: transparent;
-}
-
-.dropdown-menu .dropdown-item.active,
-.dropdown-menu .dropdown-item:active {
-  color: #fff;
-  text-decoration: none;
-  background-color: #007bff;
-}
-
-.btn-secondary {
-  background-color: #fff;
-  border: 1px solid #ced4da;
-  color: #495057;
-  cursor: pointer;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  border-radius: 0.25rem;
-}
-
-.btn-secondary:focus,
-.btn-secondary:hover {
-  background-color: #e9ecef;
-}
-
-.btn-secondary:focus {
-  box-shadow: none;
-}
-
-.btn-secondary.dropdown-toggle::after {
-  display: inline-block;
-  margin-left: 0.255em;
-  vertical-align: 0.255em;
-  content: "";
-  border-top: 0.3em solid;
-  border-right: 0.3em solid transparent;
-  border-bottom: 0;
-  border-left: 0.3em solid transparent;
-}
-
-
-.update-skills-btn {
-  margin-top: 5px;
-  padding: 5px 10px;
-  font-size: 14px;
-  background-color: #007bff;
-  color: #fff;
-  border: 1px solid #007bff;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-.file-input-container {
-  position: relative;
-  display: inline-block;
-}
-
-#photo {
-  display: none;
-}
-
-
-.file-label:hover {
-  background-color: #0E6CB3;
-}
-
-.photo-container {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.image-preview {
-  display: inline-block;
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 50%;
-  margin-bottom: 20px;
-  border: 3px solid #168FF0;
-}
-
-.file-label {
-  display: inline-block;
-  background-color: #168FF0;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-footer {
-  background-color: #f8f8f8;
-  padding: 20px;
-  margin-top: 50px;
-  border-top: 1px solid #e5e5e5;
-}
-
-.footer-bottom {
-  text-align: center;
-  font-size: 14px;
-  color: #aaa;
-}
 </style>
+
+
+
