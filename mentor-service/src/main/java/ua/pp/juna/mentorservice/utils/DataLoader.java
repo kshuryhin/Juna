@@ -275,7 +275,7 @@ public class DataLoader implements ApplicationRunner {
                 .build();
 
         final Lesson lesson2 = Lesson.builder()
-                .name("First Java Lesson")
+                .name("Second Java Lesson")
                 .text("Java is an object-oriented programming language that is widely used for developing a variety of applications, including desktop applications, mobile apps, and web applications. Java code is compiled into bytecode, which can be run on any platform that has a Java Virtual Machine (JVM) installed.\n" +
                         "\n" +
                         "One of the key features of Java is its automatic memory management, which helps to prevent common programming errors such as memory leaks and segmentation faults. Java also has a rich set of libraries and frameworks that make it easy to develop complex applications.\n" +

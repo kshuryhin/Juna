@@ -66,7 +66,7 @@
                 </form>
             </section>
             <section id="jobs">
-                <h2>Available Mentors</h2>
+                <h2>Available Courses</h2>
                 <ul id="job-listings">
                     <li class="job" v-for="course in courses" :key="course.id">
                         <h3>{{ course.name }}</h3>
