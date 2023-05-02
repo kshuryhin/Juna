@@ -21,27 +21,17 @@
             <button class="tablinks active" @click="">Courses</button>
         </div>
 
-<!--        <div v-for="course in this.courses" :key="course.id" class="dropdown">-->
-<!--            <span class="selLabel">{{ course.name }}</span>-->
-<!--            <input type="hidden" name="cd-dropdown">-->
-<!--            <ul v-for="lesson in course.lessons" :key="lesson.id" class="dropdown-list">-->
-<!--                <li>-->
-<!--                    {{lesson.name}}-->
-<!--                </li>-->
-<!--            </ul>-->
-
-<!--        </div>-->
-
         <div class="box">
             <div class="content" v-for="course in courses">
                 <details>
                     <summary>{{ course.name }}</summary>
                     <div class="faq__content" v-for="lesson in course.lessons">
                         <div class="lessons-block">
-                            <p class="lesson">{{ lesson.name }}</p>
+                            <p class="lesson" @click="navigateToLesson(lesson.id)">{{ lesson.name }}</p>
                         </div>
 
                     </div>
+
                 </details>
             </div>
         </div>
@@ -86,6 +76,14 @@ export default {
         },
         navigateToMentorInfo() {
             this.$router.push({name: 'mentor', params: {id: this.id}})
+        },
+
+        navigateToLesson(id) {
+            this.$router.push({name: 'lesson', params: {id: id}})
+        },
+
+        navigateToCourse(id) {
+          this.$router.push({name: 'course', params: {id: id}})
         }
     },
     async mounted() {
@@ -130,16 +128,41 @@ summary {
     cursor: pointer;
     position: relative;
 }
-details > summary::after {
-    position: absolute;
-    content: "+";
-    right: 20px;
+/*details > summary::after {*/
+/*    position: absolute;*/
+/*    content: "+";*/
+/*    right: 20px;*/
+/*}*/
+/*details[open] > summary::after {*/
+/*    position: absolute;*/
+/*    content: "-";*/
+/*    right: 20px;*/
+/*}*/
+
+details summary::-webkit-details-marker {
+  display: none;
 }
-details[open] > summary::after {
-    position: absolute;
-    content: "-";
-    right: 20px;
+details summary {
+  position: relative;
 }
+details summary:before {
+  content: "Open";
+  background-color: #168FF0;
+  color: white;
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  position: absolute;
+  top: 0;
+  right: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+
 details > summary::-webkit-details-marker {
     display: none;
 }
