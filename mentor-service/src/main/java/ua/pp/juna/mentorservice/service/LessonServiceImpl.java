@@ -70,4 +70,14 @@ public class LessonServiceImpl implements LessonService{
 
         return lessonRepository.save(updated);
     }
+
+    @Override
+    public Lesson getLessonByOrderInCourse(Long courseId, Integer orderInCourse) {
+        final Course course = courseRepository.findById(courseId).orElse(null);
+
+        List<Lesson> lessons = course.getLessons();
+
+        return lessons.stream().filter(lesson -> lesson.getOrderInCourse() == orderInCourse).findFirst().orElse(null);
+    }
+
 }

@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.pp.juna.mentorservice.model.Course;
 import ua.pp.juna.mentorservice.model.Lesson;
+import ua.pp.juna.mentorservice.repo.CourseRepository;
 import ua.pp.juna.mentorservice.repo.LessonRepository;
 import ua.pp.juna.mentorservice.service.LessonService;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 public class LessonController {
     private final LessonService lessonService;
     private final LessonRepository lessonRepository;
+    private final CourseRepository courseRepository;
 
 
     @PostMapping("/{courseId}")
@@ -45,9 +47,9 @@ public class LessonController {
 
     @GetMapping("/course/{courseId}/lesson/{orderInCourse}")
     public ResponseEntity<Lesson> getLessonByOrder(@PathVariable(name = "courseId") Long courseId,
-                                                   @PathVariable(name = "orderInCourse") Long orderInCourse) {
+                                                   @PathVariable(name = "orderInCourse") Integer orderInCourse) {
 
-        return ResponseEntity.ok().body(lessonRepository.findInCourseByOrderInCourse(courseId, orderInCourse));
+        return ResponseEntity.ok().body(lessonService.getLessonByOrderInCourse(courseId, orderInCourse));
     }
 
     @DeleteMapping("/{id}")
