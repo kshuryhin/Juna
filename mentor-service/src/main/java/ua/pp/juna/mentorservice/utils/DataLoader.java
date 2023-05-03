@@ -292,8 +292,32 @@ public class DataLoader implements ApplicationRunner {
                         VideoLink.builder().link("https://www.youtube.com/embed/5yquJa2x3Ko").build()))
                 .build();
 
+        final Lesson lesson3 = Lesson.builder()
+                .name("1 Course 2 Lesson")
+                .text("This is second lesson of the first course")
+                .build();
+
+        final Lesson lesson4 = Lesson.builder()
+                .name("1 course 3 Lesson")
+                .text("This is third lesson of first course")
+                .build();
+
+        final Lesson lesson5 = Lesson.builder()
+                .name("1 course 4 lesson")
+                .text("This is fourth lesson of first course")
+                .build();
+
+        final Lesson lesson6 = Lesson.builder()
+                .name("1 course 5 lesson")
+                .text("This is fifth lesson of first course")
+                .build();
+
         lessonService.addLesson(lesson1, 1L);
         lessonService.addLesson(lesson2, 2L);
+        lessonService.addLesson(lesson3, 1L);
+        lessonService.addLesson(lesson4, 1L);
+        lessonService.addLesson(lesson5, 1L);
+        lessonService.addLesson(lesson6, 1L);
     }
 
 }

@@ -26,6 +26,8 @@ public class LessonServiceImpl implements LessonService{
         if (course == null)
             throw new EntityNotFoundException("Cannot find course with id" + courseId);
 
+        int order = course.getLessons().size();
+        lesson.setOrderInCourse(order + 1);
         course.getLessons().add(lesson);
 
         return courseRepository.save(course);
@@ -64,6 +66,7 @@ public class LessonServiceImpl implements LessonService{
         updated.setVideoLinks(lesson.getVideoLinks());
         updated.setText(lesson.getText());
         updated.setName(lesson.getName());
+        updated.setOrderInCourse(lesson.getOrderInCourse());
 
         return lessonRepository.save(updated);
     }

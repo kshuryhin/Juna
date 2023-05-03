@@ -7,5 +7,5 @@ import ua.pp.juna.mentorservice.model.Lesson;
 import java.util.List;
 
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
-
+    Lesson findInCourseByOrderInCourse(Long courseId, Long orderInCourse);
 }

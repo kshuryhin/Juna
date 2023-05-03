@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.pp.juna.mentorservice.model.Course;
 import ua.pp.juna.mentorservice.model.Lesson;
+import ua.pp.juna.mentorservice.repo.LessonRepository;
 import ua.pp.juna.mentorservice.service.LessonService;
 import java.util.List;
 @CrossOrigin(origins = {"http://localhost:8085", "http://localhost:4200"})
@@ -13,6 +14,7 @@ import java.util.List;
 @RequestMapping("/api/v1/lessons")
 public class LessonController {
     private final LessonService lessonService;
+    private final LessonRepository lessonRepository;
 
 
     @PostMapping("/{courseId}")
@@ -41,6 +43,13 @@ public class LessonController {
         return ResponseEntity.ok().body(lessonService.getAllLessons());
     }
 
+    @GetMapping("/course/{courseId}/lesson/{orderInCourse}")
+    public ResponseEntity<Lesson> getLessonByOrder(@PathVariable(name = "courseId") Long courseId,
+                                                   @PathVariable(name = "orderInCourse") Long orderInCourse) {
+
+        return ResponseEntity.ok().body(lessonRepository.findInCourseByOrderInCourse(courseId, orderInCourse));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteLesson(@PathVariable Long id) {
         final boolean isDeleted = lessonService.deleteLesson(id);
@@ -50,6 +59,7 @@ public class LessonController {
             return ResponseEntity.ok().body("Deleted successfully!");
         }
     }
+
 
 
     @PutMapping("/{id}")
