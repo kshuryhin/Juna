@@ -20,7 +20,7 @@
         <p class="course_description">{{ course.description }}</p><br><br>
 
         <ol class="ordered-list">
-            <li v-for="(lesson, index) in lessons" :key="index" @click="navigateToLesson(lesson.id)">
+            <li v-for="(lesson, index) in lessons" :key="index" @click="navigateToLesson(index+1)">
                  {{ lesson.name }}
             </li>
         </ol>
@@ -36,13 +36,7 @@ export default {
     data() {
         return {
             course: {},
-            lessons: [
-                {id:1, name:"First Java Lesson"},
-                {id:2, name:"First Docker lesson for dev ops"},
-                {id:3, name:"Second Java Lesson"},
-                {id:4, name:"Third Java lesson"},
-                {id:5, name:"First Haskell lesson (please read me)"}
-            ],
+            lessons: [],
         }
     },
 
@@ -51,11 +45,11 @@ export default {
             const id = this.$route.params.id
             const response = await axios.get(`http://localhost:8082/api/v1/courses/${id}`)
             this.course = response.data
-            // this.lessons = this.course.lessons
+            this.lessons = this.course.lessons
         },
 
-        navigateToLesson(id) {
-            this.$router.push({name: 'lesson', params:{id:id}})
+        navigateToLesson(orderInCourse) {
+            this.$router.push({name: 'lesson', params: {courseId: this.course.id, orderInCourse: orderInCourse}})
         },
 
     },

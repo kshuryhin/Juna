@@ -22,8 +22,8 @@
         </div>
         <p class="lesson-text">{{ this.lesson.text }}</p>
         <div class="button-group">
-            <button class="prev-button" @click="navigateToLesson(-1)">&lt; Previous</button>
-            <button class="next-button" @click="navigateToLesson(1)">Next &gt;</button>
+            <button class="prev-button" v-bind:class="{centered:isCentered, disabled:isPreviousDisabled}" @click="previousLesson()">&lt; Previous</button>
+            <button class="next-button" v-bind:class="{centered:isCentered, disabled:isNextDisabled}" @click="nextLesson()">Next &gt;</button>
         </div>
     </main>
 
@@ -43,33 +43,83 @@ import {logout} from "@/utils/auth";
 import silentLoginMixin from "@/components/silentLoginMixin";
 
 export default {
-    name: "Mentor",
+    name: "Lesson",
     // mixins: [authMixin, roleMixin, silentLoginMixin],
     // requiredRole: roles.CANDIDATE,
 
     data() {
         return {
             lesson: {},
-            id: 0,
+            course: {},
+            isPreviousDisabled: false,
+            isNextDisabled: false,
+            isCentered: false,
         };
     },
     methods: {
         async fetchLessonInfo() {
-            this.id = this.$route.params.id
-            const response = await axios.get(`http://localhost:8082/api/v1/lessons/${this.id}`)
+            const courseId = this.$route.params.courseId
+            const orderInCourse = this.$route.params.orderInCourse
+
+            const response = await axios.get(`http://localhost:8082/api/v1/lessons/course/${courseId}/lesson/${orderInCourse}`)
             this.lesson = response.data
+
+            const courseRequest = await axios.get(`http://localhost:8082/api/v1/courses/${courseId}`)
+            this.course = courseRequest.data
+
+
+            if (this.lesson.orderInCourse == 1) {
+                this.isPreviousDisabled = true
+                this.isCentered = true
+            }
+
+            if (this.lesson.orderInCourse == this.course.lessons.length) {
+                this.isNextDisabled = true
+                this.isCentered = true
+            }
+
         },
         navigateToVideoLinks() {
-            this.$router.push({name: 'videolinks', params:{id: this.id}})
-        }
+            this.$router.push({name: 'videoLinks', params: {courseId: this.course.id, orderInCourse:this.lesson.orderInCourse}})
+        },
+
+        nextLesson() {
+            this.$router.push({
+                name: 'lesson',
+                params: {
+                    course: this.course.id,
+                    orderInCourse: parseInt(this.lesson.orderInCourse) + 1
+                }
+            })
+            setTimeout(function() {
+                window.location.reload()
+            }, 100)
+        },
+
+        previousLesson() {
+            this.$router.push({name: 'lesson', params:{course: this.course.id, orderInCourse: (parseInt(this.lesson.orderInCourse)-1)}})
+            setTimeout(function() {
+                window.location.reload()
+            }, 100) 
+        },
+
     },
     async mounted() {
         await this.fetchLessonInfo();
-    }
+    },
+
 };
 
 </script>
 <style scoped>
+
+.disabled {
+    display: none;
+}
+
+.centered {
+    margin: auto;
+}
 
 .button-group {
     display: flex;
@@ -81,7 +131,7 @@ export default {
     background-color: transparent;
     border: none;
     color: #168FF0;
-    font-size: px;
+    font-size: 20px;
     font-weight: bold;
     cursor: pointer;
 }

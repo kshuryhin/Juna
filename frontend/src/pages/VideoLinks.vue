@@ -34,20 +34,22 @@ export default {
         return {
             lesson: {},
             videoLinks: [],
-            id: 0,
+            courseId: 0,
+            orderInCourse: 0,
         }
     },
 
     methods: {
         async fetchVideoLinks() {
-            this.id = this.$route.params.id
-            const response = await axios.get(`http://localhost:8082/api/v1/lessons/${this.id}`)
+            this.courseId = this.$route.params.courseId
+            this.orderInCourse = this.$route.params.orderInCourse
+            const response = await axios.get(`http://localhost:8082/api/v1/lessons/course/${this.courseId}/lesson/${this.orderInCourse}`)
             this.lesson = response.data
             this.videoLinks = this.lesson.videoLinks
         },
 
         navigateToLesson() {
-            this.$router.push({name: 'lesson', params:{id: this.id}})
+            this.$router.push({name: 'lesson', params: {courseId: this.courseId, orderInCourse: this.orderInCourse}})
         },
     },
 

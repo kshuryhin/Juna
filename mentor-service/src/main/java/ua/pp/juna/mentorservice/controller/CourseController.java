@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.pp.juna.mentorservice.model.Course;
+import ua.pp.juna.mentorservice.model.Lesson;
 import ua.pp.juna.mentorservice.model.Mentor;
 import ua.pp.juna.mentorservice.model.Student;
 import ua.pp.juna.mentorservice.repo.CourseRepository;
+import ua.pp.juna.mentorservice.repo.LessonRepository;
 import ua.pp.juna.mentorservice.repo.StudentRepository;
 import ua.pp.juna.mentorservice.service.CourseService;
 
@@ -20,6 +22,7 @@ public class CourseController {
     private final CourseService courseService;
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
+    private final LessonRepository lessonRepository;
 
     @PostMapping("/{mentorId}")
     public ResponseEntity<Mentor> addCourse(@RequestBody Course course, @PathVariable Long mentorId) {
@@ -60,6 +63,12 @@ public class CourseController {
         } else {
             return ResponseEntity.ok().body(courseRepository.findAllByStudents(student));
         }
+    }
+
+    @GetMapping("/lesson/{lessonId}")
+    public ResponseEntity<Course> getCourseByLesson(@PathVariable Long lessonId) {
+        Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
+        return ResponseEntity.ok().body(courseRepository.findByLessons(lesson));
     }
 
     @PutMapping("/{id}")
