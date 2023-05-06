@@ -197,13 +197,14 @@ const routes = [
         component: CandidateAnalytics
     },
     {
-        path: '/lesson/:id',
+        path: '/course/:courseId/lesson/:orderInCourse',
         name: 'lesson',
         component: Lesson
     },
+
     {
-        path: '/videolinks/:id',
-        name: 'videolinks',
+        path: '/course/:courseId/lesson/:orderInCourse/videos',
+        name: 'videoLinks',
         component: VideoLinks
     }
 

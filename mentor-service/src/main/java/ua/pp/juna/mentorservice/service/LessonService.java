@@ -11,4 +11,6 @@ public interface LessonService {
     List<Lesson> getAllLessons();
     boolean deleteLesson(Long id);
     Lesson updateLesson(Lesson lesson, Long id);
+
+    Lesson getLessonByOrderInCourse(Long courseId, Integer orderInCourse);
 }
