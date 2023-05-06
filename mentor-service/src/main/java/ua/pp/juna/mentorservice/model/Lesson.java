@@ -25,7 +25,10 @@ public class Lesson {
     @Column(length = 10_000)
     private String text;
 
+    private Integer orderInCourse;
+
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "lessonId")
     private List<VideoLink> videoLinks;
 }
