@@ -67,7 +67,7 @@ public class CourseController {
 
     @GetMapping("/lesson/{lessonId}")
     public ResponseEntity<Course> getCourseByLesson(@PathVariable Long lessonId) {
-        Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
+        final Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
         return ResponseEntity.ok().body(courseRepository.findByLessons(lesson));
     }
 
