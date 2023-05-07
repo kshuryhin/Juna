@@ -33,6 +33,7 @@ import CandidateAnalytics from "@/pages/CandidateAnalytics.vue";
 import Lesson from "@/pages/Lesson.vue";
 import VideoLinks from "@/pages/VideoLinks.vue";
 import MentorProfile from "@/pages/MentorProfile.vue";
+import MentorMyCourses from "@/pages/MentorMyCourses.vue";
 
 const routes = [
     {
@@ -212,6 +213,11 @@ const routes = [
         path: '/mentor/:id/profile',
         name: 'mentorProfile',
         component: MentorProfile
+    },
+    {
+        path: '/mentor/:id/my-courses',
+        name: 'mentorMyCourses',
+        component: MentorMyCourses
     }
 
 

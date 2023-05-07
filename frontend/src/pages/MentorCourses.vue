@@ -27,7 +27,7 @@
                     <summary>{{ course.name }}</summary>
                     <div class="faq__content" v-for="lesson in course.lessons">
                         <div class="lessons-block">
-                            <p class="lesson" @click="navigateToLesson(lesson.id)">{{ lesson.name }}</p>
+                            <p class="lesson" @click="navigateToLesson(course.id, lesson.orderInCourse)">{{ lesson.name }}</p>
                         </div>
 
                     </div>
@@ -78,8 +78,8 @@ export default {
             this.$router.push({name: 'mentor', params: {id: this.id}})
         },
 
-        navigateToLesson(id) {
-            this.$router.push({name: 'lesson', params: {id: id}})
+        navigateToLesson(courseId, orderInCourse) {
+            this.$router.push({name: 'lesson', params: {courseId: courseId, orderInCourse: orderInCourse}})
         },
 
         navigateToCourse(id) {
