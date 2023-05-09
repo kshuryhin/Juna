@@ -14,8 +14,7 @@
     </header>
 
     <main>
-
-        <h1>{{ this.mentor.firstName }} {{ this.mentor.lastName }}</h1>
+        <h1>My Courses</h1>
         <div class="tabs">
             <button class="tablinks" @click="navigateToMentorInfo" id="defaultOpen">Personal Info</button>
             <button class="tablinks active" @click="">Courses</button>
@@ -24,7 +23,7 @@
         <div class="box">
             <div class="content" v-for="course in courses">
                 <details>
-                    <summary>{{ course.name }}</summary>
+                    <summary><button class="open_btn" @click="navigateToCourse(course.id)">Open</button>{{ course.name }} </summary>
                     <div class="faq__content" v-for="lesson in course.lessons">
                         <div class="lessons-block">
                             <p class="lesson" @click="navigateToLesson(course.id, lesson.orderInCourse)">{{ lesson.name }}</p>
@@ -36,6 +35,7 @@
             </div>
         </div>
 
+        <button class="open_btn" @click="addCourse()">Add</button>
     </main>
 
     <footer>
@@ -62,20 +62,18 @@ export default {
 
     data() {
         return {
-            mentor: {},
             courses: [],
             id: 0,
         };
     },
     methods: {
-        async fetchMentorInfo() {
+        async fetchCourses() {
             this.id = this.$route.params.id
             const response = await axios.get(`http://localhost:8082/api/v1/mentors/${this.id}`)
-            this.mentor = response.data
-            this.courses = this.mentor.courses
+            this.courses = response.data.courses
         },
         navigateToMentorInfo() {
-            this.$router.push({name: 'mentor', params: {id: this.id}})
+            this.$router.push({name: 'mentorProfile', params: {id: this.id}})
         },
 
         navigateToLesson(courseId, orderInCourse) {
@@ -83,16 +81,33 @@ export default {
         },
 
         navigateToCourse(id) {
-          this.$router.push({name: 'course', params: {id: id}})
+            this.$router.push({name: 'course', params: {id: id}})
+        },
+
+        addCourse() {
+
         }
     },
     async mounted() {
-        await this.fetchMentorInfo();
+        await this.fetchCourses();
     }
 };
 
 </script>
 <style scoped>
+
+.open_btn {
+    margin-right: 2%;
+    display: inline-block;
+    border: 1px solid #168FF0;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #168FF0;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
 
 /* Dropdown */
 
@@ -140,26 +155,26 @@ summary {
 /*}*/
 
 details summary::-webkit-details-marker {
-  display: none;
+    display: none;
 }
 details summary {
-  position: relative;
+    position: relative;
 }
-details summary:before {
-  content: "Open";
-  background-color: #168FF0;
-  color: white;
-  display: inline-block;
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  position: absolute;
-  top: 0;
-  right: 20px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
+/*details summary:before {*/
+/*    content: "Open";*/
+/*    background-color: #168FF0;*/
+/*    color: white;*/
+/*    display: inline-block;*/
+/*    padding: 5px 10px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 4px;*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    right: 20px;*/
+/*    font-size: 16px;*/
+/*    font-weight: bold;*/
+/*    cursor: pointer;*/
+/*}*/
 
 
 

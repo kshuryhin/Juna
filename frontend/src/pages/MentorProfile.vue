@@ -1,4 +1,10 @@
 <template>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Candidate Profile</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
     <body>
     <header>
         <div class="logo">
@@ -12,38 +18,92 @@
             </ul>
         </nav>
     </header>
+    <div class="container">
+        <h1>Personal Info</h1>
 
-    <main>
-
-        <h1>{{ this.mentor.firstName }} {{ this.mentor.lastName }}</h1>
         <div class="tabs">
-            <button class="tablinks" @click="navigateToMentorInfo" id="defaultOpen">Personal Info</button>
-            <button class="tablinks active" @click="">Courses</button>
+            <button class="tablinks active" id="defaultOpen">Personal Info</button>
+            <button class="tablinks" @click="navigateToMentorCourses()" id="defaultOpen">My Courses</button>
         </div>
 
-        <div class="box">
-            <div class="content" v-for="course in courses">
-                <details>
-                    <summary>{{ course.name }}</summary>
-                    <div class="faq__content" v-for="lesson in course.lessons">
-                        <div class="lessons-block">
-                            <p class="lesson" @click="navigateToLesson(course.id, lesson.orderInCourse)">{{ lesson.name }}</p>
-                        </div>
+        <div id="personal-info" class="tabcontent">
 
-                    </div>
+            <div class="personal-info">
+                <div class="photo-container">
+                    <img :src="imageUrl" alt="Your Name" class="image-preview">
+                    <label for="photo" class="file-label">Upload Photo</label>
+                    <input type="file" id="photo" name="photo" accept="image/*" @change="onFileSelected" class="file-input">
+                </div>
+                <div class="form-group">
+                    <label class="label-bold" for="firstName">First Name</label>
+                    <input class="form-control" type="text" id="firstName" name="firstName" v-model="mentor.firstName" required>
+                </div>
 
-                </details>
+                <div class="form-group">
+                    <label class="label-bold" for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" v-model="mentor.lastName" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="label-bold" for="workExperience">Description</label>
+                    <textarea id="workExperience" name="workExperience" v-model="mentor.description"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="label-bold" for="email">Email</label>
+                    <input type="email" id="email" name="email" v-model="mentor.email" required readonly>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="label-bold" for="linkedinLink">Linked In</label>
+                    <input type="text" id="linkedinLink" name="linkedinLink" v-model="mentor.linkedin">
+                </div>
+
+                <div class="form-group">
+                    <label class="label-bold" for="githubLink">Git Hub</label>
+                    <input type="text" id="githubLink" name="githubLink" v-model="mentor.github">
+                </div>
+
+
+                <div class="form-group">
+                    <label class="label-bold" for="category">Category</label>
+                    <select id="category" name="category" v-model="mentor.category">
+                        <option value="">All</option>
+                        <option value="JS">JS</option>
+                        <option value="HTML">HTML</option>
+                        <option value="PHP">PHP</option>
+                        <option value="RUBY">RUBY</option>
+                        <option value="PYTHON">PYTHON</option>
+                        <option value="JAVA">JAVA</option>
+                        <option value="NET">.NET</option>
+                        <option value="SCALA">SCALA</option>
+                        <option value="C">C</option>
+                        <option value="MOBILE">MOBILE</option>
+                        <option value="TESTING">TESTING</option>
+                        <option value="DEVOPS">DEVOPS</option>
+                        <option value="ADMIN">ADMIN</option>
+                        <option value="DESIGN">DESIGN</option>
+                        <option value="PM">PM</option>
+                        <option value="GAME">GAME</option>
+                        <option value="OTHER">OTHER</option>
+                    </select>
+                </div>
+
+
+
+                <button type="submit" @click="updateProfile" class="update-btn" :disabled="isUpdating">Save</button>
             </div>
         </div>
 
-    </main>
-
+    </div>
     <footer>
         <div class="footer-bottom">
             <p>&copy; 2023 Juna Jobs</p>
         </div>
     </footer>
     </body>
+    </html>
 </template>
 <script>
 import axios from "axios";
@@ -55,7 +115,7 @@ import {logout} from "@/utils/auth";
 import silentLoginMixin from "@/components/silentLoginMixin";
 
 export default {
-    name: "Mentor",
+    name: "MentorProfile",
     // mixins: [authMixin, roleMixin, silentLoginMixin],
     // requiredRole: roles.CANDIDATE,
     // components: { vSelect },
@@ -63,134 +123,44 @@ export default {
     data() {
         return {
             mentor: {},
-            courses: [],
-            id: 0,
+            imageUrl: require('../assets/uploads/candidates/default.png'),
         };
     },
     methods: {
         async fetchMentorInfo() {
-            this.id = this.$route.params.id
-            const response = await axios.get(`http://localhost:8082/api/v1/mentors/${this.id}`)
+            const id = this.$route.params.id
+            const response = await axios.get(`http://localhost:8082/api/v1/mentors/${id}`)
             this.mentor = response.data
-            this.courses = this.mentor.courses
-        },
-        navigateToMentorInfo() {
-            this.$router.push({name: 'mentor', params: {id: this.id}})
+            this.imageName = this.mentor.imageLink===null?this.imageName:this.mentor.imageLink;
+            this.imageUrl = require(`../assets/uploads/mentors/${this.imageName}`)
         },
 
-        navigateToLesson(courseId, orderInCourse) {
-            this.$router.push({name: 'lesson', params: {courseId: courseId, orderInCourse: orderInCourse}})
+        updateProfile() {
+            axios.put(`http://localhost:8082/api/v1/mentors/${this.mentor.id}`, this.mentor)
+                .then(this.$router.go());
         },
 
-        navigateToCourse(id) {
-          this.$router.push({name: 'course', params: {id: id}})
-        }
+        navigateToMentorCourses() {
+            this.$router.push({name: 'mentorMyCourses', params: {id: this.mentor.id}})
+        },
+
+        onFileSelected(event) {
+            const file = event.target.files[0]
+            const formData = new FormData()
+            formData.append('file', file)
+            axios.post(`http://localhost:8082/api/v1/mentors/upload`, formData,  {
+                headers: { Authorization: localStorage.getItem("token") },
+            })
+        },
     },
-    async mounted() {
-        await this.fetchMentorInfo();
+
+    mounted() {
+        this.fetchMentorInfo()
     }
 };
 
 </script>
 <style scoped>
-
-/* Dropdown */
-
-.lesson {
-    cursor:pointer;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #333;
-    text-align: start;
-    padding-left: 3%;
-}
-
-.lessons-block {
-    border: #168FF0 solid 1px;
-    border-radius: 10px;
-}
-
-.content {
-    width: 80%;
-    padding: 0;
-    margin: 0 auto;
-}
-summary {
-    font-size: 1.25rem;
-    font-weight: 600;
-    background-color: #fff;
-    color: #333;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    outline: none;
-    border-radius: 0.25rem;
-    text-align: left;
-    cursor: pointer;
-    position: relative;
-}
-/*details > summary::after {*/
-/*    position: absolute;*/
-/*    content: "+";*/
-/*    right: 20px;*/
-/*}*/
-/*details[open] > summary::after {*/
-/*    position: absolute;*/
-/*    content: "-";*/
-/*    right: 20px;*/
-/*}*/
-
-details summary::-webkit-details-marker {
-  display: none;
-}
-details summary {
-  position: relative;
-}
-details summary:before {
-  content: "Open";
-  background-color: #168FF0;
-  color: white;
-  display: inline-block;
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  position: absolute;
-  top: 0;
-  right: 20px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-
-
-details > summary::-webkit-details-marker {
-    display: none;
-}
-
-details[open] summary ~ * {
-    animation: sweep 0.5s ease-in-out;
-}
-@keyframes sweep {
-    0% {
-        opacity: 0;
-        margin-top: -10px;
-    }
-    100% {
-        opacity: 1;
-        margin-top: 0px;
-    }
-}
-
-/**/
-
-
-.mentor-description {
-    color: black;
-    width: 70%;
-    margin: auto;
-    text-align: start;
-}
-
 .switch-container {
     position: relative;
     display: inline-block;
@@ -582,6 +552,23 @@ select::-webkit-select {
     border-right: 0.3em solid transparent;
     border-bottom: 0;
     border-left: 0.3em solid transparent;
+}
+
+.generate-btn {
+    display: inline-block;
+    border: 1px solid #c9c313;
+    margin-right: 10px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #FFF;
+    color: #c9c313;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.generate-btn:hover {
+    background-color: #c9c313;
+    color: white;
 }
 
 
