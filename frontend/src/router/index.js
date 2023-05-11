@@ -32,6 +32,7 @@ import SalariesAnalytics from "@/pages/SalariesAnalytics.vue";
 import CandidateAnalytics from "@/pages/CandidateAnalytics.vue";
 import Lesson from "@/pages/Lesson.vue";
 import VideoLinks from "@/pages/VideoLinks.vue";
+import AddCourse from "@/pages/AddCourse.vue";
 
 const routes = [
     {
@@ -206,7 +207,13 @@ const routes = [
         path: '/course/:courseId/lesson/:orderInCourse/videos',
         name: 'videoLinks',
         component: VideoLinks
+    },
+    {
+        path: '/mentor/:id/add-course',
+        name: 'addCourse',
+        component: AddCourse
     }
+
 
 
 
