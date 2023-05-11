@@ -47,6 +47,10 @@ public class MentorServiceImpl implements MentorService{
         updated.setFirstName(mentor.getFirstName());
         updated.setLastName(mentor.getLastName());
         updated.setCategory(mentor.getCategory());
+        updated.setEmail(mentor.getEmail());
+        updated.setGithub(mentor.getGithub());
+        updated.setLinkedin(mentor.getLinkedin());
+        updated.setImageLink(mentor.getImageLink());
 
         return mentorRepository.save(updated);
     }

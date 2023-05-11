@@ -28,6 +28,11 @@ public class Mentor {
     @Enumerated(EnumType.STRING)
     private Category category;
 
+    private String email;
+    private String linkedin;
+    private String github;
+    private String imageLink;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "mentorId")
     private List<Course> courses;

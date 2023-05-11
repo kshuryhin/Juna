@@ -4,8 +4,10 @@ package ua.pp.juna.mentorservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ua.pp.juna.mentorservice.model.Mentor;
 import ua.pp.juna.mentorservice.service.MentorService;
+import ua.pp.juna.mentorservice.utils.PhotoSaver;
 
 import java.util.List;
 @CrossOrigin(origins = {"http://localhost:8085", "http://localhost:4200"})
@@ -15,6 +17,7 @@ import java.util.List;
 public class MentorController {
 
     private final MentorService mentorService;
+    private final PhotoSaver photoSaver;
 
     @PostMapping("")
     public ResponseEntity<Mentor> addMentor(@RequestBody Mentor mentor) {
@@ -56,5 +59,12 @@ public class MentorController {
             return ResponseEntity.ok().body(result);
         }
     }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+        final var fileName = photoSaver.savePhoto(file, "mentors");
+        return ResponseEntity.ok(fileName);
+    }
+
 
 }

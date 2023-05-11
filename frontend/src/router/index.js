@@ -32,7 +32,8 @@ import SalariesAnalytics from "@/pages/SalariesAnalytics.vue";
 import CandidateAnalytics from "@/pages/CandidateAnalytics.vue";
 import Lesson from "@/pages/Lesson.vue";
 import VideoLinks from "@/pages/VideoLinks.vue";
-import AddCourse from "@/pages/AddCourse.vue";
+import MentorProfile from "@/pages/MentorProfile.vue";
+import MentorMyCourses from "@/pages/MentorMyCourses.vue";
 
 const routes = [
     {
@@ -209,11 +210,15 @@ const routes = [
         component: VideoLinks
     },
     {
-        path: '/mentor/:id/add-course',
-        name: 'addCourse',
-        component: AddCourse
+        path: '/mentor/:id/profile',
+        name: 'mentorProfile',
+        component: MentorProfile
+    },
+    {
+        path: '/mentor/:id/my-courses',
+        name: 'mentorMyCourses',
+        component: MentorMyCourses
     }
-
 
 
 
