@@ -34,6 +34,9 @@ import Lesson from "@/pages/Lesson.vue";
 import VideoLinks from "@/pages/VideoLinks.vue";
 import MentorProfile from "@/pages/MentorProfile.vue";
 import MentorMyCourses from "@/pages/MentorMyCourses.vue";
+import AddCourse from "@/pages/AddCourse.vue";
+import AddLesson from "@/pages/AddLesson.vue";
+import EditCourse from "@/pages/EditCourse.vue";
 
 const routes = [
     {
@@ -218,6 +221,21 @@ const routes = [
         path: '/mentor/:id/my-courses',
         name: 'mentorMyCourses',
         component: MentorMyCourses
+    },
+    {
+        path: '/mentor/:id/add-course',
+        name: 'addCourse',
+        component: AddCourse
+    },
+    {
+        path: '/course/:id/add-lesson',
+        name: 'addLesson',
+        component: AddLesson
+    },
+    {
+        path: '/course/:id/edit',
+        name: 'editCourse',
+        component: EditCourse
     }
 
 

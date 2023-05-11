@@ -85,7 +85,7 @@ export default {
         },
 
         addCourse() {
-
+            this.$router.push({name: 'addCourse', params: {id:this.id}})
         }
     },
     async mounted() {

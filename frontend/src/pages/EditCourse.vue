@@ -19,7 +19,10 @@
         <br><br>
         <textarea placeholder="Course description" class="course_description" v-model="this.course.description"></textarea>
         <br><br>
-        <button class="save_btn" @click="saveCourse()">Save</button>
+        <button class="save_btn" @click="updateCourse()">Save</button>
+        <h1>Lessons</h1>
+        <button @click="addLesson()" class="save_btn">Add Lesson</button>
+
     </main>
 
     <footer>
@@ -46,16 +49,24 @@ export default {
 
     data() {
         return {
-            course : {name: '', description: ''},
+            course : {},
         };
     },
     methods: {
-        async saveCourse() {
-            const mentorId = this.$route.params.id
-            await axios.post(`http://localhost:8082/api/v1/courses/${mentorId}`, this.course)
-            await this.sleep(100)
-            this.$router.push({name: 'mentorMyCourses', params: {id: mentorId}})
+        async fetchCourseInfo() {
+            const id = this.$route.params.id
+            const response = await axios.get(`http://localhost:8082/api/v1/courses/${id}`)
+            this.course = response.data
+        },
 
+        updateCourse() {
+            const mentorId = this.$route.params.id
+            axios.put(`http://localhost:8082/api/v1/courses/${this.course.id}`, this.course)
+                .then(this.$router.go())
+        },
+
+        addLesson() {
+            this.$router.push({name: 'addLesson', params: {id: this.course.id}})
         },
 
         sleep(ms) {
@@ -63,6 +74,9 @@ export default {
         }
     },
 
+    mounted() {
+        this.fetchCourseInfo()
+    }
 
 };
 
