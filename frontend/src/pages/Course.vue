@@ -17,10 +17,10 @@
 
         <h1>{{ course.name }}</h1>
 
-        <p class="course_description">{{ course.description }}</p><br><br>
+        <p class="lesson_text">{{ course.description }}</p><br><br>
 
         <ol class="ordered-list">
-            <li v-for="(lesson, index) in lessons" :key="index" @click="navigateToLesson(index+1)">
+            <li v-for="lesson in sortedLessons" :key="lesson.orderInCourse" @click="navigateToLesson(lesson.orderInCourse)">
                  {{ lesson.name }}
             </li>
         </ol>
@@ -52,6 +52,12 @@ export default {
             this.$router.push({name: 'lesson', params: {courseId: this.course.id, orderInCourse: orderInCourse}})
         },
 
+    },
+
+    computed: {
+        sortedLessons() {
+            return this.lessons.sort((a,b) => a.orderInCourse - b.orderInCourse)
+        }
     },
 
     mounted() {
@@ -126,7 +132,7 @@ ul {
     cursor: pointer;
 }
 
-.course_description {
+.lesson_text {
     color: black;
     text-align: justify;
     width: 80%;

@@ -57,8 +57,8 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
-    public Lesson updateLesson(final Lesson lesson, final Long id) {
-        final Lesson updated = lessonRepository.findById(id).orElse(null);
+    public Lesson updateLesson(final Lesson lesson, final Long courseId, Integer orderInCourse) {
+        final Lesson updated = getLessonByOrderInCourse(courseId, orderInCourse);
         if (updated == null) {
             return null;
         }

@@ -10,7 +10,7 @@ public interface LessonService {
     Lesson getLessonById(Long id);
     List<Lesson> getAllLessons();
     boolean deleteLesson(Long id);
-    Lesson updateLesson(Lesson lesson, Long id);
+    Lesson updateLesson(Lesson lesson, Long courseId, Integer orderInCourse);
 
     Lesson getLessonByOrderInCourse(Long courseId, Integer orderInCourse);
 }

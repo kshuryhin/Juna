@@ -45,7 +45,7 @@ import {logout} from "@/utils/auth";
 import silentLoginMixin from "@/components/silentLoginMixin";
 
 export default {
-    name: "Mentor",
+    name: "Lesson",
     // mixins: [authMixin, roleMixin, silentLoginMixin],
     // requiredRole: roles.CANDIDATE,
     // components: { vSelect },
@@ -58,10 +58,21 @@ export default {
     },
     methods: {
 
+        async fetchLessonInfo() {
+            const courseId = this.$route.params.courseId
+            const orderInCourse = this.$route.params.orderInCourse
+
+
+            const response = await axios.get(`http://localhost:8082/api/v1/lessons/course/${courseId}/lesson/${orderInCourse}`)
+            this.lesson = response.data
+            this.videoLinks = this.lesson.videoLinks
+        },
+
         async saveLesson() {
-            const courseId = this.$route.params.id
+            const courseId = this.$route.params.courseId
+            const orderInCourse = this.$route.params.orderInCourse
             this.lesson.videoLinks = this.videoLinks
-            await axios.post(`http://localhost:8082/api/v1/lessons/${courseId}`, this.lesson)
+            await axios.put(`http://localhost:8082/api/v1/lessons/course/${courseId}/lesson/${orderInCourse}`, this.lesson)
             await this.sleep(100)
             this.$router.push({name: 'editCourse', params: {id: courseId}})
         },
@@ -75,6 +86,10 @@ export default {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
     },
+
+    mounted() {
+        this.fetchLessonInfo()
+    }
 };
 
 </script>

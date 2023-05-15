@@ -77,17 +77,25 @@ export default {
         },
 
         navigateToLesson(courseId, orderInCourse) {
-            this.$router.push({name: 'lesson', params: {courseId: courseId, orderInCourse: orderInCourse}})
+            this.$router.push({name: 'editLesson', params: {courseId: courseId, orderInCourse: orderInCourse}})
         },
 
         navigateToCourse(id) {
-            this.$router.push({name: 'course', params: {id: id}})
+            this.$router.push({name: 'editCourse', params: {id: id}})
         },
 
         addCourse() {
             this.$router.push({name: 'addCourse', params: {id:this.id}})
+        },
+
+
+        sortedLessons() {
+            return this.lessons.sort((a,b) => a.orderInCourse - b.orderInCourse)
         }
+
     },
+
+
     async mounted() {
         await this.fetchCourses();
     }

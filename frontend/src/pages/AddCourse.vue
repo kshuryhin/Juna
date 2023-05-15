@@ -15,18 +15,18 @@
 
     <main>
         <br><br>
-        <input type="text" placeholder="Course Name" class="course_name" v-model="this.course.name">
+        <input type="text" placeholder="Course Name" class="lesson_name" v-model="this.course.name">
         <br><br>
-        <textarea placeholder="Course description" class="course_description" v-model="this.course.description"></textarea>
+        <textarea placeholder="Course description" class="lesson_text" v-model="this.course.description"></textarea>
         <br><br>
         <button class="save_btn" @click="saveCourse()">Save</button>
     </main>
 
-    <footer>
-        <div class="footer-bottom">
-            <p>&copy; 2023 Juna Jobs</p>
-        </div>
-    </footer>
+<!--    <footer>-->
+<!--        <div class="footer-bottom">-->
+<!--            <p>&copy; 2023 Juna Jobs</p>-->
+<!--        </div>-->
+<!--    </footer>-->
     </body>
 </template>
 <script>
@@ -80,7 +80,7 @@ export default {
     cursor: pointer;
 }
 
-.course_description {
+.lesson_text {
     border: 2px solid lightgray;
     border-radius: 10px;
     width: 60%;
@@ -95,7 +95,7 @@ export default {
 }
 
 
-.course_name {
+.lesson_name {
     border: 2px solid lightgray;
     border-radius: 10px;
     width: 60%;

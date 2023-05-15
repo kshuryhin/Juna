@@ -15,13 +15,19 @@
 
     <main>
         <br><br>
-        <input type="text" placeholder="Course Name" class="course_name" v-model="this.course.name">
+        <input type="text" placeholder="Course Name" class="lesson_name" v-model="this.course.name">
         <br><br>
-        <textarea placeholder="Course description" class="course_description" v-model="this.course.description"></textarea>
+        <textarea placeholder="Course description" class="lesson_text" v-model="this.course.description"></textarea>
         <br><br>
         <button class="save_btn" @click="updateCourse()">Save</button>
         <h1>Lessons</h1>
         <button @click="addLesson()" class="save_btn">Add Lesson</button>
+
+        <ol class="ordered-list">
+            <li v-for="lesson in sortedLessons" :key="lesson.orderInCourse" @click="navigateToLesson(lesson.orderInCourse)">
+                {{ lesson.name }}
+            </li>
+        </ol>
 
     </main>
 
@@ -50,6 +56,7 @@ export default {
     data() {
         return {
             course : {},
+            lessons: [],
         };
     },
     methods: {
@@ -57,6 +64,7 @@ export default {
             const id = this.$route.params.id
             const response = await axios.get(`http://localhost:8082/api/v1/courses/${id}`)
             this.course = response.data
+            this.lessons = this.course.lessons
         },
 
         updateCourse() {
@@ -69,8 +77,18 @@ export default {
             this.$router.push({name: 'addLesson', params: {id: this.course.id}})
         },
 
+        navigateToLesson(orderInCourse) {
+            this.$router.push({name: 'editLesson', params: {courseId: this.course.id, orderInCourse: orderInCourse}})
+        },
+
         sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
+        }
+    },
+
+    computed: {
+        sortedLessons() {
+            return this.lessons.sort((a,b) => a.orderInCourse - b.orderInCourse)
         }
     },
 
@@ -83,6 +101,20 @@ export default {
 </script>
 <style scoped>
 
+.ordered-list {
+    list-style-type: decimal;
+    width: 80%;
+    margin: auto;
+    text-align: left;
+    font-size: 1.2em;
+    padding-left: 3%;
+
+    & li {
+        cursor: pointer;
+    }
+}
+
+
 .save_btn {
     border: 1px solid #168FF0;
     padding: 10px 20px;
@@ -94,7 +126,7 @@ export default {
     cursor: pointer;
 }
 
-.course_description {
+.lesson_text {
     border: 2px solid lightgray;
     border-radius: 10px;
     width: 60%;
@@ -109,7 +141,7 @@ export default {
 }
 
 
-.course_name {
+.lesson_name {
     border: 2px solid lightgray;
     border-radius: 10px;
     width: 60%;
@@ -201,8 +233,8 @@ ul {
     margin: 0;
 }
 li {
-    display: inline-block;
-    margin-right: 20px;
+    //display: inline-block;
+    //margin-right: 20px;
 }
 
 /*.router-link-active {*/

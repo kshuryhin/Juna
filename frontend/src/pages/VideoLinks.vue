@@ -20,7 +20,7 @@
             <button class="tablinks active">Videos</button>
         </div>
         <div v-for="link in videoLinksArray">
-            <iframe width="560" height="315" :src="link" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <iframe width="560" height="315" :src="embedUrl(link)" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
     </main>
 
@@ -50,6 +50,16 @@ export default {
 
         navigateToLesson() {
             this.$router.push({name: 'lesson', params: {courseId: this.courseId, orderInCourse: this.orderInCourse}})
+        },
+
+        embedUrl(url) {
+            const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=))([\w-]{11})/;
+            const match = url.match(regex);
+            if (match) {
+                return `https://www.youtube.com/embed/${match[1]}`;
+            } else {
+                return url;
+            }
         },
     },
 
