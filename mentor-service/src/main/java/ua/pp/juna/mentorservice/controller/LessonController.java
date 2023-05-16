@@ -64,9 +64,10 @@ public class LessonController {
 
 
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Lesson> updateLesson(@RequestBody Lesson lesson, @PathVariable Long id) {
-        final Lesson result = lessonService.updateLesson(lesson, id);
+    @PutMapping("/course/{courseId}/lesson/{orderInCourse}")
+    public ResponseEntity<Lesson> updateLesson(@RequestBody Lesson lesson, @PathVariable(name = "courseId") Long courseId,
+                                               @PathVariable(name = "orderInCourse") Integer orderInCourse) {
+        final Lesson result = lessonService.updateLesson(lesson, courseId, orderInCourse);
         if (result == null) {
             return ResponseEntity.notFound().build();
         } else {
