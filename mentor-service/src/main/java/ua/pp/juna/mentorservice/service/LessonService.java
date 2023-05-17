@@ -9,8 +9,10 @@ public interface LessonService {
     Course addLesson(Lesson lesson, Long courseId);
     Lesson getLessonById(Long id);
     List<Lesson> getAllLessons();
-    boolean deleteLesson(Long id);
+    void deleteLesson(Long courseId, Integer orderInCourse);
     Lesson updateLesson(Lesson lesson, Long courseId, Integer orderInCourse);
 
     Lesson getLessonByOrderInCourse(Long courseId, Integer orderInCourse);
+
+    boolean deleteById(Long id);
 }

@@ -26,6 +26,8 @@
         <button @click="addVideoLink()">Add Video</button>
         <br><br>
         <button class="save_btn" @click="saveLesson()">Save</button>
+        <br><br>
+        <button class="delete_btn" @click="deleteLesson()">Delete</button>
     </main>
 
     <footer>
@@ -81,6 +83,13 @@ export default {
             this.videoLinks.push({link: ''})
         },
 
+        async deleteLesson() {
+            const courseId = this.$route.params.courseId
+            await axios.delete(`http://localhost:8082/api/v1/lessons/course/${courseId}/lesson/${this.lesson.orderInCourse}`)
+            await this.sleep(100)
+            this.$router.push({name: 'editCourse', params: {id: courseId}})
+        },
+
 
         sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
@@ -101,6 +110,18 @@ export default {
     width: 30%;
     margin: auto;
     height: 40px;
+}
+
+.delete_btn {
+    border: 1px solid darkred;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: darkred;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+
 }
 
 .save_btn {

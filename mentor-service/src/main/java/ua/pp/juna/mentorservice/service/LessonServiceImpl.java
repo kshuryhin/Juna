@@ -1,6 +1,7 @@
 package ua.pp.juna.mentorservice.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -46,12 +47,25 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
-    public boolean deleteLesson(final Long id) {
-        log.info("Deleting lesson with id {}", id);
+    public void deleteLesson(final Long courseId, Integer orderInCourse) {
+        log.info("Deleting lesson{}  in course {}", orderInCourse, courseId);
+        try {
+            final Lesson lesson = getLessonByOrderInCourse(courseId, orderInCourse);
+            final Long id = lesson.getId();
+            lessonRepository.deleteById(id);
+//            return true;
+        } catch (Exception e) {
+//            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
         try {
             lessonRepository.deleteById(id);
             return true;
         } catch (Exception e) {
+            System.out.println(e);
             return false;
         }
     }

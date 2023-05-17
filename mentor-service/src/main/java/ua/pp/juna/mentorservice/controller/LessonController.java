@@ -9,7 +9,8 @@ import ua.pp.juna.mentorservice.repo.CourseRepository;
 import ua.pp.juna.mentorservice.repo.LessonRepository;
 import ua.pp.juna.mentorservice.service.LessonService;
 import java.util.List;
-@CrossOrigin(origins = {"http://localhost:8085", "http://localhost:4200"})
+//@CrossOrigin(origins = {"http://localhost:8085", "http://localhost:4200"})
+@CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/lessons")
@@ -52,13 +53,28 @@ public class LessonController {
         return ResponseEntity.ok().body(lessonService.getLessonByOrderInCourse(courseId, orderInCourse));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteLesson(@PathVariable Long id) {
-        final boolean isDeleted = lessonService.deleteLesson(id);
+    @DeleteMapping("/course/{courseId}/lesson/{orderInCourse}")
+    public ResponseEntity<String> deleteLesson(@PathVariable(name = "courseId") Long courseId,
+                                               @PathVariable(name = "orderInCourse") Integer orderInCourse) {
+        final boolean isDeleted = true;
+        lessonService.deleteLesson(courseId, orderInCourse);
+
         if (!isDeleted) {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok().body("Deleted successfully!");
+        }
+    }
+
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteById(@PathVariable Long id) {
+        final boolean isDeleted = lessonService.deleteById(id);
+        if (!isDeleted) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body("Deleted successfully");
         }
     }
 
