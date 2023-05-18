@@ -53,20 +53,6 @@ public class LessonController {
         return ResponseEntity.ok().body(lessonService.getLessonByOrderInCourse(courseId, orderInCourse));
     }
 
-    @DeleteMapping("/course/{courseId}/lesson/{orderInCourse}")
-    public ResponseEntity<String> deleteLesson(@PathVariable(name = "courseId") Long courseId,
-                                               @PathVariable(name = "orderInCourse") Integer orderInCourse) {
-        final boolean isDeleted = true;
-        lessonService.deleteLesson(courseId, orderInCourse);
-
-        if (!isDeleted) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok().body("Deleted successfully!");
-        }
-    }
-
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id) {

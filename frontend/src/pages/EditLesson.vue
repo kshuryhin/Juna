@@ -22,6 +22,10 @@
         <h2>Videos</h2>
         <div v-for="(link, index) in videoLinks" :key="index">
             <input type="text" placeholder="Link" class="videoLink" v-model="link.link">
+            <div class="close-button" @click="deleteVideoLink(index)">
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
         </div>
         <button @click="addVideoLink()">Add Video</button>
         <br><br>
@@ -85,9 +89,13 @@ export default {
 
         async deleteLesson() {
             const courseId = this.$route.params.courseId
-            await axios.delete(`http://localhost:8082/api/v1/lessons/course/${courseId}/lesson/${this.lesson.orderInCourse}`)
+            await axios.delete(`http://localhost:8082/api/v1/lessons/${this.lesson.id}`)
             await this.sleep(100)
             this.$router.push({name: 'editCourse', params: {id: courseId}})
+        },
+
+        deleteVideoLink(index) {
+            this.videoLinks.splice(index, 1)
         },
 
 
@@ -103,6 +111,32 @@ export default {
 
 </script>
 <style scoped>
+
+.close-button {
+    position: relative;
+    margin-left: 1100px;
+    margin-top: -25px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.line {
+    width: 100%;
+    height: 2px;
+    background-color: #000;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.line:first-child {
+    transform: rotate(45deg);
+}
+
+.line:last-child {
+    transform: rotate(-45deg);
+}
+
 
 .videoLink {
     border: 2px solid lightgray;
