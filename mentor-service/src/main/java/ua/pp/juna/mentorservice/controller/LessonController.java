@@ -9,7 +9,6 @@ import ua.pp.juna.mentorservice.repo.CourseRepository;
 import ua.pp.juna.mentorservice.repo.LessonRepository;
 import ua.pp.juna.mentorservice.service.LessonService;
 import java.util.List;
-//@CrossOrigin(origins = {"http://localhost:8085", "http://localhost:4200"})
 @CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor

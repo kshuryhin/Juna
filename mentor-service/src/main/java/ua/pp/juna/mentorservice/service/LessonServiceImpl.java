@@ -52,7 +52,7 @@ public class LessonServiceImpl implements LessonService{
             lessonRepository.deleteById(id);
             return true;
         } catch (Exception e) {
-            System.out.println(e);
+            log.error("Could not delete lesson {}", id, e);
             return false;
         }
     }
@@ -71,8 +71,6 @@ public class LessonServiceImpl implements LessonService{
 
         return lessonRepository.save(updated);
     }
-
-
 
     @Override
     public Lesson getLessonByOrderInCourse(Long courseId, Integer orderInCourse) {
