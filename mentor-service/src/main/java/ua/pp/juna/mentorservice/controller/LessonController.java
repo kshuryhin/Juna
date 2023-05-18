@@ -9,7 +9,7 @@ import ua.pp.juna.mentorservice.repo.CourseRepository;
 import ua.pp.juna.mentorservice.repo.LessonRepository;
 import ua.pp.juna.mentorservice.service.LessonService;
 import java.util.List;
-@CrossOrigin(origins = {"http://localhost:8085", "http://localhost:4200"})
+@CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/lessons")
@@ -52,13 +52,14 @@ public class LessonController {
         return ResponseEntity.ok().body(lessonService.getLessonByOrderInCourse(courseId, orderInCourse));
     }
 
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteLesson(@PathVariable Long id) {
-        final boolean isDeleted = lessonService.deleteLesson(id);
+    public ResponseEntity<String> deleteById(@PathVariable Long id) {
+        final boolean isDeleted = lessonService.deleteById(id);
         if (!isDeleted) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok().body("Deleted successfully!");
+            return ResponseEntity.ok().body("Deleted successfully");
         }
     }
 

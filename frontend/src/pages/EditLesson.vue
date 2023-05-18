@@ -22,10 +22,16 @@
         <h2>Videos</h2>
         <div v-for="(link, index) in videoLinks" :key="index">
             <input type="text" placeholder="Link" class="videoLink" v-model="link.link">
+            <div class="close-button" @click="deleteVideoLink(index)">
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
         </div>
         <button @click="addVideoLink()">Add Video</button>
         <br><br>
         <button class="save_btn" @click="saveLesson()">Save</button>
+        <br><br>
+        <button class="delete_btn" @click="deleteLesson()">Delete</button>
     </main>
 
     <footer>
@@ -81,6 +87,17 @@ export default {
             this.videoLinks.push({link: ''})
         },
 
+        async deleteLesson() {
+            const courseId = this.$route.params.courseId
+            await axios.delete(`http://localhost:8082/api/v1/lessons/${this.lesson.id}`)
+            await this.sleep(100)
+            this.$router.push({name: 'editCourse', params: {id: courseId}})
+        },
+
+        deleteVideoLink(index) {
+            this.videoLinks.splice(index, 1)
+        },
+
 
         sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
@@ -95,12 +112,50 @@ export default {
 </script>
 <style scoped>
 
+.close-button {
+    position: relative;
+    margin-left: 1100px;
+    margin-top: -25px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.line {
+    width: 100%;
+    height: 2px;
+    background-color: #000;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.line:first-child {
+    transform: rotate(45deg);
+}
+
+.line:last-child {
+    transform: rotate(-45deg);
+}
+
+
 .videoLink {
     border: 2px solid lightgray;
     border-radius: 10px;
     width: 30%;
     margin: auto;
     height: 40px;
+}
+
+.delete_btn {
+    border: 1px solid darkred;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: darkred;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+
 }
 
 .save_btn {

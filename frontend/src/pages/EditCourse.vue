@@ -28,6 +28,8 @@
                 {{ lesson.name }}
             </li>
         </ol>
+        <br><br>
+        <button class="delete_btn" @click="deleteCourse()">Delete</button>
 
     </main>
 
@@ -81,6 +83,13 @@ export default {
             this.$router.push({name: 'editLesson', params: {courseId: this.course.id, orderInCourse: orderInCourse}})
         },
 
+        async deleteCourse() {
+            await axios.delete(`http://localhost:8082/api/v1/courses/${this.course.id}`)
+            await this.sleep(100)
+            this.$router.push({name: 'courses'})
+        },
+
+
         sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
@@ -100,6 +109,17 @@ export default {
 
 </script>
 <style scoped>
+
+.delete_btn {
+    border: 1px solid darkred;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: darkred;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
 
 .ordered-list {
     list-style-type: decimal;
