@@ -26,6 +26,11 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.authenticate(request));
     }
 
+    @PostMapping("/authenticate/mentor")
+    public ResponseEntity<AuthenticationResponse> authenticateForMentors(@RequestBody AuthenticationRequest request) {
+        return ResponseEntity.ok().body(service.authenticateMentor(request));
+    }
+
     @PutMapping("/exchange/{email}")
     public ResponseEntity<AuthenticationResponse> updateToken(@PathVariable String email) {
         return ResponseEntity.ok().body(service.updateToken(email));

@@ -10,12 +10,14 @@ import org.springframework.stereotype.Service;
 import ua.pp.juna.authenticationservice.config.JwtService;
 import ua.pp.juna.authenticationservice.controller.models.*;
 
+import ua.pp.juna.authenticationservice.model.Role;
 import ua.pp.juna.authenticationservice.model.User;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserService userDetailsService;
+    private final MentorService mentorService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -51,6 +53,22 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .role(user.getRole())
                 .build();
+    }
+
+    public AuthenticationResponse authenticateMentor(final AuthenticationRequest request) {
+        var user = (User)mentorService.loadUserByUsername(request.getEmail());
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("Bad credentials!");
+        }
+
+        var jwtToken = jwtService.generateToken(user.withRole(Role.MENTORS));
+        user = mentorService.updateMentor(user.withLoggedIn(true).withRole(Role.MENTORS), jwtToken);
+
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .role(Role.MENTORS)
+                .build();
+
     }
 
     public AuthenticationResponse updateToken(final String email) {

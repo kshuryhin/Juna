@@ -1,11 +1,14 @@
 package ua.pp.juna.mentorservice.controller;
 
 
+import jakarta.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ua.pp.juna.mentorservice.model.CreateRequest;
 import ua.pp.juna.mentorservice.model.Mentor;
+import ua.pp.juna.mentorservice.repo.MentorRepository;
 import ua.pp.juna.mentorservice.service.MentorService;
 import ua.pp.juna.mentorservice.utils.PhotoSaver;
 
@@ -18,9 +21,11 @@ public class MentorController {
 
     private final MentorService mentorService;
     private final PhotoSaver photoSaver;
+    private final MentorRepository mentorRepository;
 
     @PostMapping("")
-    public ResponseEntity<Mentor> addMentor(@RequestBody Mentor mentor) {
+    public ResponseEntity<Mentor> addMentor(@RequestBody CreateRequest createRequest) {
+        Mentor mentor = createRequest.getUserDetails();
         return ResponseEntity.ok().body(mentorService.addMentor(mentor));
     }
 
@@ -32,7 +37,11 @@ public class MentorController {
         } else {
             return ResponseEntity.ok().body(result);
         }
+    }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Mentor> getMentorByEmail(@PathVariable String email) {
+        return ResponseEntity.ok().body(mentorRepository.findByEmail(email));
     }
 
     @GetMapping("")

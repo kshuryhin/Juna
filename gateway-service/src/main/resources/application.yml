@@ -395,3 +395,35 @@ spring:
           filters:
             - SetPath=/api/v1/cv
             - JwtAuthenticationFilter
+        - id: createMentor
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/mentors
+            - Method=POST
+          filters:
+            - SetPath=/api/v1/mentors
+        - id: authenticateMentor
+          uri:
+            lb://authentication-service
+          predicates:
+            - Path=/auth
+            - Method=POST
+          filters:
+            - SetPath=/auth/authenticate/mentor
+        - id: getMentor
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/mentors/{email}
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/mentors/email/{email}
+        - id: updateMentor
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/mentors/{id}
+            - Method=PUT
+          filters:
+            - SetPath=/api/v1/mentors/{id}
