@@ -6,4 +6,5 @@ import ua.pp.juna.mentorservice.model.Mentor;
 
 public interface MentorRepository extends JpaRepository<Mentor, Long> {
     Mentor findByCourses(Course course);
+    Mentor findByEmail(String email);
 }

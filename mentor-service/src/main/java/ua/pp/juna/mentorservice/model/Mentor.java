@@ -25,6 +25,10 @@ public class Mentor {
     @Column(length = 10_000)
     private String description;
 
+    private String password;
+
+    private boolean isLoggedIn;
+
     @Enumerated(EnumType.STRING)
     private Category category;
 
