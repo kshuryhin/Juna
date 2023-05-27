@@ -7,6 +7,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import ua.pp.juna.authenticationservice.config.JwtService;
 import ua.pp.juna.authenticationservice.controller.models.*;
 
@@ -21,6 +22,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final RestTemplate restTemplate;
 
     public AuthenticationResponse register(final RegisterRequest request) {
         var user = User.builder()
@@ -56,6 +58,14 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticateMentor(final AuthenticationRequest request) {
+
+        var fetched = restTemplate.getForObject("http://gateway-service/students/{email}",
+                User.class, request.getEmail());
+
+        if (fetched != null) {
+            return authenticateStudent(request, fetched);
+        }
+
         var user = (User)mentorService.loadUserByUsername(request.getEmail());
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("Bad credentials!");
@@ -67,6 +77,21 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .role(Role.MENTORS)
+                .build();
+
+    }
+
+    private AuthenticationResponse authenticateStudent(final AuthenticationRequest request, User user) {
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("Bad credentials!");
+        }
+
+        var jwtToken = jwtService.generateToken(user.withRole(Role.STUDENTS));
+        user = mentorService.updateMentor(user.withLoggedIn(true).withRole(Role.STUDENTS), jwtToken);
+
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .role(Role.STUDENTS)
                 .build();
 
     }

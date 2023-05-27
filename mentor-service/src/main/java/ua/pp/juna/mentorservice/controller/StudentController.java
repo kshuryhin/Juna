@@ -1,11 +1,14 @@
 package ua.pp.juna.mentorservice.controller;
 
 
+import com.netflix.discovery.util.EurekaEntityComparators;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.pp.juna.mentorservice.model.Course;
+import ua.pp.juna.mentorservice.model.CreateStudentRequest;
 import ua.pp.juna.mentorservice.model.Student;
+import ua.pp.juna.mentorservice.repo.StudentRepository;
 import ua.pp.juna.mentorservice.service.StudentService;
 
 import java.nio.file.Path;
@@ -16,9 +19,11 @@ import java.util.List;
 @RequestMapping("/api/v1/students")
 public class StudentController {
     private final StudentService studentService;
+    private final StudentRepository studentRepository;
 
     @PostMapping("")
-    public ResponseEntity<Student> addStudent(@RequestBody Student student) {
+    public ResponseEntity<Student> addStudent(@RequestBody CreateStudentRequest request) {
+        Student student = request.getUserDetails();
         return ResponseEntity.ok().body(studentService.addStudent(student));
     }
 
@@ -36,6 +41,11 @@ public class StudentController {
     @GetMapping("")
     public ResponseEntity<List<Student>> getAllStudents() {
         return ResponseEntity.ok().body(studentService.getAllStudents());
+    }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Student> getByEmail(@PathVariable String email) {
+        return ResponseEntity.ok().body(studentRepository.findByEmail(email));
     }
 
     @DeleteMapping("/{id}")

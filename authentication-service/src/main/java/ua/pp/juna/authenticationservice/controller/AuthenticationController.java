@@ -4,6 +4,7 @@ import jakarta.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import ua.pp.juna.authenticationservice.controller.models.*;
 import ua.pp.juna.authenticationservice.service.AuthenticationService;
 
@@ -11,7 +12,6 @@ import ua.pp.juna.authenticationservice.service.AuthenticationService;
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 public class AuthenticationController {
-
     private final AuthenticationService service;
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(

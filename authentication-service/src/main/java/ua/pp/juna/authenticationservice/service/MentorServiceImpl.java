@@ -23,7 +23,6 @@ public class MentorServiceImpl implements MentorService{
         return userDetails;
     }
 
-
     public User updateMentor(final User user, final String token) {
         final var headers = new HttpHeaders();
         headers.add("Authorization", token);

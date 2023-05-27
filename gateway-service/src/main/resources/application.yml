@@ -427,3 +427,27 @@ spring:
             - Method=PUT
           filters:
             - SetPath=/api/v1/mentors/{id}
+        - id: createStudent
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/students
+            - Method=POST
+          filters:
+            - SetPath=/api/v1/students
+        - id: authenticateStudent
+          uri:
+            lb://authentication-service
+          predicates:
+            - Path=/students/auth
+            - Method=POST
+          filters:
+            - SetPath=/api/v1/authenticate/student
+        - id: getStudent
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/students/{email}
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/students/email/{email}
