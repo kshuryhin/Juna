@@ -415,7 +415,7 @@ spring:
           uri:
             lb://mentor-service
           predicates:
-            - Path=/mentors/{email}
+            - Path=/mentors/email/{email}
             - Method=GET
           filters:
             - SetPath=/api/v1/mentors/email/{email}
@@ -443,11 +443,204 @@ spring:
             - Method=POST
           filters:
             - SetPath=/api/v1/authenticate/student
-        - id: getStudent
+        - id: getStudentByEmail
           uri:
             lb://mentor-service
           predicates:
-            - Path=/students/{email}
+            - Path=/students/email/{email}
             - Method=GET
           filters:
             - SetPath=/api/v1/students/email/{email}
+        - id: addCourse
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/courses/{mentorId}
+            - Method=POST
+          filters:
+            - SetPath=/api/v1/courses/{mentorId}
+        - id: getCourseById
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/courses/{id}
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/courses/{id}
+        - id: getAllCourses
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/courses
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/courses
+        - id: deleteCourse
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/courses/{id}
+            - Method=DELETE
+          filters:
+            - SetPath=/api/v1/courses/{id}
+        - id: getCourseByStudent
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/courses/student/{studentId}
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/courses/student/{studentId}
+        - id: getCourseByLesson
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/courses/lesson/{lessonId}
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/courses/lesson/{lessonId}
+        - id: updateCourse
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/courses/{id}
+            - Method=PUT
+          filters:
+            - SetPath=/api/v1/courses/{id}
+        - id: getMentorById
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/mentors/{id}
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/mentors/{id}
+        - id: getAllMentors
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/mentors
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/mentors
+        - id: deleteMentor
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/mentors/{id}
+            - Method=DELETE
+          filters:
+            - SetPath=/api/v1/mentors/{id}
+        - id: updateMentor
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/mentors/{id}
+            - Method=/PUT
+          filters:
+            - SetPath=/api/v1/mentors/{id}
+        - id: handleFileUploadMentor
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/mentors/upload
+            - Method=POST
+          filters:
+            - SetPath=/api/v1/mentors/upload
+        - id: createLesson
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/lessons/{courseId}
+            - Method=POST
+          filters:
+            - SetPath=/api/v1/lessons/{courseId}
+        - id: getLessonById
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/lessons/{id}
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/lessons/{id}
+        - id: getAllLessons
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/lessons
+            - Method=Get
+          filters:
+            - SetPath=/api/v1/lessons
+        - id: getLessonByOrder
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/lessons/course/{courseId}/lesson/{orderInCourse}
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/lessons/course/{courseId}/lesson/{orderInCourse}
+        - id: deleteLesson
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/lessons/{id}
+            - Method=DELETE
+          filters:
+            - SetPath=/api/v1/lessons/{id}
+        - id: updateLesson
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/lessons/course/{courseId}/lesson/{orderInCourse}
+            - Method=PUT
+          filters:
+            - SetPath=/api/v1/lessons/course/{courseId}/lesson/{orderInCourse}
+        - id: addStudent
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/students
+            - Method=POST
+          filters:
+            - SetPath=/api/v1/students
+        - id: getStudentById
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/students/{id}
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/students/{id}
+        - id: getAllStudents
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/students
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/students
+        - id: deleteStudent
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/students/{id}
+            - Method=DELETE
+          filters:
+            - SetPath=/api/v1/students/{id}
+        - id: updateStudent
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/students/{id}
+            - Method=PUT
+          filters:
+            - SetPath=/api/v1/students/{id}
+        - id: subscribe
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/students/course/{courseId}/email
+            - Method=PUT
+          filters:
+            - SetPath=/api/v1/students/course/{courseId}/email
+            - ExtractEmailFilter

@@ -59,7 +59,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticateMentor(final AuthenticationRequest request) {
 
-        var fetched = restTemplate.getForObject("http://gateway-service/students/{email}",
+        var fetched = restTemplate.getForObject("http://gateway-service/students/email/{email}",
                 User.class, request.getEmail());
 
         if (fetched != null) {

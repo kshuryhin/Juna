@@ -12,7 +12,7 @@ import ua.pp.juna.mentorservice.service.MentorService;
 import ua.pp.juna.mentorservice.utils.PhotoSaver;
 
 import java.util.List;
-@CrossOrigin(origins = {"http://localhost:8085", "http://localhost:4200"})
+//@CrossOrigin(origins = {"http://localhost:8085", "http://localhost:4200"})
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/mentors")

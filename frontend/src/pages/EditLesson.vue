@@ -69,7 +69,7 @@ export default {
             const orderInCourse = this.$route.params.orderInCourse
 
 
-            const response = await axios.get(`http://localhost:8082/api/v1/lessons/course/${courseId}/lesson/${orderInCourse}`)
+            const response = await axios.get(`http://localhost:8085/lessons/course/${courseId}/lesson/${orderInCourse}`)
             this.lesson = response.data
             this.videoLinks = this.lesson.videoLinks
         },
@@ -78,7 +78,7 @@ export default {
             const courseId = this.$route.params.courseId
             const orderInCourse = this.$route.params.orderInCourse
             this.lesson.videoLinks = this.videoLinks
-            await axios.put(`http://localhost:8082/api/v1/lessons/course/${courseId}/lesson/${orderInCourse}`, this.lesson)
+            await axios.put(`http://localhost:8085/lessons/course/${courseId}/lesson/${orderInCourse}`, this.lesson)
             await this.sleep(100)
             this.$router.push({name: 'editCourse', params: {id: courseId}})
         },
@@ -89,7 +89,7 @@ export default {
 
         async deleteLesson() {
             const courseId = this.$route.params.courseId
-            await axios.delete(`http://localhost:8082/api/v1/lessons/${this.lesson.id}`)
+            await axios.delete(`http://localhost:8085/lessons/${this.lesson.id}`)
             await this.sleep(100)
             this.$router.push({name: 'editCourse', params: {id: courseId}})
         },

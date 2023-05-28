@@ -92,7 +92,7 @@
 
 
 
-                <button type="submit" @click="updateProfile" class="update-btn" :disabled="isUpdating">Save</button>
+                <button type="submit" @click="updateProfile" class="update-btn">Save</button>
             </div>
         </div>
 
@@ -129,14 +129,14 @@ export default {
     methods: {
         async fetchMentorInfo() {
             const id = this.$route.params.id
-            const response = await axios.get(`http://localhost:8082/api/v1/mentors/${id}`)
+            const response = await axios.get(`http://localhost:8085/mentors/${id}`)
             this.mentor = response.data
             this.imageName = this.mentor.imageLink===null?this.imageName:this.mentor.imageLink;
             this.imageUrl = require(`../assets/uploads/mentors/${this.imageName}`)
         },
 
         updateProfile() {
-            axios.put(`http://localhost:8082/api/v1/mentors/${this.mentor.id}`, this.mentor)
+            axios.put(`http://localhost:8085/mentors/${this.mentor.id}`, this.mentor)
                 .then(this.$router.go());
         },
 
@@ -148,7 +148,7 @@ export default {
             const file = event.target.files[0]
             const formData = new FormData()
             formData.append('file', file)
-            axios.post(`http://localhost:8082/api/v1/mentors/upload`, formData,  {
+            axios.post(`http://localhost:8085/mentors/upload`, formData,  {
                 headers: { Authorization: localStorage.getItem("token") },
             })
         },

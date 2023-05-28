@@ -109,7 +109,7 @@ export default {
     methods: {
         async fetchMentors() {
             try {
-                const response = await axios.get('http://localhost:8082/api/v1/mentors', {
+                const response = await axios.get('http://localhost:8085/mentors', {
                     // headers: {
                     //     Authorization: localStorage.getItem('token'),
                     // },

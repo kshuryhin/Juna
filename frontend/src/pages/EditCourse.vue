@@ -64,14 +64,14 @@ export default {
     methods: {
         async fetchCourseInfo() {
             const id = this.$route.params.id
-            const response = await axios.get(`http://localhost:8082/api/v1/courses/${id}`)
+            const response = await axios.get(`http://localhost:8085/courses/${id}`)
             this.course = response.data
             this.lessons = this.course.lessons
         },
 
         updateCourse() {
             const mentorId = this.$route.params.id
-            axios.put(`http://localhost:8082/api/v1/courses/${this.course.id}`, this.course)
+            axios.put(`http://localhost:8085/courses/${this.course.id}`, this.course)
                 .then(this.$router.go())
         },
 
@@ -84,7 +84,7 @@ export default {
         },
 
         async deleteCourse() {
-            await axios.delete(`http://localhost:8082/api/v1/courses/${this.course.id}`)
+            await axios.delete(`http://localhost:8085/courses/${this.course.id}`)
             await this.sleep(100)
             this.$router.push({name: 'courses'})
         },

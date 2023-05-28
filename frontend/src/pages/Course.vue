@@ -25,6 +25,7 @@
             </li>
         </ol>
 
+      <button type="submit" @click="apply()" class="apply-btn">Apply</button>
     </main>
     </body>
 </template>
@@ -43,7 +44,7 @@ export default {
     methods: {
         async fetchCourseInfo() {
             const id = this.$route.params.id
-            const response = await axios.get(`http://localhost:8082/api/v1/courses/${id}`)
+            const response = await axios.get(`http://localhost:8085/courses/${id}`)
             this.course = response.data
             this.lessons = this.course.lessons
         },
@@ -51,6 +52,15 @@ export default {
         navigateToLesson(orderInCourse) {
             this.$router.push({name: 'lesson', params: {courseId: this.course.id, orderInCourse: orderInCourse}})
         },
+
+        async apply() {
+          const id = this.$route.params.id
+          await axios.put(`http://localhost:8085/students/course/${id}/email`, {}, {
+            headers: {
+              'Authorization': localStorage.getItem('token')
+            }
+          })
+        }
 
     },
 
@@ -68,6 +78,18 @@ export default {
 
 <style scoped>
 
+.apply-btn {
+  background-color: #168FF0;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0D5CA5;
+  }
+}
 
 /* Set navigation style */
 nav {

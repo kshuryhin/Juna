@@ -109,7 +109,7 @@ export default {
     methods: {
         async fetchCourses() {
             try {
-                const response = await axios.get('http://localhost:8082/api/v1/courses', {
+                const response = await axios.get('http://localhost:8085/courses', {
                     // headers: {
                     //     Authorization: localStorage.getItem('token'),
                     // },

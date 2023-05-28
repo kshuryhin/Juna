@@ -61,10 +61,10 @@ export default {
             const courseId = this.$route.params.courseId
             const orderInCourse = this.$route.params.orderInCourse
 
-            const response = await axios.get(`http://localhost:8082/api/v1/lessons/course/${courseId}/lesson/${orderInCourse}`)
+            const response = await axios.get(`http://localhost:8085/lessons/course/${courseId}/lesson/${orderInCourse}`)
             this.lesson = response.data
 
-            const courseRequest = await axios.get(`http://localhost:8082/api/v1/courses/${courseId}`)
+            const courseRequest = await axios.get(`http://localhost:8085/courses/${courseId}`)
             this.course = courseRequest.data
 
 

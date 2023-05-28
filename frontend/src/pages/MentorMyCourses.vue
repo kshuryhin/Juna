@@ -69,7 +69,7 @@ export default {
     methods: {
         async fetchCourses() {
             this.id = this.$route.params.id
-            const response = await axios.get(`http://localhost:8082/api/v1/mentors/${this.id}`)
+            const response = await axios.get(`http://localhost:8085/mentors/${this.id}`)
             this.courses = response.data.courses
         },
         navigateToMentorInfo() {
