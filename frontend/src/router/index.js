@@ -40,6 +40,7 @@ import EditCourse from "@/pages/EditCourse.vue";
 import EditLesson from "@/pages/EditLesson.vue";
 import MentorsSignUp from "@/pages/MentorsSignUp.vue";
 import MentorsLogin from "@/pages/MentorsLogin.vue";
+import AppliedCourses from "@/pages/AppliedCourses.vue";
 
 const routes = [
     {
@@ -254,6 +255,11 @@ const routes = [
         path: '/mentors/login',
         name: 'mentorsLogin',
         component: MentorsLogin
+    },
+    {
+        path: '/courses/applied',
+        name: 'appliedCourses',
+        component: AppliedCourses
     }
 
 

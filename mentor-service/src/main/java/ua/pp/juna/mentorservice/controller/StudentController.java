@@ -68,9 +68,10 @@ public class StudentController {
         }
     }
 
-    @PutMapping("/{courseId}/{studentId}")
-    public ResponseEntity<Course> subscribe(@PathVariable(name = "courseId") Long courseId, @PathVariable(name = "studentId") Long studentId) {
-        final Course course = studentService.subscribeOnCourse(studentId, courseId);
+    @PutMapping("/course/{courseId}/email/{email}")
+    public ResponseEntity<Course> subscribe(@PathVariable(name = "courseId") Long courseId, @PathVariable(name = "email") String email) {
+        final Student student = studentRepository.findByEmail(email);
+        final Course course = studentService.subscribeOnCourse(student.getId(), courseId);
         if (course == null) {
             return ResponseEntity.notFound().build();
         } else {

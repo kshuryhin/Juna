@@ -14,7 +14,7 @@ import ua.pp.juna.mentorservice.repo.StudentRepository;
 import ua.pp.juna.mentorservice.service.CourseService;
 
 import java.util.List;
-@CrossOrigin(origins = {"http://localhost:8085", "http://localhost:4200"})
+//@CrossOrigin(origins = {"http://localhost:8085", "http://localhost:4200"})
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/courses")
@@ -54,15 +54,24 @@ public class CourseController {
         }
     }
 
-    @GetMapping("/student/{studentId}")
-    public ResponseEntity<List<Course>> getCoursesByStudent(@PathVariable Long studentId) {
+    @GetMapping("/student/email/{email}")
+    public ResponseEntity<List<Course>> getCoursesByStudent(@PathVariable String email) {
 
-        final Student student = studentRepository.findById(studentId).orElse(null);
+        final Student student = studentRepository.findByEmail(email);
         if (student == null) {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok().body(courseRepository.findAllByStudents(student));
         }
+    }
+
+    @GetMapping("/isApplied/{courseId}/email/{email}")
+    public ResponseEntity<Boolean> isCourseApplied(@PathVariable(name = "courseId") Long courseId,
+                                                   @PathVariable(name = "email") String email) {
+
+        Course course = courseService.getCourseById(courseId);
+        Student student = studentRepository.findByEmail(email);
+        return ResponseEntity.ok().body(course.getStudents().contains(student));
     }
 
     @GetMapping("/lesson/{lessonId}")

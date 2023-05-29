@@ -25,6 +25,7 @@
             </li>
         </ol>
 
+      <button type="submit" @click="apply()" :class="{'apply-btn':!isApplied, 'applied-btn':isApplied}">{{ buttonLabel }}</button>
     </main>
     </body>
 </template>
@@ -37,13 +38,21 @@ export default {
         return {
             course: {},
             lessons: [],
+            buttonLabel: "Apply",
+            isApplied: false,
         }
     },
 
     methods: {
         async fetchCourseInfo() {
             const id = this.$route.params.id
-            const response = await axios.get(`http://localhost:8082/api/v1/courses/${id}`)
+            const response = await axios.get(`http://localhost:8085/courses/${id}`)
+            this.isApplied = await axios.get(`http://localhost:8085/courses/isApplied/${id}/email`, {
+              headers: {
+                'Authorization': localStorage.getItem('token')
+              }
+            })
+          this.isApplied = this.isApplied.data
             this.course = response.data
             this.lessons = this.course.lessons
         },
@@ -51,6 +60,22 @@ export default {
         navigateToLesson(orderInCourse) {
             this.$router.push({name: 'lesson', params: {courseId: this.course.id, orderInCourse: orderInCourse}})
         },
+
+      apply() {
+        console.log(this.isApplied)
+          if (this.isApplied) return
+          console.log("yes")
+
+          const id = this.$route.params.id
+          axios.put(`http://localhost:8085/students/course/${id}/email`, {}, {
+            headers: {
+              'Authorization': localStorage.getItem('token')
+            }
+          })
+
+          this.isApplied = true
+          this.buttonLabel = "Applied"
+        }
 
     },
 
@@ -68,6 +93,26 @@ export default {
 
 <style scoped>
 
+.apply-btn {
+  background-color: #168FF0;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0D5CA5;
+  }
+}
+
+.applied-btn {
+  background-color: white;
+  color: #168FF0;
+  padding: 10px 20px;
+  border: solid 2px #168FF0;
+  border-radius: 4px;
+}
 
 /* Set navigation style */
 nav {

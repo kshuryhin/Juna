@@ -61,7 +61,7 @@ export default {
         async saveLesson() {
             const courseId = this.$route.params.id
             this.lesson.videoLinks = this.videoLinks
-            await axios.post(`http://localhost:8082/api/v1/lessons/${courseId}`, this.lesson)
+            await axios.post(`http://localhost:8085/lessons/${courseId}`, this.lesson)
             await this.sleep(100)
             this.$router.push({name: 'editCourse', params: {id: courseId}})
         },

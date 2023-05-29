@@ -43,7 +43,7 @@ export default {
         async fetchVideoLinks() {
             this.courseId = this.$route.params.courseId
             this.orderInCourse = this.$route.params.orderInCourse
-            const response = await axios.get(`http://localhost:8082/api/v1/lessons/course/${this.courseId}/lesson/${this.orderInCourse}`)
+            const response = await axios.get(`http://localhost:8085/lessons/course/${this.courseId}/lesson/${this.orderInCourse}`)
             this.lesson = response.data
             this.videoLinks = this.lesson.videoLinks
         },

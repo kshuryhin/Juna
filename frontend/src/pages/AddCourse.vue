@@ -52,7 +52,7 @@ export default {
     methods: {
         async saveCourse() {
             const mentorId = this.$route.params.id
-            await axios.post(`http://localhost:8082/api/v1/courses/${mentorId}`, this.course)
+            await axios.post(`http://localhost:8085/courses/${mentorId}`, this.course)
             await this.sleep(100)
             this.$router.push({name: 'mentorMyCourses', params: {id: mentorId}})
 
