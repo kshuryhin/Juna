@@ -60,7 +60,7 @@
                     <select name="sorting" id="sortType" v-model="filters.sortType">
                         <option value="">Dont sort</option>
                         <option value="BY_RATING">By Rating</option>
-                        <option value="BY_Courses_NUMBER">By Number of courses</option>
+                        <option value="BY_COURSES">By Number of courses</option>
                     </select>
                     <button type="submit">Apply Filters</button>
                 </form>
@@ -135,6 +135,11 @@ export default {
                     mentor.category.includes(this.filters.selectedCategory)
                 );
             }
+
+          if (this.filters.sortType === 'BY_COURSES') {
+            filteredMentors.sort((a, b) => a.courses.length - b.courses.length).reverse();
+          }
+
             this.mentors = filteredMentors;
 
         },

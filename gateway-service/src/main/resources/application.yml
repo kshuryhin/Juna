@@ -487,10 +487,11 @@ spring:
           uri:
             lb://mentor-service
           predicates:
-            - Path=/courses/student/{studentId}
+            - Path=/courses/student/email
             - Method=GET
           filters:
-            - SetPath=/api/v1/courses/student/{studentId}
+            - SetPath=/api/v1/courses/student/email
+            - ExtractEmailFilter
         - id: getCourseByLesson
           uri:
             lb://mentor-service
@@ -643,4 +644,13 @@ spring:
             - Method=PUT
           filters:
             - SetPath=/api/v1/students/course/{courseId}/email
+            - ExtractEmailFilter
+        - id: isCourseApplied
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/courses/isApplied/{courseId}/email
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/courses/isApplied/{courseId}/email
             - ExtractEmailFilter

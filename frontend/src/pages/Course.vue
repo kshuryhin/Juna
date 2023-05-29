@@ -25,7 +25,7 @@
             </li>
         </ol>
 
-      <button type="submit" @click="apply()" class="apply-btn">Apply</button>
+      <button type="submit" @click="apply()" :class="{'apply-btn':!isApplied, 'applied-btn':isApplied}">{{ buttonLabel }}</button>
     </main>
     </body>
 </template>
@@ -38,6 +38,8 @@ export default {
         return {
             course: {},
             lessons: [],
+            buttonLabel: "Apply",
+            isApplied: false,
         }
     },
 
@@ -45,6 +47,12 @@ export default {
         async fetchCourseInfo() {
             const id = this.$route.params.id
             const response = await axios.get(`http://localhost:8085/courses/${id}`)
+            this.isApplied = await axios.get(`http://localhost:8085/courses/isApplied/${id}/email`, {
+              headers: {
+                'Authorization': localStorage.getItem('token')
+              }
+            })
+          this.isApplied = this.isApplied.data
             this.course = response.data
             this.lessons = this.course.lessons
         },
@@ -53,13 +61,20 @@ export default {
             this.$router.push({name: 'lesson', params: {courseId: this.course.id, orderInCourse: orderInCourse}})
         },
 
-        async apply() {
+      apply() {
+        console.log(this.isApplied)
+          if (this.isApplied) return
+          console.log("yes")
+
           const id = this.$route.params.id
-          await axios.put(`http://localhost:8085/students/course/${id}/email`, {}, {
+          axios.put(`http://localhost:8085/students/course/${id}/email`, {}, {
             headers: {
               'Authorization': localStorage.getItem('token')
             }
           })
+
+          this.isApplied = true
+          this.buttonLabel = "Applied"
         }
 
     },
@@ -89,6 +104,14 @@ export default {
   &:hover {
     background-color: #0D5CA5;
   }
+}
+
+.applied-btn {
+  background-color: white;
+  color: #168FF0;
+  padding: 10px 20px;
+  border: solid 2px #168FF0;
+  border-radius: 4px;
 }
 
 /* Set navigation style */

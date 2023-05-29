@@ -60,7 +60,7 @@
                     <select name="sorting" id="sortType" v-model="filters.sortType">
                         <option value="">Dont sort</option>
                         <option value="BY_RATING">By Rating</option>
-                        <option value="BY_Courses_NUMBER">By Number of courses</option>
+                        <option value="BY_STUDENTS">By Number of students</option>
                     </select>
                     <button type="submit">Apply Filters</button>
                 </form>
@@ -135,6 +135,10 @@ export default {
                     course.category.includes(this.filters.selectedCategory)
                 );
             }
+
+          if (this.filters.sortType === 'BY_STUDENTS') {
+            filteredCourses.sort((a, b) => a.students.length - b.students.length).reverse();
+          }
             this.courses = filteredCourses;
 
         },
