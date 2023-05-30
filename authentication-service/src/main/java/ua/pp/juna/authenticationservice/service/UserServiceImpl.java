@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ua.pp.juna.authenticationservice.controller.models.CandidatePatchRequest;
 import ua.pp.juna.authenticationservice.controller.models.SaveUserRequest;
+import ua.pp.juna.authenticationservice.controller.models.SendEmailRequest;
 import ua.pp.juna.authenticationservice.model.User;
+
+import java.util.List;
 
 
 @Service
@@ -30,6 +33,9 @@ public class UserServiceImpl implements UserService {
 
     public User save(final User user) {
         restTemplate.postForObject(HOST + "/" + user.getRole().name().toLowerCase(), new SaveUserRequest(user), String.class);
+        final var request = SendEmailRequest.builder().recipients(List.of(user.getEmail())).subject("Welcome to Juna").msgBody("Hello! Welcome to our service").build();
+        var httpEntity = new HttpEntity<>(request);
+        restTemplate.exchange(HOST+"/sendMail", HttpMethod.POST, httpEntity, String.class);
         return user;
     }
 

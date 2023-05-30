@@ -22,6 +22,7 @@
         <module>eureka-server</module>
         <module>mentor-service</module>
         <module>data-analytics</module>
+        <module>notification-service</module>
     </modules>
 
     <dependencies>

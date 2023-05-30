@@ -654,3 +654,11 @@ spring:
           filters:
             - SetPath=/api/v1/courses/isApplied/{courseId}/email
             - ExtractEmailFilter
+        - id: sendEmail
+          uri:
+            lb://notification-service
+          predicates:
+            - Path=/sendMail
+            - Method=POST
+          filters:
+            - SetPath=/sendMail
