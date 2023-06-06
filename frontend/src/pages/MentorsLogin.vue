@@ -1,6 +1,6 @@
 <template>
   <div class="logo-container">
-    <img src="../assets/logo.png" alt="Juna" class="logo" @click="this.$router.push('/')">
+    <img src="../assets/img.png" alt="Juna" class="logo" @click="this.$router.push('/')">
   </div>
   <div class="login-box">
     <h2 style="color:#168FF0">Sign In</h2>

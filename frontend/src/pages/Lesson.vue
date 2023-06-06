@@ -144,36 +144,7 @@ export default {
     line-height: 1.5;
 }
 
-.switch-container {
-    position: relative;
-    display: inline-block;
-    width: 57px;
-    height: 20px;
-}
 
-.switch-label {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: 0.4s;
-    border-radius: 20px;
-}
-
-.switch-label:before {
-    position: absolute;
-    content: "";
-    height: 14px;
-    width: 14px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: 0.4s;
-    border-radius: 50%;
-}
 
 .switch-checkbox:checked + .switch-label {
     background-color: #168FF0;
@@ -268,9 +239,6 @@ li {
     margin-right: 20px;
 }
 
-/*.router-link-active {*/
-/*    text-decoration: underline;*/
-/*}*/
 
 .header h1 {
     margin: 0;
@@ -288,10 +256,10 @@ li {
     border: none;
     outline: none;
     cursor: pointer;
-    padding: 16px 24px; /* increase padding */
+    padding: 16px 24px;
     margin: 0 10px;
     border-radius: 4px 4px 0 0;
-    font-size: 16px; /* increase font size */
+    font-size: 16px;
     margin-bottom: -10px;
 }
 
@@ -300,33 +268,7 @@ li {
     color: white;
 }
 
-.tabcontent {
-    display: none;
-    padding: 20px;
-    border-top: none;
-}
 
-#personal-info {
-    display: block;
-}
-
-#saved-vacancies {
-    display: none;
-}
-
-#applied-vacancies {
-    display: none;
-}
-
-.form-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.label-bold {
-    font-weight: bold;
-}
 
 .form-group label {
     flex-basis: 30%;
@@ -416,18 +358,6 @@ select::-webkit-select {
     margin: 0 auto 20px;
 }
 
-.skills-container {
-    margin: 20px 0;
-}
-
-.skills-title {
-    margin-top: 0;
-}
-.skills {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
 
 .skills li {
     margin-bottom: 5px;
@@ -442,56 +372,6 @@ select::-webkit-select {
 }
 
 
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    display: none;
-    float: left;
-    min-width: 10rem;
-    padding: 0.5rem 0;
-    margin: 0.125rem 0 0;
-    max-height: 100px;
-    overflow-y: auto;
-    font-size: 1rem;
-    color: #212529;
-    text-align: left;
-    list-style: none;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 0.25rem;
-}
-
-.dropdown-menu.show {
-    display: block;
-}
-
-.dropdown-item {
-    display: block;
-    width: 100%;
-    padding: 0.25rem 1.5rem;
-    clear: both;
-    font-weight: 400;
-    color: #212529;
-    text-align: inherit;
-    white-space: nowrap;
-    background-color: transparent;
-    border: 0;
-}
-
-.dropdown-item:focus,
-.dropdown-item:hover {
-    color: #16181b;
-    text-decoration: none;
-    background-color: #f8f9fa;
-}
 
 .dropdown-menu .dropdown-item.disabled,
 .dropdown-menu .dropdown-item:disabled {
@@ -504,89 +384,6 @@ select::-webkit-select {
     color: #fff;
     text-decoration: none;
     background-color: #007bff;
-}
-
-.btn-secondary {
-    background-color: #fff;
-    border: 1px solid #ced4da;
-    color: #495057;
-    cursor: pointer;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    border-radius: 0.25rem;
-}
-
-.btn-secondary:focus,
-.btn-secondary:hover {
-    background-color: #e9ecef;
-}
-
-.btn-secondary:focus {
-    box-shadow: none;
-}
-
-.btn-secondary.dropdown-toggle::after {
-    display: inline-block;
-    margin-left: 0.255em;
-    vertical-align: 0.255em;
-    content: "";
-    border-top: 0.3em solid;
-    border-right: 0.3em solid transparent;
-    border-bottom: 0;
-    border-left: 0.3em solid transparent;
-}
-
-
-.update-skills-btn {
-    margin-top: 5px;
-    padding: 5px 10px;
-    font-size: 14px;
-    background-color: #007bff;
-    color: #fff;
-    border: 1px solid #007bff;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-.file-input-container {
-    position: relative;
-    display: inline-block;
-}
-
-#photo {
-    display: none;
-}
-
-
-.file-label:hover {
-    background-color: #0E6CB3;
-}
-
-.photo-container {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.image-preview {
-    display: inline-block;
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-bottom: 20px;
-    border: 3px solid #168FF0;
-}
-
-.file-label {
-    display: inline-block;
-    background-color: #168FF0;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
 }
 
 footer {

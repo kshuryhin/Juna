@@ -32,4 +32,9 @@ public class Course {
 
     @ManyToMany
     private List<Student> students;
+
+    @ElementCollection
+    @CollectionTable(name = "course_likes")
+    @Column(name = "student_id")
+    private List<Long> studentsLikedIds;
 }

@@ -1,7 +1,6 @@
 package ua.pp.juna.mentorservice.controller;
 
 
-import com.netflix.discovery.util.EurekaEntityComparators;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +10,6 @@ import ua.pp.juna.mentorservice.model.Student;
 import ua.pp.juna.mentorservice.repo.StudentRepository;
 import ua.pp.juna.mentorservice.service.StudentService;
 
-import java.nio.file.Path;
 import java.util.List;
 
 @RestController
@@ -35,7 +33,6 @@ public class StudentController {
         } else {
             return ResponseEntity.ok().body(result);
         }
-
     }
 
     @GetMapping("")
@@ -70,8 +67,17 @@ public class StudentController {
 
     @PutMapping("/course/{courseId}/email/{email}")
     public ResponseEntity<Course> subscribe(@PathVariable(name = "courseId") Long courseId, @PathVariable(name = "email") String email) {
-        final Student student = studentRepository.findByEmail(email);
-        final Course course = studentService.subscribeOnCourse(student.getId(), courseId);
+        final Course course = studentService.subscribeOnCourse(email, courseId);
+        if (course == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(course);
+        }
+    }
+
+    @PutMapping("/course/{courseId}/like/email/{email}")
+    public ResponseEntity<Course> likeCourse(@PathVariable(name = "courseId") Long courseId, @PathVariable(name = "email") String email) {
+        final Course course = studentService.likeCourse(email, courseId);
         if (course == null) {
             return ResponseEntity.notFound().build();
         } else {

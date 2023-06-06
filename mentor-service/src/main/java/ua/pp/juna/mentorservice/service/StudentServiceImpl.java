@@ -61,16 +61,28 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public Course subscribeOnCourse(final Long studentId, final Long courseId) {
+    public Course subscribeOnCourse(final String email, final Long courseId) {
         final Course course = courseRepository.findById(courseId).orElse(null);
-        final Student student = studentRepository.findById(studentId).orElse(null);
+        final Student student = studentRepository.findByEmail(email);
         if (course == null || student == null)
             return null;
 
         course.getStudents().add(student);
 
         return courseRepository.save(course);
+    }
 
+    @Override
+    public Course likeCourse(final String email, Long courseId) {
+        final Course course = courseRepository.findById(courseId).orElse(null);
+        final Student student = studentRepository.findByEmail(email);
+        if (course == null || student == null) {
+            return null;
+        }
+
+        course.getStudentsLikedIds().add(student.getId());
+
+        return courseRepository.save(course);
     }
 
 

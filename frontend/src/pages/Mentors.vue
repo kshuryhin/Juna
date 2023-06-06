@@ -12,7 +12,7 @@
         <nav>
             <ul>
                 <router-link :to="{ name: 'mentors'}">Mentors</router-link>
-                <router-link :to="{ name: ''}">Applied Courses</router-link>
+                <router-link :to="{ name: 'appliedCourses'}">Applied Courses</router-link>
                 <li><a @click="this.logout()" href="#">Logout</a></li>
             </ul>
         </nav>
@@ -94,7 +94,7 @@ import silentLoginMixin from "@/components/silentLoginMixin";
 
 export default {
     // mixins: [authMixin, roleMixin, silentLoginMixin],
-    requiredRole: roles.CANDIDATE,
+    // requiredRole: roles.CANDIDATE,
     data() {
         return {
             filters: {

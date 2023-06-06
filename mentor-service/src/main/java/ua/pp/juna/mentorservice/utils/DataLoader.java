@@ -34,7 +34,7 @@ public class DataLoader implements ApplicationRunner {
                 .email("anbro2002@gmail.com")
                 .linkedin("https://www.linkedin.com/in/andriy-brovko-025594262/")
                 .github("https://github.com/anbro95")
-                .imageLink("3.jpg")
+//                .imageLink("3.jpg")
                 .description("As a Java course mentor on our employment resource, I am dedicated to providing comprehensive" +
                         " and practical training to help aspiring Java developers build a strong foundation in programming " +
                         "concepts and best practices. Through my engaging and informative courses, students can gain valuable" +

@@ -40,6 +40,7 @@ export default {
             lessons: [],
             buttonLabel: "Apply",
             isApplied: false,
+            liked: false,
         }
     },
 
@@ -52,7 +53,10 @@ export default {
                 'Authorization': localStorage.getItem('token')
               }
             })
-          this.isApplied = this.isApplied.data
+
+            this.liked = await axios.get(``)
+
+            this.isApplied = this.isApplied.data
             this.course = response.data
             this.lessons = this.course.lessons
         },
@@ -75,7 +79,8 @@ export default {
 
           this.isApplied = true
           this.buttonLabel = "Applied"
-        }
+        },
+
 
     },
 

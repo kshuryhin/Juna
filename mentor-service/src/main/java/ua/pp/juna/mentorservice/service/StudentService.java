@@ -11,5 +11,6 @@ public interface StudentService {
     List<Student> getAllStudents();
     boolean deleteStudent(Long id);
     Student updateStudent(Student student, Long id);
-    Course subscribeOnCourse(Long studentId, Long courseId);
+    Course subscribeOnCourse(String email, Long courseId);
+    Course likeCourse(String email, Long courseId);
 }

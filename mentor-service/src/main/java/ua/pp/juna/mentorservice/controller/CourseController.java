@@ -2,6 +2,7 @@ package ua.pp.juna.mentorservice.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.pp.juna.mentorservice.model.Course;
@@ -72,6 +73,14 @@ public class CourseController {
         Course course = courseService.getCourseById(courseId);
         Student student = studentRepository.findByEmail(email);
         return ResponseEntity.ok().body(course.getStudents().contains(student));
+    }
+
+    @GetMapping("/isLiked/{courseId}/email/{email}")
+    public ResponseEntity<Boolean> isCourseLiked(@PathVariable(name = "courseId") Long courseId,
+                                                 @PathVariable(name = "email") String email) {
+        Course course = courseService.getCourseById(courseId);
+        Student student = studentRepository.findByEmail(email);
+        return ResponseEntity.ok().body(course.getStudentsLikedIds().contains(student.getId()));
     }
 
     @GetMapping("/lesson/{lessonId}")

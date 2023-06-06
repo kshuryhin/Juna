@@ -662,3 +662,20 @@ spring:
             - Method=POST
           filters:
             - SetPath=/sendMail
+        - id: likeCourse
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/students/course/{courseId}/like/email
+            - Method=PUT
+          filters:
+            - SetPath=/api/v1/students/course/{courseId}/like/email
+            - ExtractEmailFilter
+        - id: isLiked
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/courses/isLiked/{courseId}/email
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/courses/isLiked/{courseId}/email

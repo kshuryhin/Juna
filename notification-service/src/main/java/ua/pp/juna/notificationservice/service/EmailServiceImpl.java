@@ -1,5 +1,7 @@
 package ua.pp.juna.notificationservice.service;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,10 +10,11 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import ua.pp.juna.notificationservice.model.EmailDetails;
 
-//import javax.mail.MessagingException;
-//import javax.mail.internet.MimeMessage;
+import ua.pp.juna.notificationservice.model.EmailDetails;
+import ua.pp.juna.notificationservice.service.EmailService;
+
+
 import java.io.File;
 import java.io.IOException;
 
@@ -47,37 +50,37 @@ public class EmailServiceImpl implements EmailService {
 
 
 
-//    @Override
-//    public String sendMailWithAttachment(EmailDetails details) {
-//
-//        MimeMessage mimeMessage
-//                = javaMailSender.createMimeMessage();
-//        MimeMessageHelper mimeMessageHelper;
-//
-//        try {
-//            mimeMessageHelper
-//                    = new MimeMessageHelper(mimeMessage, true);
-//            mimeMessageHelper.setFrom(sender);
-//            mimeMessageHelper.setTo(details.getRecipients().get(0));
-//            mimeMessageHelper.setText(details.getMsgBody());
-//            mimeMessageHelper.setSubject(
-//                    details.getSubject());
-//
-//            FileSystemResource file
-//                    = new FileSystemResource(
-//                    new File(details.getAttachment()));
-//
-//            mimeMessageHelper.addAttachment(
-//                    file.getFilename(), file);
-//
-//            javaMailSender.send(mimeMessage);
-//            return "Mail sent Successfully";
-//        }
-//
-//        catch (MessagingException e) {
-//            return "Error while sending mail!!!";
-//        }
-//    }
+    @Override
+    public String sendMailWithAttachment(EmailDetails details) {
+
+        MimeMessage mimeMessage
+                = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper;
+
+        try {
+            mimeMessageHelper
+                    = new MimeMessageHelper(mimeMessage, true);
+            mimeMessageHelper.setFrom(sender);
+            mimeMessageHelper.setTo(details.getRecipients().get(0));
+            mimeMessageHelper.setText(details.getMsgBody());
+            mimeMessageHelper.setSubject(
+                    details.getSubject());
+
+            FileSystemResource file
+                    = new FileSystemResource(
+                    new File(details.getAttachment()));
+
+            mimeMessageHelper.addAttachment(
+                    file.getFilename(), file);
+
+            javaMailSender.send(mimeMessage);
+            return "Mail sent Successfully";
+        }
+
+        catch (MessagingException e) {
+            return "Error while sending mail!!!";
+        }
+    }
 
     @Override
     public String sendEmailToFollowers(EmailDetails details) {
@@ -97,10 +100,5 @@ public class EmailServiceImpl implements EmailService {
         } catch (Exception e) {
             return "Error while sending messages";
         }
-    }
-
-    @Override
-    public String sendMailWithAttachment(EmailDetails details) {
-        return null;
     }
 }

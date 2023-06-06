@@ -28,6 +28,12 @@ public class MentorServiceImpl implements MentorService{
     }
 
     @Override
+    public Mentor getMentorByEmail(String email) {
+        log.info("Getting mentor with email {}", email);
+        return mentorRepository.findByEmail(email);
+    }
+
+    @Override
     public List<Mentor> getAllMentors() {
         log.info("Getting ALL mentors");
         return mentorRepository.findAll();
