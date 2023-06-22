@@ -679,3 +679,13 @@ spring:
             - Method=GET
           filters:
             - SetPath=/api/v1/courses/isLiked/{courseId}/email
+            - ExtractEmailFilter
+        - id: getMentorByEmail
+          uri:
+            lb://mentor-service
+          predicates:
+            - Path=/mentors/getBy/email
+            - Method=GET
+          filters:
+            - SetPath=/api/v1/mentors/email
+            - ExtractEmailFilter

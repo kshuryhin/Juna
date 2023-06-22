@@ -14,7 +14,7 @@
       <ul>
 
         <li><router-link to="/login">Find Job</router-link></li>
-        <li><a href="#">Find Mentor</a></li>
+        <li><router-link to="/mentors/signup">Find Mentor</router-link></li>
         <li><router-link to="/login">Find Candidate</router-link></li>
       </ul>
     </nav>
@@ -22,7 +22,7 @@
 
   <section class="hero">
     <div class="hero-content">
-      <h2>Welcome to Juna</h2>
+      <h2>Welcome to Juna Mentors</h2>
       <p>Find your dream job in IT or connect with a mentor to grow your career. Juna is the perfect platform for both job seekers and hiring managers.</p>
       <router-link class="cta-btn" to="/signup">Sign Up</router-link>
     </div>

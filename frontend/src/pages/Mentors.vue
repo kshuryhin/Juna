@@ -12,6 +12,7 @@
         <nav>
             <ul>
                 <router-link :to="{ name: 'mentors'}">Mentors</router-link>
+                <router-link :to="{ name: 'courses'}">Courses</router-link>
                 <router-link :to="{ name: 'appliedCourses'}">Applied Courses</router-link>
                 <li><a @click="this.logout()" href="#">Logout</a></li>
             </ul>
@@ -59,7 +60,6 @@
                     <label for="sortType">Sort by:</label>
                     <select name="sorting" id="sortType" v-model="filters.sortType">
                         <option value="">Dont sort</option>
-                        <option value="BY_RATING">By Rating</option>
                         <option value="BY_COURSES">By Number of courses</option>
                     </select>
                     <button type="submit">Apply Filters</button>

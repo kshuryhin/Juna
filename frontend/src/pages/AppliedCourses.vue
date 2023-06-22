@@ -12,7 +12,8 @@
     <nav>
       <ul>
         <router-link :to="{ name: 'mentors'}">Mentors</router-link>
-        <router-link :to="{ name: ''}">Applied Courses</router-link>
+        <router-link :to="{ name: 'courses'}">Courses</router-link>
+        <router-link :to="{ name: 'appliedCourses'}">Applied Courses</router-link>
         <li><a @click="this.logout()" href="#">Logout</a></li>
       </ul>
     </nav>
@@ -60,7 +61,7 @@
           <select name="sorting" id="sortType" v-model="filters.sortType">
             <option value="">Dont sort</option>
             <option value="BY_RATING">By Rating</option>
-            <option value="BY_Courses_NUMBER">By Number of courses</option>
+            <option value="BY_STUDENTS">By Number of students</option>
           </select>
           <button type="submit">Apply Filters</button>
         </form>
@@ -135,8 +136,15 @@ export default {
             course.category.includes(this.filters.selectedCategory)
         );
       }
-      this.courses = filteredCourses;
 
+      if (this.filters.sortType === 'BY_STUDENTS') {
+        filteredCourses.sort((a, b) => a.students.length - b.students.length).reverse();
+      }
+
+      if (this.filters.sortType === 'BY_RATING') {
+        filteredCourses.sort((a,b) => a.studentsLikedIds.length - b.studentsLikedIds).reverse();
+      }
+      this.courses = filteredCourses;
     },
     async logout() {
       logout();

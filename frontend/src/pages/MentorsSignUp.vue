@@ -85,7 +85,7 @@ export default {
                 this.$router.push('/mentors')
                 break
               case roles.MENTOR:
-                this.$router.push('/students')
+                this.$router.push('/mentor/profile')
                 break
               default:
                 alert("Unknown role")
@@ -96,9 +96,6 @@ export default {
               alert("You cannot signup")
             }
           })
-
-
-
     },
   }
 }

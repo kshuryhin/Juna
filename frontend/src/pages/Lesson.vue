@@ -7,7 +7,8 @@
         <nav>
             <ul>
                 <router-link :to="{ name: 'mentors'}">Mentors</router-link>
-                <router-link :to="{ name: ''}">Applied Courses</router-link>
+              <router-link :to="{ name: 'courses'}">Courses</router-link>
+                <router-link :to="{ name: 'appliedCourses'}">Applied Courses</router-link>
                 <li><a @click="this.logout()" href="#">Logout</a></li>
             </ul>
         </nav>
@@ -27,11 +28,11 @@
         </div>
     </main>
 
-    <footer>
-        <div class="footer-bottom">
-            <p>&copy; 2023 Juna Jobs</p>
-        </div>
-    </footer>
+<!--    <footer>-->
+<!--        <div class="footer-bottom">-->
+<!--            <p>&copy; 2023 Juna Jobs</p>-->
+<!--        </div>-->
+<!--    </footer>-->
     </body>
 </template>
 <script>

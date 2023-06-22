@@ -6,8 +6,7 @@
         </div>
         <nav>
             <ul>
-                <router-link :to="{ name: 'mentors'}">Mentors</router-link>
-                <router-link :to="{ name: 'appliedCourses'}">Applied Courses</router-link>
+                <router-link :to="{ name: 'mentorProfile'}">My Profile</router-link>
                 <li><a @click="this.logout()" href="#">Logout</a></li>
             </ul>
         </nav>
@@ -38,11 +37,11 @@
         <button class="open_btn" @click="addCourse()">Add</button>
     </main>
 
-    <footer>
-        <div class="footer-bottom">
-            <p>&copy; 2023 Juna Jobs</p>
-        </div>
-    </footer>
+<!--    <footer>-->
+<!--        <div class="footer-bottom">-->
+<!--            <p>&copy; 2023 Juna Jobs</p>-->
+<!--        </div>-->
+<!--    </footer>-->
     </body>
 </template>
 <script>
@@ -68,8 +67,12 @@ export default {
     },
     methods: {
         async fetchCourses() {
-            this.id = this.$route.params.id
-            const response = await axios.get(`http://localhost:8085/mentors/${this.id}`)
+            const response = await axios.get(`http://localhost:8085/mentors/getBy/email`, {
+              headers: {
+                "Authorization": localStorage.getItem('token')
+              }
+            })
+            this.id = response.data.id
             this.courses = response.data.courses
         },
         navigateToMentorInfo() {

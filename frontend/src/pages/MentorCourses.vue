@@ -1,49 +1,50 @@
 <template>
-    <body>
-    <header>
-        <div class="logo">
-            <h1>Juna Mentors</h1>
-        </div>
-        <nav>
-            <ul>
-                <router-link :to="{ name: 'mentors'}">Mentors</router-link>
-                <router-link :to="{ name: ''}">Applied Courses</router-link>
-                <li><a @click="this.logout()" href="#">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
+  <body>
+  <header>
+    <div class="logo">
+      <h1>Juna Mentors</h1>
+    </div>
+    <nav>
+      <ul>
+        <router-link :to="{ name: 'mentors'}">Mentors</router-link>
+        <router-link :to="{ name: 'courses'}">Courses</router-link>
+        <router-link :to="{ name: 'appliedCourses'}">Applied Courses</router-link>
+        <li><a @click="this.logout()" href="#">Logout</a></li>
 
-    <main>
+      </ul>
+    </nav>
+  </header>
 
-        <h1>{{ this.mentor.firstName }} {{ this.mentor.lastName }}</h1>
-        <div class="tabs">
-            <button class="tablinks" @click="navigateToMentorInfo" id="defaultOpen">Personal Info</button>
-            <button class="tablinks active" @click="">Courses</button>
-        </div>
+  <main>
+    <h1>My Courses</h1>
+    <div class="tabs">
+      <button class="tablinks" @click="navigateToMentorInfo" id="defaultOpen">Personal Info</button>
+      <button class="tablinks active" @click="">Courses</button>
+    </div>
 
-        <div class="box">
-            <div class="content" v-for="course in courses">
-                <details>
-                    <summary>{{ course.name }}</summary>
-                    <div class="faq__content" v-for="lesson in course.lessons">
-                        <div class="lessons-block">
-                            <p class="lesson" @click="navigateToLesson(course.id, lesson.orderInCourse)">{{ lesson.name }}</p>
-                        </div>
-
-                    </div>
-
-                </details>
+    <div class="box">
+      <div class="content" v-for="course in courses">
+        <details>
+          <summary><button class="open_btn" @click="navigateToCourse(course.id)">Open</button>{{ course.name }} </summary>
+          <div class="faq__content" v-for="lesson in course.lessons">
+            <div class="lessons-block">
+              <p class="lesson" @click="navigateToLesson(course.id, lesson.orderInCourse)">{{ lesson.name }}</p>
             </div>
-        </div>
 
-    </main>
+          </div>
 
-    <footer>
-        <div class="footer-bottom">
-            <p>&copy; 2023 Juna Jobs</p>
-        </div>
-    </footer>
-    </body>
+        </details>
+      </div>
+    </div>
+
+  </main>
+
+  <!--    <footer>-->
+  <!--        <div class="footer-bottom">-->
+  <!--            <p>&copy; 2023 Juna Jobs</p>-->
+  <!--        </div>-->
+  <!--    </footer>-->
+  </body>
 </template>
 <script>
 import axios from "axios";
@@ -55,78 +56,103 @@ import {logout} from "@/utils/auth";
 import silentLoginMixin from "@/components/silentLoginMixin";
 
 export default {
-    name: "Mentor",
-    // mixins: [authMixin, roleMixin, silentLoginMixin],
-    // requiredRole: roles.CANDIDATE,
-    // components: { vSelect },
+  name: "Mentor",
+  // mixins: [authMixin, roleMixin, silentLoginMixin],
+  // requiredRole: roles.CANDIDATE,
+  // components: { vSelect },
 
-    data() {
-        return {
-            mentor: {},
-            courses: [],
-            id: 0,
-        };
-    },
-    methods: {
-        async fetchMentorInfo() {
-            this.id = this.$route.params.id
-            const response = await axios.get(`http://localhost:8085/mentors/${this.id}`)
-            this.mentor = response.data
-            this.courses = this.mentor.courses
-        },
-        navigateToMentorInfo() {
-            this.$router.push({name: 'mentor', params: {id: this.id}})
-        },
-
-        navigateToLesson(courseId, orderInCourse) {
-            this.$router.push({name: 'lesson', params: {courseId: courseId, orderInCourse: orderInCourse}})
-        },
-
-        navigateToCourse(id) {
-          this.$router.push({name: 'course', params: {id: id}})
+  data() {
+    return {
+      courses: [],
+      id: 0,
+    };
+  },
+  methods: {
+    async fetchCourses() {
+      this.id = this.$route.params.id
+      const response = await axios.get(`http://localhost:8085/mentors/${this.id}`, {
+        headers: {
+          "Authorization": localStorage.getItem('token')
         }
+      })
+      this.id = response.data.id
+      this.courses = response.data.courses
     },
-    async mounted() {
-        await this.fetchMentorInfo();
+    navigateToMentorInfo() {
+      this.$router.push({name: 'mentor', params: {id: this.id}})
+    },
+
+    navigateToLesson(courseId, orderInCourse) {
+      this.$router.push({name: 'lesson', params: {courseId: courseId, orderInCourse: orderInCourse}})
+    },
+
+    navigateToCourse(id) {
+      this.$router.push({name: 'course', params: {id: id}})
+    },
+
+
+
+    sortedLessons() {
+      return this.lessons.sort((a,b) => a.orderInCourse - b.orderInCourse)
     }
+
+  },
+
+
+  async mounted() {
+    await this.fetchCourses();
+  }
 };
 
 </script>
 <style scoped>
 
+.open_btn {
+  margin-right: 2%;
+  display: inline-block;
+  border: 1px solid #168FF0;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #168FF0;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 /* Dropdown */
 
 .lesson {
-    cursor:pointer;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #333;
-    text-align: start;
-    padding-left: 3%;
+  cursor:pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  text-align: start;
+  padding-left: 3%;
 }
 
 .lessons-block {
-    border: #168FF0 solid 1px;
-    border-radius: 10px;
+  border: #168FF0 solid 1px;
+  border-radius: 10px;
 }
 
 .content {
-    width: 80%;
-    padding: 0;
-    margin: 0 auto;
+  width: 80%;
+  padding: 0;
+  margin: 0 auto;
 }
 summary {
-    font-size: 1.25rem;
-    font-weight: 600;
-    background-color: #fff;
-    color: #333;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    outline: none;
-    border-radius: 0.25rem;
-    text-align: left;
-    cursor: pointer;
-    position: relative;
+  font-size: 1.25rem;
+  font-weight: 600;
+  background-color: #fff;
+  color: #333;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  outline: none;
+  border-radius: 0.25rem;
+  text-align: left;
+  cursor: pointer;
+  position: relative;
 }
 /*details > summary::after {*/
 /*    position: absolute;*/
@@ -145,507 +171,507 @@ details summary::-webkit-details-marker {
 details summary {
   position: relative;
 }
-details summary:before {
-  content: "Open";
-  background-color: #168FF0;
-  color: white;
-  display: inline-block;
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  position: absolute;
-  top: 0;
-  right: 20px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
+/*details summary:before {*/
+/*    content: "Open";*/
+/*    background-color: #168FF0;*/
+/*    color: white;*/
+/*    display: inline-block;*/
+/*    padding: 5px 10px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 4px;*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    right: 20px;*/
+/*    font-size: 16px;*/
+/*    font-weight: bold;*/
+/*    cursor: pointer;*/
+/*}*/
 
 
 
 details > summary::-webkit-details-marker {
-    display: none;
+  display: none;
 }
 
 details[open] summary ~ * {
-    animation: sweep 0.5s ease-in-out;
+  animation: sweep 0.5s ease-in-out;
 }
 @keyframes sweep {
-    0% {
-        opacity: 0;
-        margin-top: -10px;
-    }
-    100% {
-        opacity: 1;
-        margin-top: 0px;
-    }
+  0% {
+    opacity: 0;
+    margin-top: -10px;
+  }
+  100% {
+    opacity: 1;
+    margin-top: 0px;
+  }
 }
 
 /**/
 
 
 .mentor-description {
-    color: black;
-    width: 70%;
-    margin: auto;
-    text-align: start;
+  color: black;
+  width: 70%;
+  margin: auto;
+  text-align: start;
 }
 
 .switch-container {
-    position: relative;
-    display: inline-block;
-    width: 57px;
-    height: 20px;
+  position: relative;
+  display: inline-block;
+  width: 57px;
+  height: 20px;
 }
 
 .switch-label {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: 0.4s;
-    border-radius: 20px;
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 20px;
 }
 
 .switch-label:before {
-    position: absolute;
-    content: "";
-    height: 14px;
-    width: 14px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: 0.4s;
-    border-radius: 50%;
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
 }
 
 .switch-checkbox:checked + .switch-label {
-    background-color: #168FF0;
+  background-color: #168FF0;
 }
 
 .switch-checkbox:checked + .switch-label:before {
-    transform: translateX(20px);
+  transform: translateX(20px);
 }
 
 body {
-    background-color: white;
-    font-family: Arial, sans-serif;
-    color: #168FF0;
+  background-color: white;
+  font-family: Arial, sans-serif;
+  color: #168FF0;
 }
 
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 header {
-    background-color: #168FF0;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  background-color: #168FF0;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 a {
-    background-color: #168FF0;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-align: center;
-    display: inline-block;
-    margin-top: 10px;
-    text-decoration: none;
-    font-weight: bold;
-    /* Apply button styles */
-    border: none;
-    cursor: pointer;
+  background-color: #168FF0;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-align: center;
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  /* Apply button styles */
+  border: none;
+  cursor: pointer;
 }
 
 a:hover {
-    background-color: #0E6CB3;
+  background-color: #0E6CB3;
 }
 
 .logo {
-    float: left;
+  float: left;
 }
 
 /* Set navigation style */
 nav {
-    float: right;
-    display: flex;
-    justify-content: flex-end;
+  float: right;
+  display: flex;
+  justify-content: flex-end;
 }
 
 nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
 }
 
 nav li {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 nav a {
-    display: block;
-    padding: 10px;
-    color: white;
-    text-decoration: none;
+  display: block;
+  padding: 10px;
+  color: white;
+  text-decoration: none;
 }
 
 nav a.active,
 nav a:hover {
-    background-color: #168FF0;
+  background-color: #168FF0;
 }
 
 ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 li {
-    display: inline-block;
-    margin-right: 20px;
+  display: inline-block;
+  margin-right: 20px;
 }
 
 .router-link-active {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .header h1 {
-    margin: 0;
+  margin: 0;
 }
 
 .tabs {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 .tablinks {
-    background-color: white;
-    color: #168FF0;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 16px 24px; /* increase padding */
-    margin: 0 10px;
-    border-radius: 4px 4px 0 0;
-    font-size: 16px; /* increase font size */
-    margin-bottom: -10px;
+  background-color: white;
+  color: #168FF0;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 16px 24px; /* increase padding */
+  margin: 0 10px;
+  border-radius: 4px 4px 0 0;
+  font-size: 16px; /* increase font size */
+  margin-bottom: -10px;
 }
 
 .tablinks:hover, .active {
-    background-color: #168FF0;
-    color: white;
+  background-color: #168FF0;
+  color: white;
 }
 
 .tabcontent {
-    display: none;
-    padding: 20px;
-    border-top: none;
+  display: none;
+  padding: 20px;
+  border-top: none;
 }
 
 #personal-info {
-    display: block;
+  display: block;
 }
 
 #saved-vacancies {
-    display: none;
+  display: none;
 }
 
 #applied-vacancies {
-    display: none;
+  display: none;
 }
 
 .form-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .label-bold {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .form-group label {
-    flex-basis: 30%;
-    margin-right: 1em;
-    font-size: 16px;
-    color: #555;
+  flex-basis: 30%;
+  margin-right: 1em;
+  font-size: 16px;
+  color: #555;
 }
 
 .form-group input,
 .form-group textarea {
-    flex-basis: 70%;
-    padding: 10px;
-    border-radius: 5px;
+  flex-basis: 70%;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group input:not(:placeholder-shown),
 .form-group textarea:not(:placeholder-shown) {
-    transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 
 
 .form-group input:focus,
 .form-group textarea:focus {
-    outline: none;
-    box-shadow: 0 0 3px #bbb;
+  outline: none;
+  box-shadow: 0 0 3px #bbb;
 }
 
 .form-group input:hover,
 .form-group textarea:hover {
-    background-color: #e0e0e0;
+  background-color: #e0e0e0;
 }
 
 .form-group textarea {
-    flex-basis: 70%;
-    padding: 10px;
-    border-radius: 5px;
-    height: 200px; /* adjust this value as needed */
+  flex-basis: 70%;
+  padding: 10px;
+  border-radius: 5px;
+  height: 200px; /* adjust this value as needed */
 }
 
 .form-group select {
-    flex-basis: 70%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+  flex-basis: 70%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
 .form-group select:focus {
-    outline: none;
-    box-shadow: 0 0 3px #bbb;
+  outline: none;
+  box-shadow: 0 0 3px #bbb;
 }
 
 .form-group select:hover {
-    background-color: #e0e0e0;
+  background-color: #e0e0e0;
 }
 
 /* Hide default select arrow */
 select::-ms-expand {
-    display: none;
+  display: none;
 }
 
 select::-webkit-select {
-    -webkit-appearance: none;
-    appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 
 .personal-info button[type=submit] {
-    background-color: #168FF0;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  background-color: #168FF0;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .personal-info button[type=submit]:hover {
-    background-color: #0D5CA5;
+  background-color: #0D5CA5;
 }
 
 .personal-info img {
-    display: block;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    margin: 0 auto 20px;
+  display: block;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: 0 auto 20px;
 }
 
 .skills-container {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 .skills-title {
-    margin-top: 0;
+  margin-top: 0;
 }
 .skills {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .skills li {
-    margin-bottom: 5px;
-    display: inline-block;
-    padding: 5px 10px;
-    border: 1px solid #168FF0;
-    border-radius: 5px;
-    border-radius: 3px;
-    color: #168FF0;
-    font-weight: bold;
-    margin-right: 10px;
+  margin-bottom: 5px;
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid #168FF0;
+  border-radius: 5px;
+  border-radius: 3px;
+  color: #168FF0;
+  font-weight: bold;
+  margin-right: 10px;
 }
 
 
 .dropdown {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    display: none;
-    float: left;
-    min-width: 10rem;
-    padding: 0.5rem 0;
-    margin: 0.125rem 0 0;
-    max-height: 100px;
-    overflow-y: auto;
-    font-size: 1rem;
-    color: #212529;
-    text-align: left;
-    list-style: none;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 0.25rem;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 10rem;
+  padding: 0.5rem 0;
+  margin: 0.125rem 0 0;
+  max-height: 100px;
+  overflow-y: auto;
+  font-size: 1rem;
+  color: #212529;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
 }
 
 .dropdown-menu.show {
-    display: block;
+  display: block;
 }
 
 .dropdown-item {
-    display: block;
-    width: 100%;
-    padding: 0.25rem 1.5rem;
-    clear: both;
-    font-weight: 400;
-    color: #212529;
-    text-align: inherit;
-    white-space: nowrap;
-    background-color: transparent;
-    border: 0;
+  display: block;
+  width: 100%;
+  padding: 0.25rem 1.5rem;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
 }
 
 .dropdown-item:focus,
 .dropdown-item:hover {
-    color: #16181b;
-    text-decoration: none;
-    background-color: #f8f9fa;
+  color: #16181b;
+  text-decoration: none;
+  background-color: #f8f9fa;
 }
 
 .dropdown-menu .dropdown-item.disabled,
 .dropdown-menu .dropdown-item:disabled {
-    color: #6c757d;
-    background-color: transparent;
+  color: #6c757d;
+  background-color: transparent;
 }
 
 .dropdown-menu .dropdown-item.active,
 .dropdown-menu .dropdown-item:active {
-    color: #fff;
-    text-decoration: none;
-    background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  background-color: #007bff;
 }
 
 .btn-secondary {
-    background-color: #fff;
-    border: 1px solid #ced4da;
-    color: #495057;
-    cursor: pointer;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    border-radius: 0.25rem;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  color: #495057;
+  cursor: pointer;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
 }
 
 .btn-secondary:focus,
 .btn-secondary:hover {
-    background-color: #e9ecef;
+  background-color: #e9ecef;
 }
 
 .btn-secondary:focus {
-    box-shadow: none;
+  box-shadow: none;
 }
 
 .btn-secondary.dropdown-toggle::after {
-    display: inline-block;
-    margin-left: 0.255em;
-    vertical-align: 0.255em;
-    content: "";
-    border-top: 0.3em solid;
-    border-right: 0.3em solid transparent;
-    border-bottom: 0;
-    border-left: 0.3em solid transparent;
+  display: inline-block;
+  margin-left: 0.255em;
+  vertical-align: 0.255em;
+  content: "";
+  border-top: 0.3em solid;
+  border-right: 0.3em solid transparent;
+  border-bottom: 0;
+  border-left: 0.3em solid transparent;
 }
 
 
 .update-skills-btn {
-    margin-top: 5px;
-    padding: 5px 10px;
-    font-size: 14px;
-    background-color: #007bff;
-    color: #fff;
-    border: 1px solid #007bff;
-    border-radius: 3px;
-    cursor: pointer;
+  margin-top: 5px;
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #007bff;
+  color: #fff;
+  border: 1px solid #007bff;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
 .file-input-container {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 #photo {
-    display: none;
+  display: none;
 }
 
 
 .file-label:hover {
-    background-color: #0E6CB3;
+  background-color: #0E6CB3;
 }
 
 .photo-container {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .image-preview {
-    display: inline-block;
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-bottom: 20px;
-    border: 3px solid #168FF0;
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  border: 3px solid #168FF0;
 }
 
 .file-label {
-    display: inline-block;
-    background-color: #168FF0;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
+  display: inline-block;
+  background-color: #168FF0;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
 footer {
-    background-color: #f8f8f8;
-    padding: 20px;
-    margin-top: 50px;
-    border-top: 1px solid #e5e5e5;
+  background-color: #f8f8f8;
+  padding: 20px;
+  margin-top: 50px;
+  border-top: 1px solid #e5e5e5;
 }
 
 .footer-bottom {
-    text-align: center;
-    font-size: 14px;
-    color: #aaa;
+  text-align: center;
+  font-size: 14px;
+  color: #aaa;
 }
 </style>

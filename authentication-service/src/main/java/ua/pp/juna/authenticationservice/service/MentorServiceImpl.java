@@ -15,7 +15,7 @@ import ua.pp.juna.authenticationservice.model.User;
 public class MentorServiceImpl implements MentorService{
     private final RestTemplate restTemplate;
     private final String HOST = "http://gateway-service";
-    private final String PATH = "/mentors/{email}";
+    private final String PATH = "/mentors/email/{email}";
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

@@ -123,13 +123,18 @@ export default {
     data() {
         return {
             mentor: {},
+            imageName: "default.png",
             imageUrl: require('../assets/uploads/candidates/default.png'),
         };
     },
     methods: {
         async fetchMentorInfo() {
-            const id = this.$route.params.id
-            const response = await axios.get(`http://localhost:8085/mentors/${id}`)
+
+            const response = await axios.get(`http://localhost:8085/mentors/getBy/email`, {
+              headers: {
+                "Authorization": localStorage.getItem('token')
+              }
+            })
             this.mentor = response.data
             this.imageName = this.mentor.imageLink===null?this.imageName:this.mentor.imageLink;
             this.imageUrl = require(`../assets/uploads/mentors/${this.imageName}`)
@@ -150,7 +155,12 @@ export default {
             formData.append('file', file)
             axios.post(`http://localhost:8085/mentors/upload`, formData,  {
                 headers: { Authorization: localStorage.getItem("token") },
+            }).then(response => {
+              this.imageUrl = require(`../assets/uploads/mentors/${response.data}`);
+              this.imageName = response.data
+              this.mentor.imageLink = response.data
             })
+
         },
     },
 

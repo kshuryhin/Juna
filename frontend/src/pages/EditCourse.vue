@@ -6,8 +6,7 @@
         </div>
         <nav>
             <ul>
-                <router-link :to="{ name: 'mentors'}">Mentors</router-link>
-                <router-link :to="{ name: ''}">Applied Courses</router-link>
+                <router-link :to="{ name: 'mentorProfile'}">My Profile</router-link>
                 <li><a @click="this.logout()" href="#">Logout</a></li>
             </ul>
         </nav>
@@ -86,7 +85,7 @@ export default {
         async deleteCourse() {
             await axios.delete(`http://localhost:8085/courses/${this.course.id}`)
             await this.sleep(100)
-            this.$router.push({name: 'courses'})
+            this.$router.push({name: 'mentorMyCourses'})
         },
 
 

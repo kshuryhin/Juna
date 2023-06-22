@@ -67,12 +67,11 @@ public class AuthenticationService {
         }
 
         var user = (User)mentorService.loadUserByUsername(request.getEmail());
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("Bad credentials!");
         }
 
         var jwtToken = jwtService.generateToken(user.withRole(Role.MENTORS));
-        user = mentorService.updateMentor(user.withLoggedIn(true).withRole(Role.MENTORS), jwtToken);
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
@@ -87,7 +86,6 @@ public class AuthenticationService {
         }
 
         var jwtToken = jwtService.generateToken(user.withRole(Role.STUDENTS));
-        user = mentorService.updateMentor(user.withLoggedIn(true).withRole(Role.STUDENTS), jwtToken);
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)

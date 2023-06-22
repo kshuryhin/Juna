@@ -12,7 +12,8 @@
         <nav>
             <ul>
                 <router-link :to="{ name: 'mentors'}">Mentors</router-link>
-                <router-link :to="{ name: ''}">Applied Courses</router-link>
+                <router-link :to="{ name: 'courses'}">Courses</router-link>
+                <router-link :to="{ name: 'appliedCourses'}">Applied Courses</router-link>
                 <li><a @click="this.logout()" href="#">Logout</a></li>
             </ul>
         </nav>
@@ -138,6 +139,10 @@ export default {
 
           if (this.filters.sortType === 'BY_STUDENTS') {
             filteredCourses.sort((a, b) => a.students.length - b.students.length).reverse();
+          }
+
+          if (this.filters.sortType === 'BY_RATING') {
+            filteredCourses.sort((a,b) => a.studentsLikedIds.length - b.studentsLikedIds).reverse();
           }
             this.courses = filteredCourses;
 

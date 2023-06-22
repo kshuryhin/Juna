@@ -217,12 +217,12 @@ const routes = [
         component: VideoLinks
     },
     {
-        path: '/mentor/:id/profile',
+        path: '/mentor/profile',
         name: 'mentorProfile',
         component: MentorProfile
     },
     {
-        path: '/mentor/:id/my-courses',
+        path: '/mentor/my-courses',
         name: 'mentorMyCourses',
         component: MentorMyCourses
     },
@@ -260,7 +260,7 @@ const routes = [
         path: '/courses/applied',
         name: 'appliedCourses',
         component: AppliedCourses
-    }
+    },
 
 
 

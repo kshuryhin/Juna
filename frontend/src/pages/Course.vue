@@ -7,16 +7,19 @@
         <nav>
             <ul>
                 <router-link :to="{ name: 'mentors'}">Mentors</router-link>
-                <router-link :to="{ name: ''}">Applied Courses</router-link>
+              <router-link :to="{ name: 'courses'}">Courses</router-link>
+                <router-link :to="{ name: 'appliedCourses'}">Applied Courses</router-link>
                 <li><a @click="logout" href="#">Logout</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-
-        <h1>{{ course.name }}</h1>
-
+      <br>
+        <h1 style="display: inline; margin-right: 20px">{{ course.name }}</h1>
+      <svg class="heart" v-show="isApplied === true" @click="like()" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+        <path :fill="this.likeColor" stroke="#168FF0" stroke-width="4" d="M32 14.4C26.97 7.95 16.84 7.95 12 14.4C7.16 20.85 10.3 29.8 20 36.8C23.17 38.85 27.82 41.54 32 44.4C36.18 41.54 40.83 38.85 44 36.8C53.7 29.8 56.84 20.85 52 14.4C47.16 7.95 37.03 7.95 32 14.4Z"/>
+      </svg>
         <p class="lesson_text">{{ course.description }}</p><br><br>
 
         <ol class="ordered-list">
@@ -32,6 +35,7 @@
 
 <script>
 import axios from "axios";
+import {logout} from "@/utils/auth";
 
 export default {
     data() {
@@ -41,10 +45,12 @@ export default {
             buttonLabel: "Apply",
             isApplied: false,
             liked: false,
+            likeColor: "#FFFFFF",
         }
     },
 
     methods: {
+      logout,
         async fetchCourseInfo() {
             const id = this.$route.params.id
             const response = await axios.get(`http://localhost:8085/courses/${id}`)
@@ -54,9 +60,17 @@ export default {
               }
             })
 
-            this.liked = await axios.get(``)
+            this.liked = await axios.get(`http://localhost:8085/courses/isLiked/${id}/email`, {
+              headers: {
+                "Authorization": localStorage.getItem('token')
+              }
+            })
 
+
+            this.liked = this.liked.data
             this.isApplied = this.isApplied.data
+            if (this.isApplied) this.buttonLabel = "Applied"
+            if (this.liked) this.likeColor = "#168FF0"
             this.course = response.data
             this.lessons = this.course.lessons
         },
@@ -81,6 +95,15 @@ export default {
           this.buttonLabel = "Applied"
         },
 
+        like() {
+          const id = this.$route.params.id
+          axios.put(`http://localhost:8085/students/course/${id}/like/email`, {}, {
+            headers: {
+              "Authorization" : localStorage.getItem('token')
+            }
+          })
+          this.likeColor = "#168FF0"
+        }
 
     },
 
@@ -97,6 +120,15 @@ export default {
 </script>
 
 <style scoped>
+
+.invisible {
+  display: none;
+}
+
+.heart {
+  vertical-align: middle;
+  cursor: pointer;
+}
 
 .apply-btn {
   background-color: #168FF0;
